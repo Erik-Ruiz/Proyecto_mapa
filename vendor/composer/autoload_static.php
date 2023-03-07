@@ -320,8 +320,8 @@ class ComposerStaticInitd766d5aea4bd4078b14ca3437fa37098
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
-            1 => __DIR__ . '/..' . '/psr/http-factory/src',
+            0 => __DIR__ . '/..' . '/psr/http-factory/src',
+            1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -504,6 +504,7 @@ class ComposerStaticInitd766d5aea4bd4078b14ca3437fa37098
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
+        'App\\Http\\Controllers\\UsuarioController' => __DIR__ . '/../..' . '/app/Http/Controllers/UsuarioController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\Authenticate' => __DIR__ . '/../..' . '/app/Http/Middleware/Authenticate.php',
         'App\\Http\\Middleware\\EncryptCookies' => __DIR__ . '/../..' . '/app/Http/Middleware/EncryptCookies.php',
@@ -514,6 +515,15 @@ class ComposerStaticInitd766d5aea4bd4078b14ca3437fa37098
         'App\\Http\\Middleware\\TrustProxies' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustProxies.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
+        'App\\Models\\etiqueta' => __DIR__ . '/../..' . '/app/Models/etiqueta.php',
+        'App\\Models\\favorito' => __DIR__ . '/../..' . '/app/Models/favorito.php',
+        'App\\Models\\grupo' => __DIR__ . '/../..' . '/app/Models/grupo.php',
+        'App\\Models\\prueba' => __DIR__ . '/../..' . '/app/Models/prueba.php',
+        'App\\Models\\punto' => __DIR__ . '/../..' . '/app/Models/punto.php',
+        'App\\Models\\punto_etiqueta' => __DIR__ . '/../..' . '/app/Models/punto_etiqueta.php',
+        'App\\Models\\registro' => __DIR__ . '/../..' . '/app/Models/registro.php',
+        'App\\Models\\usuario' => __DIR__ . '/../..' . '/app/Models/usuario.php',
+        'App\\Models\\usuario_prueba' => __DIR__ . '/../..' . '/app/Models/usuario_prueba.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',
