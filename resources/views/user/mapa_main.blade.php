@@ -42,10 +42,9 @@
   <!-- FILTROS -->
  
     <div class="filtros">
+      <input type="text" class="form-control input_filtro" id="filtro_nombre" placeholder="Restaurante" aria-label="Username" aria-describedby="basic-addon1">
       <input type="text" class="form-control input_filtro" id="input_filtro_text" placeholder="Restaurante" aria-label="Username" aria-describedby="basic-addon1">
       <input type="text" class="form-control input_filtro" id="input_filtro_text" placeholder="Restaurante" aria-label="Username" aria-describedby="basic-addon1">
-      <input type="text" class="form-control input_filtro" id="input_filtro_text" placeholder="Restaurante" aria-label="Username" aria-describedby="basic-addon1">
-
     </div>
 
   <!-- MAPA -->
@@ -76,7 +75,6 @@
 .filtros{
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
   margin: 10px;
 }
 </style>
