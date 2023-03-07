@@ -49,11 +49,14 @@
         <input type="text" class="form-control input_filtro" id="filtro_nombre" placeholder="Restaurante" aria-label="Username" aria-describedby="basic-addon1">
       </div>
 
-      <select class="select_etiquetas">
-        <option value="r">Rojo</option>
-        <option value="a">Azul</option>
-        <option value="v">Verde</option>
+
+      <select class="select_etiquetas" name="id_genero" id="filtro_genero">
+          <option value="NO" ></option>
+          @foreach ($etiquetas as $etiqueta)
+              <option value="{{$etiqueta->id}}" >{{$etiqueta->nombre}}</option>
+          @endforeach
       </select>
+
 
       <select class="select_personal">
         <option value="r">Rojo</option>
@@ -108,9 +111,9 @@
 }
 
 .mapa{
-  position: absolute;;
+  position: absolute;
   width:100%; 
-  height:550px;
+  height:600px;
   z-index: 1;
 }
 
