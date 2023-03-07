@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UsuarioController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Ruta para ir al login
+Route::get("/",[UsuarioController::class, "index"])->name("index");
+//Ruta para logearte
+Route::post("/login",[UsuarioController::class, "login"])->name("login");
+//Ruta para ir al perfil
+Route::get("/perfil",[UsuarioController::class, "perfil"])->name("perfil");
+//Ruta para ir al crud
+Route::get("/crud",[UsuarioController::class, "crud"])->name("crud");
+
+
