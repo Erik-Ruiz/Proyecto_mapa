@@ -28,10 +28,10 @@ class UsuarioController extends Controller
             $request->session()->put("id",$userDB[0]["id"]);
             if($admin == 1){
                 //Si lo es lo redirigimos al crud
-                return redirect("/crud");
+                return redirect("admin/crud");
             }else{
                 //Si no lo es redirigimos a la pagina principal
-                return redirect("/perfil");
+                return redirect("admin/perfil");
             }
         }
     }
@@ -40,7 +40,7 @@ class UsuarioController extends Controller
     public function perfil(Request $request){
         //Comprobamos si existe la sesion para redirigirlo a la página
         if($request->session()->has("id"))
-            return view("perfil");
+            return view("admin/perfil");
         else
             return redirect("/");
     }
@@ -55,7 +55,7 @@ class UsuarioController extends Controller
             $checkAdmin = usuario::where("id","=",$id)->get();
             //Comprobamos si es admin, si lo es, lo redirigimos al crud, sino a la página donde estaba
             if($checkAdmin[0]["admin"] == 1)
-                return view("crud");
+                return view("admin/crud");
             else
                 return redirect()->back();
         }
