@@ -23,4 +23,7 @@ Route::get("/admin/perfil",[UsuarioController::class, "perfil"])->name("perfil")
 //Ruta para ir al crud
 Route::get("/admin/crud",[UsuarioController::class, "crud"])->name("crud");
 
+//Ruta para registrarte
+Route::post("/admin/register",[UsuarioController::class, "register"])->name("register");
+Route::get("/user/mapa_main",[UsuarioController::class, "user"]);
 

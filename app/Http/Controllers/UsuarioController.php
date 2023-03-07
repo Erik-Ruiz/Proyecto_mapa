@@ -6,34 +6,14 @@ use App\Models\usuario;
 use Illuminate\Http\Request;
 
 class UsuarioController extends Controller
-{
+{   
+    /*--------------*/
+    /* Redireccionar*/
+    /*--------------*/
+
     //Función para devolver la vista del login
     public function index(){
         return view("index");
-    }
-
-    //Función para logearte
-    public function login(Request $request){
-        //Recogemos el usuario del formulario
-        $user = $request->except("_token");
-        //Recogemos el usuario de la base de datos( si existe )
-        $userDB = usuario::where("username","=",$user["username"])->where("password","=",sha1($user["password"]))->get();
-        //Comprobamos si existe un usuario con esos datos 
-        if(count($userDB) == 0){
-            //Si no existe lo redirigimos al login
-            return redirect("/");
-        }else{
-            //Si existe comprobamos si es admin
-            $admin = $userDB[0]["admin"];
-            $request->session()->put("id",$userDB[0]["id"]);
-            if($admin == 1){
-                //Si lo es lo redirigimos al crud
-                return redirect("admin/crud");
-            }else{
-                //Si no lo es redirigimos a la pagina principal
-                return redirect("admin/perfil");
-            }
-        }
     }
 
     //Funcion para devolver el perfil
@@ -44,6 +24,10 @@ class UsuarioController extends Controller
         else
             return redirect("/");
     }
+
+    /*-------*/
+    /* Crud */
+    /*-------*/
 
     //Funcion para devolver el crud
     public function crud(Request $request){
@@ -62,4 +46,63 @@ class UsuarioController extends Controller
         else
             return redirect("/");
     }
+
+    /*-------*/
+    /* Login */
+    /*-------*/
+    
+    //Función para logearte
+        public function login(Request $request){
+            //Recogemos el usuario del formulario
+            $user = $request->except("_token");
+            //Recogemos el usuario de la base de datos( si existe )
+            $userDB = usuario::where("username","=",$user["username"])->where("password","=",sha1($user["password"]))->get();
+            //Comprobamos si existe un usuario con esos datos 
+            if(count($userDB) == 0){
+                //Si no existe lo redirigimos al login
+                return redirect("/");
+            }else{
+                //Si existe comprobamos si es admin
+                $admin = $userDB[0]["admin"];
+                $request->session()->put("id",$userDB[0]["id"]);
+                if($admin == 1){
+                    //Si lo es lo redirigimos al crud
+                    return redirect("admin/crud");
+                }else{
+                    //Si no lo es redirigimos a la pagina principal
+                    return redirect("admin/perfil");
+                }
+            }
+        }
+   
+    /*------------*/
+    /* Registrar */
+    /*-----------*/
+
+    public function register(Request $request){
+        //recogemos el usuario
+        $user= $request->except("_token");
+        //comprobamos si exsiste el usuario
+        $userDB = usuario::where("username","=", $user["username"])->orwhere("correo","=", $user["correo"])->get()->count();
+
+        if ($userDB==0){
+
+            
+            $insertaruser= new usuario();
+            $insertaruser->username= $user["username"];
+            $insertaruser->nombre= $user["nombre"];
+            $insertaruser->apellidos= $user["apellidos"];
+            $insertaruser->correo= $user["correo"];
+            $insertaruser->grupo= $user["grupo"];
+            $insertaruser->password= $user["password"];
+            $insertaruser->admin=false;
+            $insertaruser->save();
+            // Iniciar sesión automáticamente después del registro
+            $request->session()->put('id', $insertaruser['id']);
+            return redirect("user/mapa_main");
+        }else{
+            return redirect("/");
+        }
+    }
+
 }
