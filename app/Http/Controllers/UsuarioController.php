@@ -11,6 +11,7 @@ class UsuarioController extends Controller
     public function index(){
         return view("index");
     }
+
     //Función para logearte
     public function login(Request $request){
         //Recogemos el usuario del formulario
