@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\prueba;
+use App\Models\punto;
 use App\Models\usuario;
 use Illuminate\Http\Request;
 
@@ -60,5 +62,51 @@ class UsuarioController extends Controller
         }
         else
             return redirect("/");
+    }
+
+    public function totalData(Request $request){
+        if($request->session()->has('id')){
+            $id = $request->session()->get("id");
+            $user = usuario::where("id","=",$id)->get();
+            if($user[0]["admin"]==0){
+                return "NOT AUTORIZED";
+            }
+            $data = $request->except('_token');
+            if($data["crudData"] == 1){
+                $registerData = usuario::where("username","like","%".$data["buscar"]."%")->count();
+            }elseif($data["crudData"] == 2){
+                $registerData = punto::count();
+            }elseif($data["crudData"] == 3){
+                $registerData = prueba::count();
+            }else{
+                return -1;
+            }
+            return $registerData;
+        }else{
+            return "NOT AUTORIZED";
+        }
+    }
+
+    public function getData(Request $request){
+        if($request->session()->has('id')){
+            $id = $request->session()->get("id");
+            $user = usuario::where("id","=",$id)->get();
+            if($user[0]["admin"]==0){
+                return "NOT AUTORIZED";
+            }
+            $data = $request->except('_token');
+            if($data["crudData"] == 1){
+                $registerData = usuario::select('usuarios.id','usuarios.username','usuarios.nombre','usuarios.apellidos','usuarios.correo','grupos.nombre as grupo')->join("grupos", 'grupos.id', '=', 'usuarios.grupo')->where("usuarios.username","like","%".$data["buscar"]."%")->get();
+            }elseif($data["crudData"] == 2){
+                $registerData = punto::get();
+            }elseif($data["crudData"] == 3){
+                $registerData = prueba::get();
+            }else{
+                return "";
+            }
+            return json_encode($registerData);
+        }else{
+            return "NOT AUTORIZED";
+        }
     }
 }
