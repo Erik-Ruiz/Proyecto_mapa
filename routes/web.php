@@ -24,3 +24,27 @@ Route::get("/perfil",[UsuarioController::class, "perfil"])->name("perfil");
 Route::get("/crud",[UsuarioController::class, "crud"])->name("crud");
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//Llamadas Mapas
