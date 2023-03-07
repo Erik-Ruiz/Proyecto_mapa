@@ -116,12 +116,13 @@
 
 .select_etiquetas{
   border-radius: 5px;
-  margin-right: 5%;
+  margin-right: 2%;
   
 }
 
 .select_personal{
   border-radius: 5px;
+  margin-right: 5%
 }
 
 </style>
