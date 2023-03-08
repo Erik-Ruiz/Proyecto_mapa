@@ -19,11 +19,14 @@ Route::get("/",[UsuarioController::class, "index"])->name("index");
 //Ruta para logearte
 Route::post("/admin/login",[UsuarioController::class, "login"])->name("login");
 //Ruta para ir al perfil
+
 Route::get("/admin/perfil",[UsuarioController::class, "perfil"])->name("perfil");
 //Ruta para ir al crud
 Route::get("/admin/crud",[UsuarioController::class, "crud"])->name("crud");
 //Ruta para recibir la cantidad total de registros del crud
 Route::post("/totalData", [UsuarioController::class, "totalData"])->name("totalData");
+//Ruta para recibir la cantidad total de registros del crud
+Route::delete("/deleteCrud", [UsuarioController::class, "deleteCrud"])->name("deleteCrud");
 //Ruta para recibir los datos de la tabla del crud
 Route::post("/getData", [UsuarioController::class, "getData"])->name("getData");
 

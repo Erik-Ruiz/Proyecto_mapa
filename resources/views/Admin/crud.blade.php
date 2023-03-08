@@ -9,8 +9,7 @@
     <script src="../../resources/js/crud.js"></script>
 </head>
 <body>
-    <button onclick="
-        (1)">Usuarios</button>
+    <button onclick="clickChange(1)">Usuarios</button>
      <button onclick="clickChange(2)">Puntos Interes</button>
      <button onclick="clickChange(3)">Pruebas Gimcana</button>
      <input type="text" placeholder="buscar" onkeyup="cambiarDataBuscar()">
