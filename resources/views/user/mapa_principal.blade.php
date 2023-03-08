@@ -30,7 +30,7 @@
     <div class="navs">
         <nav class="navbar navbar-expand-lg" style="background-color: #34A853">
             <div class="container-fluid">
-                <img src="../resources/storage/img/logo.jpg" style=" height:50px; width:50px;">
+                <img src="../resources/img/logo.jpg" style=" height:50px; width:50px;">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
