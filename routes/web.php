@@ -17,11 +17,11 @@ use Illuminate\Support\Facades\Route;
 //Ruta para ir al login
 Route::get("/",[UsuarioController::class, "index"])->name("index");
 //Ruta para logearte
-Route::post("/login",[UsuarioController::class, "login"])->name("login");
+Route::post("/admin/login",[UsuarioController::class, "login"])->name("login");
 //Ruta para ir al perfil
-Route::get("/perfil",[UsuarioController::class, "perfil"])->name("perfil");
+Route::get("/admin/perfil",[UsuarioController::class, "perfil"])->name("perfil");
 //Ruta para ir al crud
-Route::get("/crud",[UsuarioController::class, "crud"])->name("crud");
+Route::get("/admin/crud",[UsuarioController::class, "crud"])->name("crud");
 
 
 
