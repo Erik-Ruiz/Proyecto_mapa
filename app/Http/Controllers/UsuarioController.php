@@ -1,13 +1,25 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\etiqueta;
+use App\Models\prueba;
+use App\Models\punto;
 use App\Models\usuario;
 use Illuminate\Http\Request;
 
 class UsuarioController extends Controller
 {
+    public function pagina_mapa_principal(Request $request){
+        $id = Usuario::find(session()->get('id'));
+        $personal = etiqueta::all()->where('campo', '<>', 1);
+        $etiquetas = etiqueta::all();
+        return view('user.mapa_principal',compact('etiquetas'));
+    }
+
+    public function filtro_mapa_principal(Request $request){
+
+    }
+
     //Función para devolver la vista del login
     public function index(){
         return view("index");
@@ -64,27 +76,49 @@ class UsuarioController extends Controller
             return redirect("/");
     }
 
-
-    //LogOut
-    public function logout(Request $request){
-        $request->session()->forget("id");
-        return redirect("/");
+    public function totalData(Request $request){
+        if($request->session()->has('id')){
+            $id = $request->session()->get("id");
+            $user = usuario::where("id","=",$id)->get();
+            if($user[0]["admin"]==0){
+                return "NOT AUTORIZED";
+            }
+            $data = $request->except('_token');
+            if($data["crudData"] == 1){
+                $registerData = usuario::where("username","like","%".$data["buscar"]."%")->count();
+            }elseif($data["crudData"] == 2){
+                $registerData = punto::count();
+            }elseif($data["crudData"] == 3){
+                $registerData = prueba::count();
+            }else{
+                return -1;
+            }
+            return $registerData;
+        }else{
+            return "NOT AUTORIZED";
+        }
     }
 
-    //Recogemos las etiquetas para mostrarlas en el select del filtro
-    //y redirigimos a la página
-    public function pagina_mapa_principal(Request $request){
-        $id = Usuario::find(session()->get('id'));
-        $personal = etiqueta::all()->where('campo', '<>', 1);
-
-        $etiquetas = etiqueta::all();
-
-
-
-        return view('user.mapa_principal',compact('etiquetas'));
-    }
-
-    public function filtro_mapa_principal(Request $request){
-
+    public function getData(Request $request){
+        if($request->session()->has('id')){
+            $id = $request->session()->get("id");
+            $user = usuario::where("id","=",$id)->get();
+            if($user[0]["admin"]==0){
+                return "NOT AUTORIZED";
+            }
+            $data = $request->except('_token');
+            if($data["crudData"] == 1){
+                $registerData = usuario::select('usuarios.id','usuarios.username','usuarios.nombre','usuarios.apellidos','usuarios.correo','grupos.nombre as grupo')->join("grupos", 'grupos.id', '=', 'usuarios.grupo')->where("usuarios.username","like","%".$data["buscar"]."%")->get();
+            }elseif($data["crudData"] == 2){
+                $registerData = punto::get();
+            }elseif($data["crudData"] == 3){
+                $registerData = prueba::get();
+            }else{
+                return "";
+            }
+            return json_encode($registerData);
+        }else{
+            return "NOT AUTORIZED";
+        }
     }
 }

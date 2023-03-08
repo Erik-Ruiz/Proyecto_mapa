@@ -22,6 +22,11 @@ Route::post("/admin/login",[UsuarioController::class, "login"])->name("login");
 Route::get("/admin/perfil",[UsuarioController::class, "perfil"])->name("perfil");
 //Ruta para ir al crud
 Route::get("/admin/crud",[UsuarioController::class, "crud"])->name("crud");
+//Ruta para recibir la cantidad total de registros del crud
+Route::post("/totalData", [UsuarioController::class, "totalData"])->name("totalData");
+//Ruta para recibir los datos de la tabla del crud
+Route::post("/getData", [UsuarioController::class, "getData"])->name("getData");
+
 
 //RUTAS PÁGINA PRINCIPAL MAPAS
 //Ruta mapa
