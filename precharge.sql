@@ -10,3 +10,10 @@ INSERT INTO `puntos` (`id`, `nombre`, `descripcion`, `coordenadas`, `personal`, 
 
 INSERT INTO `puntos` (`id`, `nombre`, `descripcion`, `coordenadas`, `personal`, `usuario`) VALUES (NULL, 'Arco de Triunfo de Barcelona
 ', 'Arco clásico construido como entrada principal a la Exposición Universal que se celebró en la ciudad en 1888.', '41.3910524,2.1765959', '0', NULL);
+
+
+INSERT INTO `etiquetas` (`id`, `nombre`, `color`, `personal`, `usuario`) VALUES
+(1, 'Parque', 'verde', 0, NULL),
+(2, 'Catedral', 'marrón', 0, NULL),
+(3, 'Museo', 'Azul', 0, NULL),
+(4, 'Monumento', 'Amarillo', 0, NULL);
