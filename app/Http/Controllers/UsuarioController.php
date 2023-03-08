@@ -8,6 +8,7 @@ use App\Models\usuario;
 use Illuminate\Http\Request;
 
 class UsuarioController extends Controller{
+
     public function pagina_mapa_principal(Request $request){
         $id = Usuario::find(session()->get('id'));
         $personal = etiqueta::all()->where('campo', '<>', 1);
@@ -16,7 +17,10 @@ class UsuarioController extends Controller{
     }
 
     public function filtro_mapa_principal(Request $request){
+        $request->except("_token");
+        $puntos = punto::all();
 
+        return json_encode($puntos);
     }
 
     //Función para devolver la vista del login

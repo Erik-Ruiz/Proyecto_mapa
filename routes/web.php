@@ -34,6 +34,8 @@ Route::get("/user/mapa_main",[UsuarioController::class, "user"]);
 //RUTAS PÁGINA PRINCIPAL MAPAS
 //Ruta mapa
 Route::get('/mapa_principal', [UsuarioController::class, 'pagina_mapa_principal']);
+//Listar los puntos de interés para el mapa
+Route::post("/filtro_mapa_principal",[UsuarioController::class, "filtro_mapa_principal"]);
 
 
 
