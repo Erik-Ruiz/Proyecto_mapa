@@ -69,18 +69,6 @@
         </div>
 
       </div>
-
-
-
-
-
-
-      <select class="select_personal">
-        <option value="r">Rojo</option>
-        <option value="a">Azul</option>
-        <option value="v">Verde</option>
-      </select>
-
     </div>
   </div>
   <script>
