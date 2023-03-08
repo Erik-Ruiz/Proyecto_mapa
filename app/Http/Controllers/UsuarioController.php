@@ -1,13 +1,24 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\etiqueta;
+use App\Models\prueba;
+use App\Models\punto;
 use App\Models\usuario;
 use Illuminate\Http\Request;
 
-class UsuarioController extends Controller
-{
+class UsuarioController extends Controller{
+    public function pagina_mapa_principal(Request $request){
+        $id = Usuario::find(session()->get('id'));
+        $personal = etiqueta::all()->where('campo', '<>', 1);
+        $etiquetas = etiqueta::all();
+        return view('user.mapa_principal',compact('etiquetas'));
+    }
+
+    public function filtro_mapa_principal(Request $request){
+
+    }
+
     //Función para devolver la vista del login
     public function index(){
         return view("index");
@@ -36,8 +47,8 @@ class UsuarioController extends Controller
             }
         }
     }
-
-    //Funcion para devolver el perfil
+    
+    //Perfil
     public function perfil(Request $request){
         //Comprobamos si existe la sesion para redirigirlo a la página
         if($request->session()->has("id"))
@@ -45,7 +56,8 @@ class UsuarioController extends Controller
         else
             return redirect("/");
     }
-
+   //Crud
+   
     //Funcion para devolver el crud
     public function crud(Request $request){
         //Comprobamos si existe la sesion para redirigirlo a la página
@@ -64,27 +76,75 @@ class UsuarioController extends Controller
             return redirect("/");
     }
 
+    /*------------*/
+    /* Registrar */
+    /*-----------*/
 
-    //LogOut
-    public function logout(Request $request){
-        $request->session()->forget("id");
-        return redirect("/");
+    public function register(Request $request){
+        //recogemos el usuario
+        $user= $request->except("_token");
+        //comprobamos si exsiste el usuario
+        $userDB = usuario::where("username","=", $user["username"])->orwhere("correo","=", $user["correo"])->get()->count();
+        if ($userDB==0){           
+            $insertaruser= new usuario();
+            $insertaruser->username= $user["username"];
+            $insertaruser->nombre= $user["nombre"];
+            $insertaruser->apellidos= $user["apellidos"];
+            $insertaruser->correo= $user["correo"];
+            $insertaruser->grupo= $user["grupo"];
+            $insertaruser->password= $user["password"];
+            $insertaruser->admin=false;
+            $insertaruser->save();
+            // Iniciar sesión automáticamente después del registro
+            $request->session()->put('id', $insertaruser['id']);
+            return redirect("user/mapa_main");
+        }else{
+            return redirect("/");
+        }
     }
 
-    //Recogemos las etiquetas para mostrarlas en el select del filtro
-    //y redirigimos a la página
-    public function pagina_mapa_principal(Request $request){
-        $id = Usuario::find(session()->get('id'));
-        $personal = etiqueta::all()->where('campo', '<>', 1);
-
-        $etiquetas = etiqueta::all();
-
-
-
-        return view('user.mapa_principal',compact('etiquetas'));
+    public function totalData(Request $request){
+        if($request->session()->has('id')){
+            $id = $request->session()->get("id");
+            $user = usuario::where("id","=",$id)->get();
+            if($user[0]["admin"]==0){
+                return "NOT AUTORIZED";
+            }
+            $data = $request->except('_token');
+            if($data["crudData"] == 1){
+                $registerData = usuario::where("username","like","%".$data["buscar"]."%")->count();
+            }elseif($data["crudData"] == 2){
+                $registerData = punto::count();
+            }elseif($data["crudData"] == 3){
+                $registerData = prueba::count();
+            }else{
+                return -1;
+            }
+            return $registerData;
+        }else{
+            return "NOT AUTORIZED";
+        }
     }
-
-    public function filtro_mapa_principal(Request $request){
-
+    public function getData(Request $request){
+        if($request->session()->has('id')){
+            $id = $request->session()->get("id");
+            $user = usuario::where("id","=",$id)->get();
+            if($user[0]["admin"]==0){
+                return "NOT AUTORIZED";
+            }
+            $data = $request->except('_token');
+            if($data["crudData"] == 1){
+                $registerData = usuario::select('usuarios.id','usuarios.username','usuarios.nombre','usuarios.apellidos','usuarios.correo','grupos.nombre as grupo')->join("grupos", 'grupos.id', '=', 'usuarios.grupo')->where("usuarios.username","like","%".$data["buscar"]."%")->get();
+            }elseif($data["crudData"] == 2){
+                $registerData = punto::get();
+            }elseif($data["crudData"] == 3){
+                $registerData = prueba::get();
+            }else{
+                return "";
+            }
+            return json_encode($registerData);
+        }else{
+            return "NOT AUTORIZED";
+        }
     }
 }
