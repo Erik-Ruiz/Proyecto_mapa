@@ -8,5 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class etiqueta extends Model
 {
     use HasFactory;
+    protected $fillable = ['nombre'];
     public $timestamps = false;
 }

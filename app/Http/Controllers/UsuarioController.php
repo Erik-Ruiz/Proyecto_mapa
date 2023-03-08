@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\etiqueta;
 use App\Models\usuario;
 use Illuminate\Http\Request;
 
@@ -11,6 +12,7 @@ class UsuarioController extends Controller
     public function index(){
         return view("index");
     }
+
     //Función para logearte
     public function login(Request $request){
         //Recogemos el usuario del formulario
@@ -60,5 +62,25 @@ class UsuarioController extends Controller
         }
         else
             return redirect("/");
+    }
+
+
+    //LogOut
+    public function logout(Request $request){
+        $request->session()->forget("id");
+        return redirect("/");
+    }
+
+    //Recogemos las etiquetas para mostrarlas en el select del filtro
+    //y redirigimos a la página
+    public function pagina_mapa_principal(Request $request){
+        $id = Usuario::find(session()->get('id'));
+        $personal = etiqueta::all()->where('campo', '<>', 1);
+
+        $etiquetas = etiqueta::all();
+
+
+
+        return view('user.mapa_main',compact('etiquetas'));
     }
 }

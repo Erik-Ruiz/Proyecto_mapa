@@ -68,6 +68,22 @@
         </div>
 
       </div>
+
+
+      <select class="select_etiquetas" name="id_genero" id="filtro_genero">
+          <option value="NO" content="NO" ></option>
+          @foreach ($etiquetas as $etiqueta)
+              <option value="{{$etiqueta->id}}" >{{$etiqueta->nombre}}</option>
+          @endforeach
+      </select>
+
+
+      <select class="select_personal">
+        <option value="r">Rojo</option>
+        <option value="a">Azul</option>
+        <option value="v">Verde</option>
+      </select>
+
     </div>
   </div>
   <script>
@@ -147,10 +163,37 @@
 
   }
 
-  .select_personal {
-    border-radius: 5px;
-    margin-right: 5%;
-    z-index: 1000;
+.buscador{
+  margin-right: 10%;
+  width: 400px;
+}
+.filtros{
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  margin: 10px;
+  margin-left: 35%;
+  z-index: 2;
+  align-items: center;
+}
+
+.mapa{
+  position: absolute;
+  width:100%; 
+  height:600px;
+  z-index: 1;
+}
+
+.select_etiquetas{
+  border-radius: 5px;
+  margin-right: 2%;
+  
+}
+
+.select_personal{
+  border-radius: 5px;
+  margin-right: 5%
+}
 
   }
 </style>

@@ -23,6 +23,11 @@ Route::get("/admin/perfil",[UsuarioController::class, "perfil"])->name("perfil")
 //Ruta para ir al crud
 Route::get("/admin/crud",[UsuarioController::class, "crud"])->name("crud");
 
+//RUTAS PÁGINA PRINCIPAL MAPAS
+//Ruta mapa
+Route::get('/mapa_principal', [UsuarioController::class, 'pagina_mapa_principal']);
+
+
 
 
 
