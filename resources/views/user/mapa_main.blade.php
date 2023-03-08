@@ -51,7 +51,7 @@
 
 
       <select class="select_etiquetas" name="id_genero" id="filtro_genero">
-          <option value="NO" ></option>
+          <option value="NO" content="NO" ></option>
           @foreach ($etiquetas as $etiqueta)
               <option value="{{$etiqueta->id}}" >{{$etiqueta->nombre}}</option>
           @endforeach
