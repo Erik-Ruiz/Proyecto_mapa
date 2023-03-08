@@ -27,6 +27,9 @@ Route::post("/totalData", [UsuarioController::class, "totalData"])->name("totalD
 //Ruta para recibir los datos de la tabla del crud
 Route::post("/getData", [UsuarioController::class, "getData"])->name("getData");
 
+//Ruta para registrarte
+Route::post("/admin/register",[UsuarioController::class, "register"])->name("register");
+Route::get("/user/mapa_main",[UsuarioController::class, "user"]);
 
 //RUTAS PÁGINA PRINCIPAL MAPAS
 //Ruta mapa

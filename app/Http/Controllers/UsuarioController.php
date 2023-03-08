@@ -7,8 +7,7 @@ use App\Models\punto;
 use App\Models\usuario;
 use Illuminate\Http\Request;
 
-class UsuarioController extends Controller
-{
+class UsuarioController extends Controller{
     public function pagina_mapa_principal(Request $request){
         $id = Usuario::find(session()->get('id'));
         $personal = etiqueta::all()->where('campo', '<>', 1);
@@ -48,8 +47,8 @@ class UsuarioController extends Controller
             }
         }
     }
-
-    //Funcion para devolver el perfil
+    
+    //Perfil
     public function perfil(Request $request){
         //Comprobamos si existe la sesion para redirigirlo a la página
         if($request->session()->has("id"))
@@ -57,7 +56,8 @@ class UsuarioController extends Controller
         else
             return redirect("/");
     }
-
+   //Crud
+   
     //Funcion para devolver el crud
     public function crud(Request $request){
         //Comprobamos si existe la sesion para redirigirlo a la página
@@ -74,6 +74,33 @@ class UsuarioController extends Controller
         }
         else
             return redirect("/");
+    }
+
+    /*------------*/
+    /* Registrar */
+    /*-----------*/
+
+    public function register(Request $request){
+        //recogemos el usuario
+        $user= $request->except("_token");
+        //comprobamos si exsiste el usuario
+        $userDB = usuario::where("username","=", $user["username"])->orwhere("correo","=", $user["correo"])->get()->count();
+        if ($userDB==0){           
+            $insertaruser= new usuario();
+            $insertaruser->username= $user["username"];
+            $insertaruser->nombre= $user["nombre"];
+            $insertaruser->apellidos= $user["apellidos"];
+            $insertaruser->correo= $user["correo"];
+            $insertaruser->grupo= $user["grupo"];
+            $insertaruser->password= $user["password"];
+            $insertaruser->admin=false;
+            $insertaruser->save();
+            // Iniciar sesión automáticamente después del registro
+            $request->session()->put('id', $insertaruser['id']);
+            return redirect("user/mapa_main");
+        }else{
+            return redirect("/");
+        }
     }
 
     public function totalData(Request $request){
@@ -98,7 +125,6 @@ class UsuarioController extends Controller
             return "NOT AUTORIZED";
         }
     }
-
     public function getData(Request $request){
         if($request->session()->has('id')){
             $id = $request->session()->get("id");

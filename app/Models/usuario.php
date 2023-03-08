@@ -9,4 +9,5 @@ class usuario extends Model
 {
     use HasFactory;
     public $timestamps = false;
+
 }
