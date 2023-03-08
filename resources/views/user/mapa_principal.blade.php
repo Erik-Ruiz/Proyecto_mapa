@@ -30,7 +30,7 @@
     <div class="navs">
         <nav class="navbar navbar-expand-lg" style="background-color: #34A853">
             <div class="container-fluid">
-                <img src="../resources/storage/img/logo.jpg" style=" height:50px; width:50px;">
+                <img src="../resources/img/logo.jpg" style=" height:50px; width:50px;">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
@@ -64,16 +64,15 @@
         </div>
         <div class="filtros1">
 
-          <select class="select_etiquetas" name="id_genero" id="filtro_genero">
+          <select class="select_etiquetas" name="id_genero" id="filtro_etiqueta">
             <option value="NO" content="NO" ></option>
             @foreach ($etiquetas as $etiqueta)
                 <option value="{{$etiqueta->id}}" >{{$etiqueta->nombre}}</option>
             @endforeach
         </select>
-          <select class="select_personal">
-            <option value="r">Rojo</option>
-            <option value="a">Azul</option>
-            <option value="v">Verde</option>
+          <select class="select_personal" id="filtro_opinion">
+            <option value="NO" content="NO" ></option>
+            <option value="personal">Personal</option>
           </select>
         </div>
 

@@ -7,7 +7,18 @@ const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 var csrf_token = token.content;
 
 
+filtro_nombre.addEventListener('keyup',()=>{
+    filtrar()
+})
 
+
+filtro_etiqueta.addEventListener('change',()=>{
+    filtrar()
+})
+
+filtro_opinion.addEventListener('change',()=>{
+    filtrar()
+})
 
 
 
@@ -16,6 +27,10 @@ function filtrar() {
 
     let formdata = new FormData;
     formdata.append("_token", csrf_token);
+
+    formdata.append('filtro_nombre',filtro_nombre.value)
+    formdata.append('filtro_etiqueta',filtro_etiqueta.value)
+    formdata.append('filtro_opinion',filtro_opinion.value)
 
     ajax.open('POST', "filtro_mapa_principal");
 
@@ -28,10 +43,8 @@ function filtrar() {
 
             for (let index = 0; index < data.length; index++) {
                 const element = data[index];
-                console.log(element);
 
                var mymarker = L.marker([element.coordenadas.split(",")[0], element.coordenadas.split(",")[1]]).addTo(layerGroup);
-               console.log(element.coordenadas.split(",")[0]+'..'+'..'+element.coordenadas.split(",")[1]);
 
                 mymarker.bindPopup("<b>" + element.nombre + "</b>");
 
