@@ -74,6 +74,7 @@
 
 
 
+
       <select class="select_personal">
         <option value="r">Rojo</option>
         <option value="a">Azul</option>
