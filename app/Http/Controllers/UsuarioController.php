@@ -81,6 +81,10 @@ class UsuarioController extends Controller
 
 
 
-        return view('user.mapa_main',compact('etiquetas'));
+        return view('user.mapa_principal',compact('etiquetas'));
+    }
+
+    public function filtro_mapa_principal(Request $request){
+
     }
 }
