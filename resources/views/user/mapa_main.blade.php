@@ -55,12 +55,11 @@
           <input type="text" class="form-control input_filtro" id="filtro_nombre" placeholder="Restaurante" aria-label="Username" aria-describedby="basic-addon1">
         </div>
         <div class="filtros1">
-          <select class="select_etiquetas" name="id_genero" id="filtro_genero">
-            <option value="NO" content="NO" ></option>
-            @foreach ($etiquetas as $etiqueta)
-                <option value="{{$etiqueta->id}}" >{{$etiqueta->nombre}}</option>
-            @endforeach
-        </select>
+          <select class="select_etiquetas">
+            <option value="r">Rojo</option>
+            <option value="a">Azul</option>
+            <option value="v">Verde</option>
+          </select>
           <select class="select_personal">
             <option value="r">Rojo</option>
             <option value="a">Azul</option>
@@ -70,6 +69,13 @@
 
       </div>
 
+
+      <select class="select_etiquetas" name="id_genero" id="filtro_genero">
+          <option value="NO" content="NO" ></option>
+          @foreach ($etiquetas as $etiqueta)
+              <option value="{{$etiqueta->id}}" >{{$etiqueta->nombre}}</option>
+          @endforeach
+      </select>
 
 
       <select class="select_personal">
@@ -95,9 +101,11 @@
     margin: 0;
     padding: 0;
   }
-  .form-control{
+
+  .form-control {
     width: auto !important;
   }
+
   #map {
     top: 0;
     bottom: 0;
@@ -129,6 +137,7 @@
     align-items: center;
     width: 50%;
   }
+
   .filtros1 {
     position: relative !important;
     display: flex;
@@ -154,40 +163,6 @@
     margin-right: 2%;
     z-index: 1000;
 
-
-  }
-
-.buscador{
-  margin-right: 10%;
-  width: 400px;
-}
-.filtros{
-  position: absolute;
-  display: flex;
-  flex-direction: row;
-  margin: 10px;
-  margin-left: 35%;
-  z-index: 2;
-  align-items: center;
-}
-
-.mapa{
-  position: absolute;
-  width:100%; 
-  height:600px;
-  z-index: 1;
-}
-
-.select_etiquetas{
-  border-radius: 5px;
-  margin-right: 2%;
-  
-}
-
-.select_personal{
-  border-radius: 5px;
-  margin-right: 5%
-}
 
   
 </style>
