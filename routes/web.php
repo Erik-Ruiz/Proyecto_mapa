@@ -29,3 +29,27 @@ Route::get('/mapa_principal', [UsuarioController::class, 'pagina_mapa_principal'
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//Llamadas Mapas
