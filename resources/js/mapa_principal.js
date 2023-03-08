@@ -3,3 +3,24 @@ var layerGroup = L.layerGroup().addTo(map);
 const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
+
+
+
+
+
+
+
+function filtrar() {
+    var ajax = new XMLHttpRequest();
+    let formdata = new FormData;
+
+    ajax.open('POST', "filtro_mapa_principal");
+
+    ajax.onload = function() {
+        data = JSON.parse(ajax.responseText)
+        console.log(ajax.responseText);
+
+    }
+    ajax.send(formdata);
+
+}
