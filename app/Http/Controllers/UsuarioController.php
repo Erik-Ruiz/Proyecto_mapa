@@ -20,38 +20,15 @@ class UsuarioController extends Controller{
 
     public function filtro_mapa_principal(Request $request){
         $request->except("_token");
-
-        if($request->get("filtro_etiqueta")=="NO" && empty($request->get("filtro_nombre"))){
+        if(!empty($request->get('filtro_nombre'))){
+            $puntos = punto::Where('nombre','LIKE','%'.$request->get('filtro_nombre').'%')->get();
+            return json_encode($puntos);
+            
+        }else{
             $puntos = punto::all();
             return json_encode($puntos);
-        }elseif(!empty($request->get("filtro_nombre"))){
-            $puntos = punto::Where('nombre', 'like','%'.$request->get('filtro_nombre').'%')->get();
-            return json_encode($puntos);
-        }elseif($request->get("filtro_etiqueta")!=="NO" && empty($request->get("filtro_nombre"))){
-            $sitios = array();
-            $pune = array();
-            $filto = $request->get("filtro_etiqueta");
-            $puntos = DB::select('Select punto from punto_etiquetas where etiqueta ='.$filto);
-            foreach ($puntos as $punto){
-                $sitios[]=$punto->punto;
-            }
-            foreach ($sitios as $sitio){
-                $pune[] = punto::where('id', '=', $sitio)->get();
-            }
-            return json_encode($pune);
-        }elseif($request->get("filtro_etiqueta")!=="NO" && !empty($request->get("filtro_nombre"))){
-            $sitios = array();
-            $pune = array();
-            $filto = $request->get("filtro_etiqueta");
-            $puntos = DB::select('Select punto from punto_etiquetas where etiqueta ='.$filto);
-            foreach ($puntos as $punto){
-                $sitios[]=$punto->punto;
-            }
-            foreach ($sitios as $sitio){
-                $pune[] = punto::where('nombre', 'like','%'.$request->get('filtro_nombre').'%')->orwhere('id','IN', ($sitios))->get();
-            }
-            return json_encode($pune);
         }
+       
     }
 
 

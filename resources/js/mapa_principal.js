@@ -36,7 +36,7 @@ function filtrar() {
 
     ajax.onload = function() {
         data = JSON.parse(ajax.responseText)
-
+        console.log(data);
         layerGroup.clearLayers();
         try {
 
@@ -45,7 +45,6 @@ function filtrar() {
                 var mymarker = L.marker([element.latitud, element.longitud]).addTo(layerGroup);
 
                 mymarker.bindPopup("<b>" + element.nombre + "</b>");
-
             }
 
 
