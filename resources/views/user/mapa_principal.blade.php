@@ -44,8 +44,12 @@
 
           </ul>
           <button type="button" class="btn" style="background-color: #B8E0C3; margin-right: 1%;">Iniciar Gincana</button>
-          <button type="button" class="btn" style="background-color: #B8E0C3">LogOut</button>
+          <a class="navbar-brand" href="{{route('perfil')}}">
 
+            <button type="button" class="btn" style="background-color: #B8E0C3">Perfil</button>
+
+          </a>
+            <button type="button" class="btn" style="background-color: #B8E0C3">LogOut</button>
         </div>
       </div>
     </nav>

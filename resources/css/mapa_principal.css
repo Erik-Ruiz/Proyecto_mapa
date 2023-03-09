@@ -1,34 +1,33 @@
 body {
     margin: 0;
     padding: 0;
-  }
+}
 
-  .form-control {
+.form-control {
     width: auto !important;
-  }
+}
 
-  #map {
+#map {
     top: 0;
     bottom: 0;
     right: 0;
     left: 0;
     width: 100%;
-    height: 90vh;
+    height: 90.9vh;
     position: relative;
-  }
+}
 
-  .navs {
+.navs {
     display: flex;
     width: 100%;
     height: 10%;
+}
 
-  }
-
-  .navbar {
+.navbar {
     width: 100% !important;
-  }
+}
 
-  .filtros {
+.filtros {
     position: relative !important;
     display: flex;
     flex-direction: row;
@@ -37,9 +36,9 @@ body {
     z-index: 1000;
     align-items: center;
     width: 50%;
-  }
+}
 
-  .filtros1 {
+.filtros1 {
     position: relative !important;
     display: flex;
     flex-direction: row;
@@ -47,18 +46,17 @@ body {
     z-index: 1000;
     justify-content: flex-start;
     width: 50%;
+}
 
-  }
-
-  .buscador {
+.buscador {
     position: relative !important;
     display: flex;
     margin-right: 10%;
     width: 100%;
     z-index: 1000;
-  }
+}
 
-  .select_etiquetas {
+.select_etiquetas {
     position: relative !important;
     border-radius: 5px;
     margin-right: 2%;
