@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 use App\Models\etiqueta;
+use App\Models\favorito;
 use App\Models\prueba;
 use App\Models\punto;
 use App\Models\punto_etiqueta;
+use App\Models\registro;
 use App\Models\usuario;
+use App\Models\usuario_prueba;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -140,7 +144,7 @@ class UsuarioController extends Controller{
             }
             $data = $request->except('_token');
             if($data["crudData"] == 1){
-                $registerData = usuario::where("username","like","%".$data["buscar"]."%")->count();
+                $registerData = usuario::where("username","like","%".$data["buscar"]."%")->where("id","!=",$id)->count();
             }elseif($data["crudData"] == 2){
                 $registerData = punto::count();
             }elseif($data["crudData"] == 3){
@@ -162,11 +166,11 @@ class UsuarioController extends Controller{
             }
             $data = $request->except('_token');
             if($data["crudData"] == 1){
-                $registerData = usuario::select('usuarios.id','usuarios.username','usuarios.nombre','usuarios.apellidos','usuarios.correo','grupos.nombre as grupo')->join("grupos", 'grupos.id', '=', 'usuarios.grupo')->where("usuarios.username","like","%".$data["buscar"]."%")->get();
+                $registerData = usuario::select('usuarios.id','usuarios.username','usuarios.nombre',DB::raw('(CASE WHEN usuarios.apellidos IS NOT NULL THEN usuarios.apellidos  ELSE "" END) as apellidos'),'usuarios.correo','grupos.nombre as grupo')->join("grupos", 'grupos.id', '=', 'usuarios.grupo')->where("usuarios.username","like","%".$data["buscar"]."%")->where("usuarios.id","!=",$id)->get();
             }elseif($data["crudData"] == 2){
-                $registerData = punto::get();
+                $registerData = punto::select('puntos.id',DB::raw('(CASE WHEN puntos.usuario > 0 THEN usuarios.username  ELSE "AYUJE" END) as username'),'puntos.nombre',DB::raw('(CASE WHEN puntos.descripcion IS NOT NULL THEN puntos.descripcion  ELSE "" END) as descripcion'),'puntos.latitud','puntos.longitud')->leftjoin("usuarios", 'usuarios.id', '=', 'puntos.usuario')->where("puntos.nombre","like","%".$data["buscar"]."%")->get();
             }elseif($data["crudData"] == 3){
-                $registerData = prueba::get();
+                $registerData = prueba::where("nombre","like","%".$data["buscar"]."%")->get();
             }else{
                 return "";
             }
@@ -174,5 +178,40 @@ class UsuarioController extends Controller{
         }else{
             return "NOT AUTORIZED";
         }
+    }
+
+    public function deleteCrud(Request $request){
+        $id = $request->input('id');
+        $crudValue = $request->input('crudData');
+        try{
+            DB::beginTransaction();
+            if($crudValue == 1){
+                registro::where("usuario","=",$id)->delete();
+                usuario_prueba::where("usuario","=",$id)->delete();
+                favorito::where("usuario","=",$id)->delete();
+                punto_etiqueta::where("usuario","=",$id)->delete();
+                etiqueta::where("usuario","=",$id)->delete();
+                usuario::where("id","=",$id)->delete();
+            }elseif($crudValue == 2){
+                punto_etiqueta::where("punto","=",$id)->delete();
+                punto::where("id","=",$id)->delete();
+            }else{
+                usuario_prueba::where("prueba","=",$id)->delete();
+                prueba::where("id","=",$id)->delete();
+            }
+            DB::commit();
+            return 'OK';
+        }catch(Exception $e){
+            DB::rollBack();
+            return $e->getMessage();
+        }
+    }
+
+    public function insertPICrud(Request $request){
+
+    }
+
+    public function insertPruebaCrud(Request $request){
+        if(empty($request["nombre"]) && empty($request["pregunta"]) && empty($request["pista"]))
     }
 }
