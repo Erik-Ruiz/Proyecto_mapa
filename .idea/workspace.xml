@@ -5,13 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ff810d04-3c13-4d9e-aa4d-406c4d5fc973" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/resources/css/gincana.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/gincana.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/gincana.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/gincana/routing.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UsuarioController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UsuarioController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/css/gincana.css" beforeDir="false" afterPath="$PROJECT_DIR$/resources/css/gincana.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/gincana.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/gincana/ubicacionActual.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/gincana.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/gincana.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -157,7 +155,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/xampp/htdocs/DAW2/MP/Proyecto_mapa",
+    "last_opened_file_path": "C:/xampp/htdocs/testProyects/testProyects/api/movieGuide",
     "list.type.of.created.stylesheet": "CSS",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -168,6 +166,11 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\DAW2\MP\Proyecto_mapa\resources\js\gincana" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="phpunit.xml" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
       <TestRunner scope="XML" />
@@ -185,6 +188,7 @@
       <workItem from="1678202832284" duration="383000" />
       <workItem from="1678203234159" duration="933000" />
       <workItem from="1678207046894" duration="10792000" />
+      <workItem from="1678293437712" duration="6326000" />
     </task>
     <servers />
   </component>
