@@ -12,3 +12,14 @@ html,body {
     font-size: 14px;
     color: #323232;
 }
+
+.leaflet-routing-container {
+    background-color: white;
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 400px;
+    height: 600px;
+    overflow-y: scroll;
+}
+
