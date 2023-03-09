@@ -20,14 +20,16 @@ class UsuarioController extends Controller{
 
     public function filtro_mapa_principal(Request $request){
         $request->except("_token");
-        // if(empty($request->get("filtro_nombre"))){
-        //     $puntos = punto::all();
-        //    return json_encode($puntos);
+        if(empty($request->get("filtro_nombre"))){
+            $puntos = punto::all();
+           return json_encode($puntos);
 
-        // }else{
-        //     $puntos = punto::Where('nombre', 'like','%'.$request->get('filtro_nombre').'%')->get();
-        //     return json_encode($puntos);
-        // }
+        }else{
+            $puntos = punto::Where('nombre', 'like','%'.$request->get('filtro_nombre').'%')->get();
+            return json_encode($puntos);
+        }
+
+
         if($request->get("filtro_etiqueta")=="NO"){
             $puntos = punto::all();
             return json_encode($puntos);
