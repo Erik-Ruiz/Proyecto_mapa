@@ -40,7 +40,9 @@ class UsuarioController extends Controller{
             foreach ($puntos as $punto){
                 $sitios[]=$punto->punto;
             }
-            $pune = punto::where('id', '=', $sitios)->get();
+            foreach ($sitios as $sitio){
+                $pune[] = punto::where('id', '=', $sitio)->get();
+            }
             return json_encode($pune);
         }
 

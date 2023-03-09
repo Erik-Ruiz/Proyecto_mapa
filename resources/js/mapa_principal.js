@@ -7,16 +7,16 @@ const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 var csrf_token = token.content;
 
 
-filtro_nombre.addEventListener('keyup',()=>{
+filtro_nombre.addEventListener('keyup', () => {
     filtrar()
 })
 
 
-filtro_etiqueta.addEventListener('change',()=>{
+filtro_etiqueta.addEventListener('change', () => {
     filtrar()
 })
 
-filtro_opinion.addEventListener('change',()=>{
+filtro_opinion.addEventListener('change', () => {
     filtrar()
 })
 
@@ -28,27 +28,36 @@ function filtrar() {
     let formdata = new FormData;
     formdata.append("_token", csrf_token);
 
-    formdata.append('filtro_nombre',filtro_nombre.value)
-    formdata.append('filtro_etiqueta',filtro_etiqueta.value)
-    formdata.append('filtro_opinion',filtro_opinion.value)
+    formdata.append('filtro_nombre', filtro_nombre.value)
+    formdata.append('filtro_etiqueta', filtro_etiqueta.value)
+    formdata.append('filtro_opinion', filtro_opinion.value)
 
     ajax.open('POST', "filtro_mapa_principal");
 
     ajax.onload = function() {
-        // console.log(ajax.responseText);
         data = JSON.parse(ajax.responseText)
 
         layerGroup.clearLayers();
         try {
+            if (filtro_etiqueta.value == 'NO') {
+                for (let index = 0; index < data.length; index++) {
+                    const element = data[index];
+                    var mymarker = L.marker([element.coordenadas.split(",")[0], element.coordenadas.split(",")[1]]).addTo(layerGroup);
 
-            for (let index = 0; index < data.length; index++) {
-                const element = data[index];
+                    mymarker.bindPopup("<b>" + element.nombre + "</b>");
 
-               var mymarker = L.marker([element.coordenadas.split(",")[0], element.coordenadas.split(",")[1]]).addTo(layerGroup);
+                }
+            } else {
+                for (let index = 0; index < data.length; index++) {
+                    const element = data[index];
+                    for (let i = 0; i < element.length; i++) {
+                        var mymarker = L.marker([element[i].coordenadas.split(",")[0], element[i].coordenadas.split(",")[1]]).addTo(layerGroup);
+                        mymarker.bindPopup("<b>" + element[i].nombre + "</b>");
 
-                mymarker.bindPopup("<b>" + element.nombre + "</b>");
-
+                    }
+                }
             }
+
         } catch (e) {
             console.log(e);
         }
