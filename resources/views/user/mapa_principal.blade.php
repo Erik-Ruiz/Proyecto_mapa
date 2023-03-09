@@ -84,50 +84,32 @@
           <button type="button" id="likes" class="btn activo" style=" margin-left:5%;"><i style="color: rgb(255, 255, 255);"; class="fa-solid fa-heart"></i></button>
 
 
-<script>
-	const boton = document.getElementById("likes");
+      <script>
+        const boton = document.getElementById("likes");
 
-boton.addEventListener("click", function() {
-  if (boton.classList.contains("activo")) {
-    boton.classList.remove("activo");
-    boton.classList.add("desactivo");
-  } else {
-    boton.classList.remove("desactivo");
-    boton.classList.add("activo");
-  }
-});
-</script>
+        boton.addEventListener("click", function() {
+          if (boton.classList.contains("activo")) {
+            boton.classList.remove("activo");
+            boton.classList.add("desactivo");
+          } else {
+            boton.classList.remove("desactivo");
+            boton.classList.add("activo");
+          }
+        });
+
+      </script>
+
+
+<div id="datos_modal">
+
+  
+</div>
         </div>
 
       </div>
 
     </div>
   </div>
-
-      <!-- The Modal -->
-      <div id="ModalDetalles" class="modal">
-
-        <!-- Modal content -->
-        <div class="modal-content" style="align-items: center; width:500px">
-          <div class="modal-header" style="width: 100%;">
-            <span class="close">&times;</span>
-            <h2 style=" margin-right: 50%;">NOMBRE</h2>
-          </div>
-          <div class="modal-body">
-            <div id="form" style="width: 23rem;">
-    
-    
-              <h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Correo</h3>
-    
-              <button style="width: 100%" class="btn btn-success" id="form_correo_btn" ><i class="fa-solid fa-envelope"></i></button>
-    
-            </div>
-    
-          </div>
-    
-        </div>
-    
-      </div>
 
 
 <script type="text/javascript" src="../resources/js/mapa_principal.js"></script>

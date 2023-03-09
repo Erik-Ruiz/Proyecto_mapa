@@ -57,6 +57,8 @@ filtrar('');
 
 function modal(id){
 
+    var resultado= document.getElementById('datos_modal');
+
     var ajax = new XMLHttpRequest();
 
     let formdata = new FormData;
@@ -66,26 +68,59 @@ function modal(id){
     ajax.open('POST', "recoger_datos_etiqueta");
 
     ajax.onload = function() {
-        console.log(ajax.responseText);
-        // data = JSON.parse(ajax.responseText)
-
-            // var modal = document.getElementById("ModalDetalles");
-
-            // var btn = document.getElementById("VerDetalles");
-    
-            // var span = document.getElementsByClassName("close")[0];
-    
-            // btn.onclick = function() {
-            // modal.style.display = "block";
-            // }
-    
-            // span.onclick = function() {
-            // modal.style.display = "none";
-            // }
+        // console.log(ajax.responseText);
+        data = JSON.parse(ajax.responseText)
+        console.log(data);
+        
+            var modal1=``;
 
 
-    }
+            modal1 += `
+                        
+                <div id="ModalDetalles" class="modal">
+
+                    <div class="modal-content" style="align-items: center; width:500px">
+                    <div class="modal-header" style="width: 100%;">
+                        <span class="close">&times;</span>
+                        <h2 style=" margin-right: 50%;">${data.nombre}</h2>
+                    </div>
+                    <div class="modal-body">
+                        <div id="form" style="width: 23rem;">
+                
+                
+                        <h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Correo</h3>
+                
+                        <button style="width: 100%" class="btn btn-success" id="form_correo_btn" ><i class="fa-solid fa-envelope"></i></button>
+                
+                        </div>
+                
+                    </div>
+                
+                    </div>
+                
+                </div>
+            `
+
+            datos_modal.innerHTML = modal1;
+
+            var modal = document.getElementById("ModalDetalles");
+
+            var btn = document.getElementById("VerDetalles");
+
+            var span = document.getElementsByClassName("close")[0];
+
+            btn.onclick = function() {
+            modal.style.display = "block";
+            }
+
+            span.onclick = function() {
+            modal.style.display = "none";
+            }
+        }
     ajax.send(formdata);
 
-    
+
 }
+
+
+    
