@@ -114,7 +114,7 @@ filtrar('');
 
 function modal(id) {
 
-    var resultado= document.getElementById('datos_modal');
+    var resultado = document.getElementById('datos_modal');
 
     var ajax = new XMLHttpRequest();
 
@@ -125,33 +125,14 @@ function modal(id) {
     ajax.open('POST', "recoger_datos_etiqueta");
 
     ajax.onload = function() {
-<<<<<<< HEAD
-        console.log(ajax.responseText);
-        // data = JSON.parse(ajax.responseText)
-
-        // var modal = document.getElementById("ModalDetalles");
-
-        // var btn = document.getElementById("VerDetalles");
-
-        // var span = document.getElementsByClassName("close")[0];
-
-        // btn.onclick = function() {
-        // modal.style.display = "block";
-        // }
-
-        // span.onclick = function() {
-        // modal.style.display = "none";
-        // }
-=======
         // console.log(ajax.responseText);
         data = JSON.parse(ajax.responseText)
         console.log(data);
-        
-            var modal1=``;
->>>>>>> c4441c1b10f49fa9b9b152e7328ee4afeb98cefc
+
+        var modal1 = ``;
 
 
-            modal1 += `
+        modal1 += `
                         
                 <div id="ModalDetalles" class="modal">
 
@@ -177,30 +158,23 @@ function modal(id) {
                 </div>
             `
 
-            datos_modal.innerHTML = modal1;
+        datos_modal.innerHTML = modal1;
 
-            var modal = document.getElementById("ModalDetalles");
+        var modal = document.getElementById("ModalDetalles");
 
-            var btn = document.getElementById("VerDetalles");
+        var btn = document.getElementById("VerDetalles");
 
-            var span = document.getElementsByClassName("close")[0];
+        var span = document.getElementsByClassName("close")[0];
 
-            btn.onclick = function() {
+        btn.onclick = function() {
             modal.style.display = "block";
-            }
-
-            span.onclick = function() {
-            modal.style.display = "none";
-            }
         }
+
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+    }
     ajax.send(formdata);
 
 
-<<<<<<< HEAD
 }
-=======
-}
-
-
-    
->>>>>>> c4441c1b10f49fa9b9b152e7328ee4afeb98cefc
