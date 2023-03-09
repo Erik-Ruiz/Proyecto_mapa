@@ -19,36 +19,26 @@ class UsuarioController extends Controller{
     }
 
     public function filtro_mapa_principal(Request $request){
-        $request->except("_token");
-        // if(empty($request->get("filtro_nombre"))){
-        //     $puntos = punto::all();
-        //    return json_encode($puntos);
-
-        // }else{
-        //     $puntos = punto::Where('nombre', 'like','%'.$request->get('filtro_nombre').'%')->get();
-        //     return json_encode($puntos);
-        // }
-
-
-        if($request->get("filtro_etiqueta")=="NO"){
+        $no = $request->get('filtro_etiqueta') == 'NO';
+        $vacio = empty($request->get('filtro_nombre'));
+        if($vacio && $no){
             $puntos = punto::all();
             return json_encode($puntos);
-        }else{
-            $sitios = array();
-            $pune = array();
-            $filto = $request->get("filtro_etiqueta");
-            // $puntos = punto::with(['etiquetas'])->Where('etiqueta','=',$request->get("filtro_etiqueta"))->get();
-            $puntos = DB::select('Select punto from punto_etiquetas where etiqueta ='.$filto);
-            foreach ($puntos as $punto){
-                $sitios[]=$punto->punto;
-            }
-            foreach ($sitios as $sitio){
-                $pune[] = punto::where('id', '=', $sitio)->get();
-            }
-            return json_encode($pune);
+        }elseif(!$vacio && $no){
+            $puntos = punto::where('nombre','LIKE','%'.$request->get('filtro_nombre').'%')->get();
+            return json_encode($puntos);
+        }elseif(!$vacio && !$no){
+            $query = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud')->join('punto_etiquetas','punto_etiquetas.punto','=','puntos.id')->where('puntos.nombre','LIKE','%'.$request->get('filtro_nombre').'%')->where('punto_etiquetas.etiqueta','=',$request->get('filtro_etiqueta'))->get();
+            return json_encode($query);
         }
-
+        else{
+            $query = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud')->join('punto_etiquetas','punto_etiquetas.punto','=','puntos.id')->where('punto_etiquetas.etiqueta','=',$request->get('filtro_etiqueta'))->get();
+            return json_encode($query);
+        }
+       
     }
+
+
 
     //Función para devolver la vista del login
     public function index(){

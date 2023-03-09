@@ -36,27 +36,14 @@ function filtrar() {
 
     ajax.onload = function() {
         data = JSON.parse(ajax.responseText)
-
+        console.log(data);
         layerGroup.clearLayers();
         try {
-            if (filtro_etiqueta.value == 'NO') {
-                for (let index = 0; index < data.length; index++) {
-                    const element = data[index];
-                    var mymarker = L.marker([element.coordenadas.split(",")[0], element.coordenadas.split(",")[1]]).addTo(layerGroup);
-
-                    mymarker.bindPopup("<b>" + element.nombre + "</b>");
-
-                }
-            } else {
-                for (let index = 0; index < data.length; index++) {
-                    const element = data[index];
-                    for (let i = 0; i < element.length; i++) {
-                        var mymarker = L.marker([element[i].coordenadas.split(",")[0], element[i].coordenadas.split(",")[1]]).addTo(layerGroup);
-                        mymarker.bindPopup("<b>" + element[i].nombre + "</b>");
-                    }
-                }
+            for (let index = 0; index < data.length; index++) {
+                const element = data[index];
+                var mymarker = L.marker([element.latitud, element.longitud]).addTo(layerGroup);
+                mymarker.bindPopup("<b>" + element.nombre + "</b>");
             }
-
         } catch (e) {
             console.log(e);
         }
