@@ -46,23 +46,23 @@ var marker, circle, lat, long, accuracy;
 
 getLocation();
 
-function getLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
-    }
-}
+// function getLocation() {
+//     if (navigator.geolocation) {
+//         navigator.geolocation.getCurrentPosition(showPosition);
+//     }
+// }
 
-function showPosition(position) {
-    document.getElementById("lat").value = position.coords.latitude
-    document.getElementById("lon").value = position.coords.longitude;
-    // if (1 == 2) {
-    //     L.Routing.control({
-    //         waypoints: [
-    //             L.latLng(document.getElementById("lat").value, document.getElementById("lon").value),
-    //             L.latLng(57.6792, 11.949)
-    //         ]
-    //     }).addTo(map);
-}
+// function showPosition(position) {
+//     document.getElementById("lat").value = position.coords.latitude
+//     document.getElementById("lon").value = position.coords.longitude;
+//     // if (1 == 2) {
+//     //     L.Routing.control({
+//     //         waypoints: [
+//     //             L.latLng(document.getElementById("lat").value, document.getElementById("lon").value),
+//     //             L.latLng(57.6792, 11.949)
+//     //         ]
+//     //     }).addTo(map);
+// }
 
 
 
@@ -117,12 +117,17 @@ function modal(id) {
     var resultado = document.getElementById('datos_modal');
 
     var ajax = new XMLHttpRequest();
+}
+let formdata = new FormData;
+formdata.append("_token", csrf_token);
+formdata.append("id", id);
 
-    let formdata = new FormData;
-    formdata.append("_token", csrf_token);
-    formdata.append("id", id);
+ajax.open('POST', "recoger_datos_etiqueta");
 
-    ajax.open('POST', "recoger_datos_etiqueta");
+ajax.onload = function() {
+    // console.log(ajax.responseText);
+    data = JSON.parse(ajax.responseText)
+    console.log(data);
 
     ajax.onload = function() {
         // console.log(ajax.responseText);
