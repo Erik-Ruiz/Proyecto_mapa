@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class UsuarioController extends Controller{
+
     public function pagina_mapa_principal(Request $request){
         $id = Usuario::find(session()->get('id'));
         $personal = etiqueta::all()->where('campo', '<>', 1);
@@ -22,6 +23,34 @@ class UsuarioController extends Controller{
     }
 
     public function filtro_mapa_principal(Request $request){
+        $request->except("_token");
+        // if(empty($request->get("filtro_nombre"))){
+        //     $puntos = punto::all();
+        //    return json_encode($puntos);
+
+        // }else{
+        //     $puntos = punto::Where('nombre', 'like','%'.$request->get('filtro_nombre').'%')->get();
+        //     return json_encode($puntos);
+        // }
+
+
+        if($request->get("filtro_etiqueta")=="NO"){
+            $puntos = punto::all();
+            return json_encode($puntos);
+        }else{
+            $sitios = array();
+            $pune = array();
+            $filto = $request->get("filtro_etiqueta");
+            // $puntos = punto::with(['etiquetas'])->Where('etiqueta','=',$request->get("filtro_etiqueta"))->get();
+            $puntos = DB::select('Select punto from punto_etiquetas where etiqueta ='.$filto);
+            foreach ($puntos as $punto){
+                $sitios[]=$punto->punto;
+            }
+            foreach ($sitios as $sitio){
+                $pune[] = punto::where('id', '=', $sitio)->get();
+            }
+            return json_encode($pune);
+        }
 
     }
 
