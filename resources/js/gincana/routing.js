@@ -9,16 +9,16 @@ function getPuntosInteres(){
     var ajax = new XMLHttpRequest();
     ajax.open('GET', "pagina_gincana");
     ajax.onload = function() {
-        var puntos = JSON.parse(ajax.responseText);
+        var data = JSON.parse(ajax.responseText);
 
         for (let index = 0; index < data.length; index++) {
             const element = data[index];
-            var mymarker = L.marker([element.coordenadas.split(",")[0], element.coordenadas.split(",")[1]]).addTo(layerGroup);
+            var mymarker = L.marker([(element.latitud), (element.longitud)]).addTo(map);
 
             mymarker.bindPopup("<b>" + element.nombre + "</b>");
 
         }
-        
+
     }
     ajax.send();
 }
