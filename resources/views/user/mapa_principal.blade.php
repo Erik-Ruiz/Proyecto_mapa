@@ -68,16 +68,15 @@
         </div>
         <div class="filtros1">
 
-          <select class="select_etiquetas" name="id_genero" id="filtro_genero">
+          <select class="select_etiquetas" name="id_genero" id="filtro_etiqueta">
             <option value="NO" content="NO" ></option>
             @foreach ($etiquetas as $etiqueta)
                 <option value="{{$etiqueta->id}}" >{{$etiqueta->nombre}}</option>
             @endforeach
         </select>
-          <select class="select_personal">
-            <option value="r">Rojo</option>
-            <option value="a">Azul</option>
-            <option value="v">Verde</option>
+          <select class="select_personal" id="filtro_opinion">
+            <option value="NO" content="NO" ></option>
+            <option value="personal">Personal</option>
           </select>
         </div>
 
