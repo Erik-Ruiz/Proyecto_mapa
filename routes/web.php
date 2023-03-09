@@ -27,6 +27,8 @@ Route::get("/admin/crud",[UsuarioController::class, "crud"])->name("crud");
 Route::post("/totalData", [UsuarioController::class, "totalData"])->name("totalData");
 //Ruta para recibir la cantidad total de registros del crud
 Route::delete("/deleteCrud", [UsuarioController::class, "deleteCrud"])->name("deleteCrud");
+Route::post("/insertPICrud", [UsuarioController::class, "insertPICrud"])->name("insertPICrud");
+Route::post("/insertPruebaCrud", [UsuarioController::class, "insertPruebaCrud"])->name("insertPruebaCrud");
 //Ruta para recibir los datos de la tabla del crud
 Route::post("/getData", [UsuarioController::class, "getData"])->name("getData");
 

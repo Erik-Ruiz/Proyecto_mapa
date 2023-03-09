@@ -35,6 +35,11 @@ function getTotalData(){
 
 function clickChange(id){
     crudData = id;
+    if(id == 1)
+        document.getElementById("btnAdd").disabled = true;
+    else
+        document.getElementById("btnAdd").disabled = false;
+
     getTotalData();
 }
 
@@ -53,7 +58,7 @@ function getData(){
         }else if(crudData == 2){
             tableContent = "<tr><th>Nombre</th><th>Descripción</th><th>Coordenadas</th><th>Usuario</th><th>Acciones</th></tr>"
         }else if(crudData == 3){
-            tableContent = "<tr><th>Nombre</th><th>Pregunta</th><th>Pista</th><th>Respuesta</th><th>Coordenadas</th><th>acciones</th></tr>"
+            tableContent = "<tr><th>Nombre</th><th>Pregunta</th><th>Pista</th><th>Respuesta</th><th>Coordenadas</th><th>Acciones</th></tr>"
         }else{
             tableContent = ""
         }
@@ -61,9 +66,9 @@ function getData(){
             if(crudData == 1){
                 tableContent += `<tr><th>${element.username}</th><th>${element.nombre} ${element.apellidos}</th><th>${element.correo}</th><th>${element.grupo}</th><th><button onclick=eliminar(1,${element.id})>Eliminar</button></th></th></tr>`
             }else if(crudData == 2){
-                tableContent += `<tr><th>${element.nombre}</th><th>${element.descripcion} </th><th>${element.coordenadas}</th><th>${element.username}</th><th><button onclick=eliminar(2,${element.id})>Eliminar</button></th></th></tr>`
+                tableContent += `<tr><th>${element.nombre}</th><th>${element.descripcion} </th><th>${element.latitud},${element.longitud}</th><th>${element.username}</th><th><button onclick=eliminar(2,${element.id})>Eliminar</button></th></th></tr>`
             }else if(crudData == 3){
-                tableContent += `<tr><th>${element.nombre}</th><th>${element.texto_pregunta}</th><th>${element.texto_pista}</th><th>${element.respuesta}</th><th>${element.coordenadas}</th><th><button onclick=eliminar(3,${element.id})>Eliminar</button></th></tr>`
+                tableContent += `<tr><th>${element.nombre}</th><th>${element.texto_pregunta}</th><th>${element.texto_pista}</th><th>${element.respuesta}</th><th>${element.latitud},${element.longitud}</th><th><button onclick=eliminar(3,${element.id})>Eliminar</button></th></tr>`
             }
         });
         document.getElementById("tableData").innerHTML = tableContent;
@@ -98,6 +103,64 @@ function eliminar(crudValue,id){
         }else{
             alert("Error: "+ajax.responseText);
         }
+    }
+    ajax.send(formdata);
+}
+
+function addRegister(){
+    if(crudData == 2){
+        form = '<form onsubmit="insertPIData()" enctype= multipart/form-data>' +
+        '<label>Nombre</label><br><input type="text" id="firstRowForm" placeholder="Escribe el nombre" name="nombre" required><br>' +
+        '<label>Descripción</label><br><textarea placeholder="Escribe la descripcion" name="descripcion"></textarea><br>' +
+        '<label>Latitud</label><br><input type="number" placeholder="Escribe la latitud" name="latitud" required><br>' +
+        '<label>Longitud</label><br><input type="number" placeholder="Escribe la longitud" name="longitud" required><br>' +
+        '<label>Imagen</label><br><input type="file" name="imagen" required><br>' +
+        '<input type="submit" value="Crear"></form>',
+        PopUpFormBasic("Añadir punto de interés", form);
+    }else if(crudData == 3){
+        form = '<form onsubmit="insertPruebaData()">' +
+        '<label>Nombre</label><br><input type="text" id="firstRowForm" placeholder="Escribe el nombre" name="nombre" required><br>' +
+        '<label>Pregunta</label><br><input  type="text" placeholder="Escribe la pregunta" name="pregunta" required><br>' +
+        '<label>Pista</label><br><input  type="text" placeholder="Escribe la pista" name="pista" required><br>' +
+        '<label>Respuesta</label><br><input  type="text" placeholder="Escribe la respuesta" name="respuesta" required><br>' +
+        '<label>Latitud</label><br><input  type="number" placeholder="Escribe la latitud" name="latitud" required><br>' +
+        '<label>Longitud</label><br><input type="number" placeholder="Escribe la longitud" name="longitud" required><br>' +
+        '<input type="submit" value="Crear"></form>',
+        PopUpFormBasic("Añadir prueba gimcana", form);
+    }
+}
+
+function PopUpFormBasic(titulo, formulario){
+    Swal.fire({
+        title: '<strong>'+titulo+'</strong>',
+        html: formulario,
+        showCloseButton: false,
+        showCancelButton: false,
+        showConfirmButton: false,
+    })
+    document.getElementById("firstRowForm").blur();
+}
+
+function insertPruebaData(){
+    event.preventDefault();
+    const formdata = new FormData(event.target);
+    formdata.append('_token', csrf_token);
+    var ajax = new XMLHttpRequest();
+    ajax.open('POST', "../insertPruebaCrud");
+    ajax.onload = function(){
+        console.log(ajax.responseText)
+    }
+    ajax.send(formdata);
+}
+
+function insertPIData(){
+    event.preventDefault();
+    const formdata = new FormData(event.target);
+    formdata.append('_token', csrf_token);
+    var ajax = new XMLHttpRequest();
+    ajax.open('POST', "../insertPICrud");
+    ajax.onload = function(){
+        console.log(ajax.responseText)
     }
     ajax.send(formdata);
 }

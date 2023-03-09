@@ -147,7 +147,7 @@ class UsuarioController extends Controller{
             }
             $data = $request->except('_token');
             if($data["crudData"] == 1){
-                $registerData = usuario::where("username","like","%".$data["buscar"]."%")->count();
+                $registerData = usuario::where("username","like","%".$data["buscar"]."%")->where("id","!=",$id)->count();
             }elseif($data["crudData"] == 2){
                 $registerData = punto::count();
             }elseif($data["crudData"] == 3){
@@ -169,9 +169,9 @@ class UsuarioController extends Controller{
             }
             $data = $request->except('_token');
             if($data["crudData"] == 1){
-                $registerData = usuario::select('usuarios.id','usuarios.username','usuarios.nombre','usuarios.apellidos','usuarios.correo','grupos.nombre as grupo')->join("grupos", 'grupos.id', '=', 'usuarios.grupo')->where("usuarios.username","like","%".$data["buscar"]."%")->get();
+                $registerData = usuario::select('usuarios.id','usuarios.username','usuarios.nombre',DB::raw('(CASE WHEN usuarios.apellidos IS NOT NULL THEN usuarios.apellidos  ELSE "" END) as apellidos'),'usuarios.correo','grupos.nombre as grupo')->join("grupos", 'grupos.id', '=', 'usuarios.grupo')->where("usuarios.username","like","%".$data["buscar"]."%")->where("usuarios.id","!=",$id)->get();
             }elseif($data["crudData"] == 2){
-                $registerData = punto::select('puntos.id',DB::raw('(CASE WHEN puntos.usuario > 0 THEN usuarios.username  ELSE "AYUJE" END) as username'),'puntos.nombre','puntos.descripcion','puntos.coordenadas')->leftjoin("usuarios", 'usuarios.id', '=', 'puntos.usuario')->where("puntos.nombre","like","%".$data["buscar"]."%")->get();
+                $registerData = punto::select('puntos.id',DB::raw('(CASE WHEN puntos.usuario > 0 THEN usuarios.username  ELSE "AYUJE" END) as username'),'puntos.nombre',DB::raw('(CASE WHEN puntos.descripcion IS NOT NULL THEN puntos.descripcion  ELSE "" END) as descripcion'),'puntos.latitud','puntos.longitud')->leftjoin("usuarios", 'usuarios.id', '=', 'puntos.usuario')->where("puntos.nombre","like","%".$data["buscar"]."%")->get();
             }elseif($data["crudData"] == 3){
                 $registerData = prueba::where("nombre","like","%".$data["buscar"]."%")->get();
             }else{
@@ -208,5 +208,13 @@ class UsuarioController extends Controller{
             DB::rollBack();
             return $e->getMessage();
         }
+    }
+
+    public function insertPICrud(Request $request){
+
+    }
+
+    public function insertPruebaCrud(Request $request){
+        if(empty($request["nombre"]) && empty($request["pregunta"]) && empty($request["pista"]))
     }
 }
