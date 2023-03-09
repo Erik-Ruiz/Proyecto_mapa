@@ -39,6 +39,13 @@ class UsuarioController extends Controller{
     }
 
 
+    public function recoger_datos_etiqueta(Request $request){
+        $request->except("_token");
+        $datos = punto::where('id', $request->get("id"))->first();
+
+        return json_encode($datos);
+    }
+
 
     //Función para devolver la vista del login
     public function index(){

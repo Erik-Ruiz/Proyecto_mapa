@@ -42,7 +42,9 @@ function filtrar() {
             for (let index = 0; index < data.length; index++) {
                 const element = data[index];
                 var mymarker = L.marker([element.latitud, element.longitud]).addTo(layerGroup);
-                mymarker.bindPopup("<b>" + element.nombre + "</b>");
+
+                mymarker.bindPopup("<b>" + element.nombre + "</b> <input type='button' onclick=modal(" + (element.id) + ") value='Detalles' id='VerDetalles'>");
+
             }
         } catch (e) {
             console.log(e);
@@ -52,3 +54,38 @@ function filtrar() {
 
 }
 filtrar('');
+
+function modal(id) {
+
+    var ajax = new XMLHttpRequest();
+
+    let formdata = new FormData;
+    formdata.append("_token", csrf_token);
+    formdata.append("id", id);
+
+    ajax.open('POST', "recoger_datos_etiqueta");
+
+    ajax.onload = function() {
+        console.log(ajax.responseText);
+        // data = JSON.parse(ajax.responseText)
+
+        // var modal = document.getElementById("ModalDetalles");
+
+        // var btn = document.getElementById("VerDetalles");
+
+        // var span = document.getElementsByClassName("close")[0];
+
+        // btn.onclick = function() {
+        // modal.style.display = "block";
+        // }
+
+        // span.onclick = function() {
+        // modal.style.display = "none";
+        // }
+
+
+    }
+    ajax.send(formdata);
+
+
+}
