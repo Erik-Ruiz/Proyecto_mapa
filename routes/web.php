@@ -44,8 +44,11 @@ Route::post("/filtro_mapa_principal",[UsuarioController::class, "filtro_mapa_pri
 //Recoger los datos de los popups para mostrar en el modal 
 Route::post('/recoger_datos_etiqueta', [UsuarioController::class, 'recoger_datos_etiqueta']);
 
+#region RUTAS GINCANA
+Route::get("/gincana",[UsuarioController::class, "view_gincana"]);
+Route::get("/pagina_gincana",[UsuarioController::class, "pagina_gincana"]);
 
-
+#endregion
 
 
 

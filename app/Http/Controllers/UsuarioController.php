@@ -214,4 +214,25 @@ class UsuarioController extends Controller{
     public function insertPruebaCrud(Request $request){
         // if(empty($request["nombre"]) && empty($request["pregunta"]) && empty($request["pista"]));
     }
+    #region Apartado Gincana
+    public function view_gincana (Request $request) {
+    if($request->session()->has("id")) {
+
+        return view("user.gincana");
+
+    } else
+        return redirect("/");
+    }
+    public function pagina_gincana (Request $request) {
+
+    if($request->session()->has("id")) {
+
+        $puntosInteres = punto::get();
+
+        return json_encode($puntosInteres);
+
+    } else
+        return redirect("/");
+    }
+    #endregion
 }
