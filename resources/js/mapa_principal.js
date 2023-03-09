@@ -53,7 +53,6 @@ function filtrar() {
                     for (let i = 0; i < element.length; i++) {
                         var mymarker = L.marker([element[i].coordenadas.split(",")[0], element[i].coordenadas.split(",")[1]]).addTo(layerGroup);
                         mymarker.bindPopup("<b>" + element[i].nombre + "</b>");
-
                     }
                 }
             }
