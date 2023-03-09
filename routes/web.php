@@ -36,6 +36,8 @@ Route::get("/user/mapa_main",[UsuarioController::class, "user"]);
 Route::get('/mapa_principal', [UsuarioController::class, 'pagina_mapa_principal']);
 //Listar los puntos de interés para el mapa
 Route::post("/filtro_mapa_principal",[UsuarioController::class, "filtro_mapa_principal"]);
+//Recoger los datos de los popups para mostrar en el modal 
+Route::post('/recoger_datos_etiqueta', [UsuarioController::class, 'recoger_datos_etiqueta']);
 
 
 
