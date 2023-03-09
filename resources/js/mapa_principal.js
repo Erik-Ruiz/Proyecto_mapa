@@ -39,16 +39,11 @@ function filtrar() {
         console.log(data);
         layerGroup.clearLayers();
         try {
-
             for (let index = 0; index < data.length; index++) {
                 const element = data[index];
                 var mymarker = L.marker([element.latitud, element.longitud]).addTo(layerGroup);
-
                 mymarker.bindPopup("<b>" + element.nombre + "</b>");
             }
-
-
-
         } catch (e) {
             console.log(e);
         }
