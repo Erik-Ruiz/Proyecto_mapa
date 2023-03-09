@@ -37,8 +37,11 @@ Route::get('/mapa_principal', [UsuarioController::class, 'pagina_mapa_principal'
 //Listar los puntos de interés para el mapa
 Route::post("/filtro_mapa_principal",[UsuarioController::class, "filtro_mapa_principal"]);
 
+#region RUTAS GINCANA
+Route::get("/gincana",[UsuarioController::class, "view_gincana"]);
+Route::get("/pagina_gincana",[UsuarioController::class, "pagina_gincana"]);
 
-
+#endregion
 
 
 

@@ -1,22 +1,27 @@
-/* var map = L.map('map');
-
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© OpenStreetMap contributors'
-}).addTo(map);
-
-L.Routing.control({
-    waypoints: [
-        L.latLng(41.38254349956717, 2.186150194834897),
-        L.latLng(41.3842652269854, 2.1811850599740614)
-    ],
-    routeWhileDragging: true
-}).addTo(map); */
-
 var map = L.map('map');
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© OpenStreetMap contributors'
 }).addTo(map);
+
+function getPuntosInteres(){
+
+    var ajax = new XMLHttpRequest();
+    ajax.open('GET', "pagina_gincana");
+    ajax.onload = function() {
+        var puntos = JSON.parse(ajax.responseText);
+
+        for (let index = 0; index < data.length; index++) {
+            const element = data[index];
+            var mymarker = L.marker([element.coordenadas.split(",")[0], element.coordenadas.split(",")[1]]).addTo(layerGroup);
+
+            mymarker.bindPopup("<b>" + element.nombre + "</b>");
+
+        }
+        
+    }
+    ajax.send();
+}
 
 L.Routing.control({
     waypoints: [
@@ -25,3 +30,6 @@ L.Routing.control({
     ],
     routeWhileDragging: true
 }).addTo(map);
+
+getPuntosInteres();
+

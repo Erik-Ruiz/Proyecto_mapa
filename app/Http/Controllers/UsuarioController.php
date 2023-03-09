@@ -61,7 +61,7 @@ class UsuarioController extends Controller{
         $user = $request->except("_token");
         //Recogemos el usuario de la base de datos( si existe )
         $userDB = usuario::where("username","=",$user["username"])->where("password","=",sha1($user["password"]))->get();
-        //Comprobamos si existe un usuario con esos datos 
+        //Comprobamos si existe un usuario con esos datos
         if(count($userDB) == 0){
             //Si no existe lo redirigimos al login
             return redirect("/");
@@ -78,7 +78,7 @@ class UsuarioController extends Controller{
             }
         }
     }
-    
+
     //Perfil
     public function perfil(Request $request){
         //Comprobamos si existe la sesion para redirigirlo a la página
@@ -88,7 +88,7 @@ class UsuarioController extends Controller{
             return redirect("/");
     }
    //Crud
-   
+
     //Funcion para devolver el crud
     public function crud(Request $request){
         //Comprobamos si existe la sesion para redirigirlo a la página
@@ -116,7 +116,7 @@ class UsuarioController extends Controller{
         $user= $request->except("_token");
         //comprobamos si exsiste el usuario
         $userDB = usuario::where("username","=", $user["username"])->orwhere("correo","=", $user["correo"])->get()->count();
-        if ($userDB==0){           
+        if ($userDB==0){
             $insertaruser= new usuario();
             $insertaruser->username= $user["username"];
             $insertaruser->nombre= $user["nombre"];
@@ -178,4 +178,26 @@ class UsuarioController extends Controller{
             return "NOT AUTORIZED";
         }
     }
+
+    #region Apartado Gincana
+    public function view_gincana (Request $request) {
+        if($request->session()->has("id")) {
+
+            return view("user.gincana");
+
+        } else
+            return redirect("/");
+    }
+    public function pagina_gincana (Request $request) {
+
+        if($request->session()->has("id")) {
+
+            $puntosInteres = punto::get();
+
+            return json_encode($puntosInteres);
+
+        } else
+            return redirect("/");
+    }
+    #endregion
 }

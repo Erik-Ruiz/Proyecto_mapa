@@ -9,7 +9,7 @@
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
 
-    <link rel="stylesheet" href="../css/gincana.css">
+    <link rel="stylesheet" href="../resources/css/gincana.css">
 
     <title>Gincana</title>
 </head>
@@ -20,7 +20,7 @@
     <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
 
     <!-- <script src="../js/gincana/ubicacionActual.js"></script> -->
-    <script src="../js/gincana/routing.js"></script>
+    <script src="../resources/js/gincana/routing.js"></script>
 
 
 
