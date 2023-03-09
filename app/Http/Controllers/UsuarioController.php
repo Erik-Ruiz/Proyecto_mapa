@@ -212,6 +212,6 @@ class UsuarioController extends Controller{
     }
 
     public function insertPruebaCrud(Request $request){
-        if(empty($request["nombre"]) && empty($request["pregunta"]) && empty($request["pista"]))
+        // if(empty($request["nombre"]) && empty($request["pregunta"]) && empty($request["pista"]));
     }
 }

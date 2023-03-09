@@ -8,7 +8,7 @@
   <title>Document</title>
 
   <!-- Token -->
-  <meta name='csrf-token' content="{{ csrf_token() }}" id="token" />
+  <meta name='csrf-token' content="{{csrf_token()}}" id="token" />
 
   <!-- CSS -->
   <link rel="stylesheet" href="../resources/css/mapa_principal.css">
