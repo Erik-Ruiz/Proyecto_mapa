@@ -3,23 +3,81 @@ var layerGroup = L.layerGroup().addTo(map);
 const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
+L.Control.geocoder().addTo(map);
+// if (!navigator.geolocation) {
+//     console.log("Your browser doesn't support geolocation feature!")
+// } else {
+//     setInterval(() => {
+//         navigator.geolocation.getCurrentPosition(getPosition)
+//     }, 5000);
+// };
+var marker, circle, lat, long, accuracy;
 
+// function getPosition(position) {
+//     // console.log(position)
+//     lat = position.coords.latitude
+//     long = position.coords.longitude
+//     accuracy = position.coords.accuracy
+
+//     if (marker) {
+//         map.removeLayer(marker)
+//     }
+
+//     if (circle) {
+//         map.removeLayer(circle)
+//     }
+
+//     marker = L.marker([lat, long])
+//     circle = L.circle([lat, long], {
+//         radius: accuracy
+//     })
+
+//     var featureGroup = L.featureGroup([marker, circle]).addTo(map)
+
+//     map.fitBounds(featureGroup.getBounds())
+//         // L.Routing.control({
+//         //     waypoints: [
+//         //         L.latLng(lat, long),
+//         //         L.latLng(57.6792, 11.949)
+//         //     ]
+//         // }).addTo(map);
+//         // console.log("Your coordinate is: Lat: " + lat + " Long: " + long + " Accuracy: " + accuracy)
+// }
+
+getLocation();
+
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    }
+}
+
+function showPosition(position) {
+    document.getElementById("lat").value = position.coords.latitude
+    document.getElementById("lon").value = position.coords.longitude;
+    // if (1 == 2) {
+    //     L.Routing.control({
+    //         waypoints: [
+    //             L.latLng(document.getElementById("lat").value, document.getElementById("lon").value),
+    //             L.latLng(57.6792, 11.949)
+    //         ]
+    //     }).addTo(map);
+}
+
+
+
+//Filtros del mapa
 var csrf_token = token.content;
-
-
 filtro_nombre.addEventListener('keyup', () => {
     filtrar()
 })
 
-
 filtro_etiqueta.addEventListener('change', () => {
     filtrar()
 })
-
 filtro_opinion.addEventListener('change', () => {
     filtrar()
 })
-
 
 
 function filtrar() {
@@ -36,7 +94,6 @@ function filtrar() {
 
     ajax.onload = function() {
         data = JSON.parse(ajax.responseText)
-        console.log(data);
         layerGroup.clearLayers();
         try {
             for (let index = 0; index < data.length; index++) {
@@ -55,7 +112,7 @@ function filtrar() {
 }
 filtrar('');
 
-function modal(id){
+function modal(id) {
 
     var resultado= document.getElementById('datos_modal');
 
