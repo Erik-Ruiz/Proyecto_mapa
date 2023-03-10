@@ -44,17 +44,30 @@ var marker, circle, lat, long, accuracy;
 //         // console.log("Your coordinate is: Lat: " + lat + " Long: " + long + " Accuracy: " + accuracy)
 // }
 
-// getLocation();
 
 // function getLocation() {
 //     if (navigator.geolocation) {
 //         navigator.geolocation.getCurrentPosition(showPosition);
 //     }
 // }
+// getLocation();
+
+// if (!navigator.geolocation) {
+//     console.log("Your browser doesn't support geolocation feature!")
+// } else {
+//     setInterval(() => {
+//         navigator.geolocation.getCurrentPosition(showPosition);
+//     }, 5000);
+// };
 
 // function showPosition(position) {
-//     document.getElementById("lat").value = position.coords.latitude
-//     document.getElementById("lon").value = position.coords.longitude;
+
+//     lat = position.coords.latitude;
+//     long = position.coords.longitude;
+//     marker = L.marker([lat, long]).addTo(map);
+//     var featureGroup = L.featureGroup([marker]).addTo(map);
+//     map.fitBounds(featureGroup.getBounds());
+
 //     // if (1 == 2) {
 //     //     L.Routing.control({
 //     //         waypoints: [
