@@ -141,35 +141,7 @@ function modal(id) {
         data = JSON.parse(ajax.responseText)
         console.log(data);
         var modal1 = ``;
-        if (data.length == 1) {
-            modal1 += `
-            <div id="ModalDetalles" class="modal" style="width: 400px; height: 500px; margin-top: 50px; margin-left: 10px;">
-
-                <div class="modal-content" style="align-items: center; width:400px">
-                    <div class="modal-header" style="width: 100%; display: inline;">
-                        <span class="close">&times;</span>
-                        <h2 style=" margin-right: 20%;">${data[0].nombre}</h2>
-                    </div>
-                    <div class="modal-body">
-                        <div id="form" style="width: 23rem;">
-                
-                
-                        <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">${data[0].descripcion}</h5>
-                            <div style="display: flex; justify-content: space-between;">
-                                <button style="width: 40%" class="btn btn-success" id="btnRuta" ><i class="fa-solid fa-location-dot"></i></button>
-                                <button onclick=favoritos(${data[0].id}) style="width: 40%" class="btn btn-success" id="btnFavorito" ><i class="fa-solid fa-heart"></i></button>
-                            </div>
-                        </div>
-                
-                    </div>
-            
-                </div>
-            
-            </div>
-        `
-
-        } else {
-            modal1 += `
+        modal1 += `
                             
             <div id="ModalDetalles" class="modal" style="width: 400px; height: 500px; margin-top: 50px; margin-left: 10px;">
 
@@ -195,8 +167,6 @@ function modal(id) {
             
             </div>
         `
-        }
-
 
 
         datos_modal.innerHTML = modal1;
@@ -214,15 +184,11 @@ function modal(id) {
         span.onclick = function() {
             modal.style.display = "none";
         }
-        if (data.length == 1) {
-            if (data[0].punto == data[0].id) {
-                document.getElementById("btnFavorito").classList.add("btn-danger");
-            } else {
-                // document.getElementById("btnFavorito").classList.add("btn-alert");
-
-            }
+        if (data.punto == data.id) {
+            document.getElementById("btnFavorito").classList.add("btn-danger");
+        } else {
+            // document.getElementById("btnFavorito").classList.add("btn-alert");
         }
-
 
     }
     ajax.send(formdata);
