@@ -103,7 +103,8 @@ class UsuarioController extends Controller{
 
     public function register(Request $request) {
         //Filtro para que no envie campos vacios
-        if (!empty($request['username']) && !empty($request['nombre']) && !empty($request['apellidos']) && !empty($request['correo']) && !empty($request['grupo']) && !empty($request['password']) && !empty($request['passwordrepetida'])) {
+        if (!empty(
+            $request['username']) && !empty($request['nombre']) && !empty($request['apellidos']) && !empty($request['correo']) && !empty($request['grupo']) && !empty($request['password']) && !empty($request['passwordrepetida'])) {
             //Suprimir campos en blanco
             $request['username'] = str_replace(' ', '', $request['username']);
             $request['nombre'] = str_replace(' ', '', $request['username']);
@@ -249,7 +250,11 @@ class UsuarioController extends Controller{
     }
 
     public function insertPruebaCrud(Request $request){
-        // if(empty($request["nombre"]) && empty($request["pregunta"]) && empty($request["pista"]));
+        if(!empty($request["nombre"]) && !empty($request["pregunta"]) && !empty($request["pista"]) && !empty($request["respuesta"]) && !empty($request["latitud"]) && !empty($request["longitud"])){
+            dd($request);
+        }else{
+            return "errorRellenar";
+        }
     }
     #region Apartado Gincana
     public function view_gincana (Request $request) {
