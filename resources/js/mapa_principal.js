@@ -168,7 +168,7 @@ function modal(id) {
         btn.onclick = function() {
             modal.style.display = "block";
         }
-
+        btn.click();
         span.onclick = function() {
             modal.style.display = "none";
         }
