@@ -15,6 +15,10 @@ use Illuminate\Support\Facades\DB;
 
 class UsuarioController extends Controller{
 
+    /*------*/
+    /* Mapa */
+    /*------*/
+
     public function pagina_mapa_principal(Request $request){
         $id = Usuario::find(session()->get('id'));
         $personal = etiqueta::all()->where('campo', '<>', 1);
@@ -42,18 +46,13 @@ class UsuarioController extends Controller{
        
     }
 
-
+    //Hacemos una consulta para recoger los datos del punto al que han clickado
     public function recoger_datos_etiqueta(Request $request){
-        $request->except("_token");
-        $datos = punto::where('id', $request->get("id"))->first();
-
-        return json_encode($datos);
+        
     }
-
 
     //Función para devolver la vista del login
     public function index(){
-        return view("index");
     }
 
     //Función para logearte
@@ -80,7 +79,11 @@ class UsuarioController extends Controller{
         }
     }
     
-    //Perfil
+    
+    /*--------*/
+    /* Perfil */
+    /*--------*/
+
     public function perfil(Request $request){
         //Comprobamos si existe la sesion para redirigirlo a la página
         if($request->session()->has("id"))
@@ -88,7 +91,63 @@ class UsuarioController extends Controller{
         else
             return redirect("/");
     }
-   //Crud
+
+
+    /*------------*/
+    /* Registrar */
+    /*-----------*/
+
+    public function register(Request $request) {
+        //Filtro para que no envie campos vacios
+        if (!empty($request['username']) && !empty($request['nombre']) && !empty($request['apellidos']) && !empty($request['correo']) && !empty($request['grupo']) && !empty($request['password']) && !empty($request['passwordrepetida'])) {
+            //Suprimir campos en blanco
+            $request['username'] = str_replace(' ', '', $request['username']);
+            $request['nombre'] = str_replace(' ', '', $request['username']);
+            $request['password'] = str_replace(' ', '', $request['password']);
+            $request['passwordrepetida'] = str_replace(' ', '', $request['passwordrepetida']);
+            //Filtro para que no envie nada vacio
+            if (!empty(trim($request['username'])) && !empty(trim($request['nombre'])) && !empty(trim($request['correo'])) && !empty(trim($request['grupo'])) && !empty(trim($request['password'])) && !empty(trim($request['passwordrepetida']))) {
+                // Validar la dirección de correo electrónico
+                if (filter_var(trim($request['correo']), FILTER_VALIDATE_EMAIL)) {
+                    if($request['password'] == $request['passwordrepetida']){
+                        // Comprobar si el usuario ya existe en la base de datos
+                        $userDB = usuario::where("username", "=", $request["username"])->orWhere("correo", "=", $request["correo"])->count();
+                        // Insertar el usuario en la base de datos si no existe
+                        if ($userDB == 0) {
+                            $insertaruser = new usuario();
+                            $insertaruser->username = $request["username"];
+                            $insertaruser->nombre = $request["nombre"];
+                            $insertaruser->apellidos = $request["apellidos"];
+                            $insertaruser->correo = $request["correo"];
+                            $insertaruser->grupo = $request["grupo"];
+                            $insertaruser->password = sha1($request["password"]);
+                            $insertaruser->admin = false;
+                            $insertaruser->save();
+
+                            $request->session()->put('id', $insertaruser['id']);
+                            return redirect("mapa_principal");
+                        } else {
+                            return redirect("/");
+                        }
+                    }else{
+                        return redirect("/");
+
+                    }
+                } else {
+                    // Redirigir al usuario a una página de error o mostrar un mensaje de error en la misma página
+                    return redirect("/");
+                }
+            }
+        } else {
+            return redirect("/");
+        }
+    }
+
+    
+
+    /*---------------------*/
+    /* Funcionamiento Crud */
+    /*---------------------*/
    
     //Funcion para devolver el crud
     public function crud(Request $request){
@@ -106,33 +165,6 @@ class UsuarioController extends Controller{
         }
         else
             return redirect("/");
-    }
-
-    /*------------*/
-    /* Registrar */
-    /*-----------*/
-
-    public function register(Request $request){
-        //recogemos el usuario
-        $user= $request->except("_token");
-        //comprobamos si exsiste el usuario
-        $userDB = usuario::where("username","=", $user["username"])->orwhere("correo","=", $user["correo"])->get()->count();
-        if ($userDB==0){           
-            $insertaruser= new usuario();
-            $insertaruser->username= $user["username"];
-            $insertaruser->nombre= $user["nombre"];
-            $insertaruser->apellidos= $user["apellidos"];
-            $insertaruser->correo= $user["correo"];
-            $insertaruser->grupo= $user["grupo"];
-            $insertaruser->password= $user["password"];
-            $insertaruser->admin=false;
-            $insertaruser->save();
-            // Iniciar sesión automáticamente después del registro
-            $request->session()->put('id', $insertaruser['id']);
-            return redirect("user/mapa_main");
-        }else{
-            return redirect("/");
-        }
     }
 
     public function totalData(Request $request){
@@ -157,6 +189,7 @@ class UsuarioController extends Controller{
             return "NOT AUTORIZED";
         }
     }
+
     public function getData(Request $request){
         if($request->session()->has('id')){
             $id = $request->session()->get("id");
