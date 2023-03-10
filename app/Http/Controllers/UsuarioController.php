@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\etiqueta;
 use App\Models\prueba;
 use App\Models\punto;
+use App\Models\favorito;
 use App\Models\punto_etiqueta;
 use App\Models\usuario;
 use Illuminate\Http\Request;
@@ -38,7 +39,7 @@ class UsuarioController extends Controller{
        
     }
 
-
+    //Hacemos una consulta para recoger los datos del punto al que han clickado
     public function recoger_datos_etiqueta(Request $request){
         $request->except("_token");
         $datos = punto::where('id', $request->get("id"))->first();
@@ -47,6 +48,30 @@ class UsuarioController extends Controller{
     }
 
 
+
+    public function darFavorito(Request $req){
+        if($req->session()->has('id')){
+            $id = $req->session()->get('id');
+            $punto=$req["id_punt"];
+            try{
+                $liked = favorito::where("usuario", "=", $id)->where("punto","=",$punto)->count();
+                if ($liked == 1){
+                    favorito::where("usuario", "=", $id)->where("punto","=",$punto)->delete();
+                    return "delete";
+                }else{
+                    $Fav = new favorito();
+                    $Fav->punto = $punto;
+                    $Fav->usuario = $id;
+                    $Fav->save();
+                    return "saved";
+                }
+            }catch(\Exception $e){
+                return $e;
+            }
+        }{
+            return route('login');
+        }
+    }
     //Función para devolver la vista del login
     public function index(){
         return view("index");
