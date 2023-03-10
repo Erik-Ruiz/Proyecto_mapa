@@ -5,7 +5,6 @@ use App\Models\etiqueta;
 use App\Models\favorito;
 use App\Models\prueba;
 use App\Models\punto;
-use App\Models\favorito;
 use App\Models\punto_etiqueta;
 use App\Models\registro;
 use App\Models\usuario;
