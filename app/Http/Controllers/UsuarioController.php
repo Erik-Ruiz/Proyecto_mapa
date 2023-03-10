@@ -48,15 +48,15 @@ class UsuarioController extends Controller{
 
     //Hacemos una consulta para recoger los datos del punto al que han clickado
     public function recoger_datos_etiqueta(Request $request){
+        $request->except("_token");
+        $datos = punto::where('id', $request->get("id"))->first();
+        return json_encode($datos);
         
     }
 
-    /*--------*/
-    /* Login */
-    /*--------*/
-
     //Función para devolver la vista del login
     public function index(){
+        return view("index");
     }
 
     //Función para logearte
@@ -83,10 +83,7 @@ class UsuarioController extends Controller{
         }
     }
     
-<<<<<<< HEAD
-=======
     
->>>>>>> 63a17dee2fdfc29663de89b231110f7404b85b0b
     /*--------*/
     /* Perfil */
     /*--------*/
@@ -219,16 +216,6 @@ class UsuarioController extends Controller{
             return "NOT AUTORIZED";
         }
     }
-<<<<<<< HEAD
-    
-    /*---------*/
-    /*  */
-    /*---------*/
-
-
-
-}
-=======
 
     public function deleteCrud(Request $request){
         $id = $request->input('id');
@@ -286,4 +273,3 @@ class UsuarioController extends Controller{
     }
     #endregion
 }
->>>>>>> 63a17dee2fdfc29663de89b231110f7404b85b0b

@@ -44,7 +44,7 @@ var marker, circle, lat, long, accuracy;
 //         // console.log("Your coordinate is: Lat: " + lat + " Long: " + long + " Accuracy: " + accuracy)
 // }
 
-getLocation();
+// getLocation();
 
 // function getLocation() {
 //     if (navigator.geolocation) {
@@ -114,23 +114,17 @@ filtrar('');
 
 function modal(id) {
 
-    var resultado = document.getElementById('datos_modal');
+    var datos_modal = document.getElementById('datos_modal');
 
     var ajax = new XMLHttpRequest();
-}
-let formdata = new FormData;
-formdata.append("_token", csrf_token);
-formdata.append("id", id);
 
-ajax.open('POST', "recoger_datos_etiqueta");
+    let formdata = new FormData;
+    formdata.append("_token", csrf_token);
+    formdata.append("id", id);
 
-ajax.onload = function() {
-    // console.log(ajax.responseText);
-    data = JSON.parse(ajax.responseText)
-    console.log(data);
+    ajax.open('POST', "recoger_datos_etiqueta");
 
     ajax.onload = function() {
-        // console.log(ajax.responseText);
         data = JSON.parse(ajax.responseText)
         console.log(data);
 
@@ -138,30 +132,31 @@ ajax.onload = function() {
 
 
         modal1 += `
-                        
-                <div id="ModalDetalles" class="modal">
+                            
+                    <div id="ModalDetalles" class="modal" style="width: 400px; height: 500px; margin-top: 50px; margin-left: 10px;">
 
-                    <div class="modal-content" style="align-items: center; width:500px">
-                    <div class="modal-header" style="width: 100%;">
-                        <span class="close">&times;</span>
-                        <h2 style=" margin-right: 50%;">${data.nombre}</h2>
-                    </div>
-                    <div class="modal-body">
-                        <div id="form" style="width: 23rem;">
-                
-                
-                        <h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Correo</h3>
-                
-                        <button style="width: 100%" class="btn btn-success" id="form_correo_btn" ><i class="fa-solid fa-envelope"></i></button>
-                
+                        <div class="modal-content" style="align-items: center; width:400px">
+                            <div class="modal-header" style="width: 100%; display: inline;">
+                                <span class="close">&times;</span>
+                                <h2 style=" margin-right: 20%;">${data.nombre}</h2>
+                            </div>
+                            <div class="modal-body">
+                                <div id="form" style="width: 23rem;">
+                        
+                        
+                                <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">${data.descripcion}</h5>
+                                    <div style="display: flex; justify-content: space-between;">
+                                        <button style="width: 40%" class="btn btn-success" id="btnRuta" ><i class="fa-solid fa-location-dot"></i></button>
+                                        <button onclick=favoritos(${data.id}) style="width: 40%" class="btn btn-success" id="btnFavorito" ><i class="fa-solid fa-heart"></i></button>
+                                    </div>
+                                </div>
+                        
+                            </div>
+                    
                         </div>
-                
+                    
                     </div>
-                
-                    </div>
-                
-                </div>
-            `
+                `
 
         datos_modal.innerHTML = modal1;
 
@@ -170,7 +165,6 @@ ajax.onload = function() {
         var btn = document.getElementById("VerDetalles");
 
         var span = document.getElementsByClassName("close")[0];
-
         btn.onclick = function() {
             modal.style.display = "block";
         }
@@ -178,8 +172,27 @@ ajax.onload = function() {
         span.onclick = function() {
             modal.style.display = "none";
         }
+
+
     }
     ajax.send(formdata);
 
-
 }
+
+// function favoritos(id){
+//     var ajax = new XMLHttpRequest();
+//     let formdata = new FormData;
+//     formdata.append("id_punt",id);
+//     formdata.append("_token",csrf_token);
+//     ajax.open('POST', "darFavorito");
+//     ajax.onload=function (){
+//         if(ajax.responseText == "delete"){
+//             document.getElementById("btnFavorito").classList.remove("btn-warning");
+//         }else if(ajax.responseText == "saved"){
+//             document.getElementById("btnFavorito").classList.add("btn-warning");
+//         }else{
+//             console.log(ajax.responseText);
+//         }
+//     }
+//     ajax.send(formdata);
+// }

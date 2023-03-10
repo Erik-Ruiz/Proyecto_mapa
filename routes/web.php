@@ -31,6 +31,8 @@ Route::get('/mapa_principal', [UsuarioController::class, 'pagina_mapa_principal'
 Route::post("/filtro_mapa_principal",[UsuarioController::class, "filtro_mapa_principal"]);
 //Recoger los datos de los popups para mostrar en el modal 
 Route::post('/recoger_datos_etiqueta', [UsuarioController::class, 'recoger_datos_etiqueta']);
+//Dar el favorito a el punto de interés 
+Route::post('/darFavorito', [UsuarioController::class, 'darFavorito']);
 
 #region RUTAS GINCANA
 Route::get("/gincana",[UsuarioController::class, "view_gincana"]);
