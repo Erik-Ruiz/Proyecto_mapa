@@ -141,7 +141,7 @@ function modal(id) {
         data = JSON.parse(ajax.responseText)
         console.log(data);
         var modal1 = ``;
-        if(data.length==1){
+        if (data.length == 1) {
             modal1 += `
             <div id="ModalDetalles" class="modal" style="width: 400px; height: 500px; margin-top: 50px; margin-left: 10px;">
 
@@ -167,8 +167,8 @@ function modal(id) {
             
             </div>
         `
-     
-        }else{
+
+        } else {
             modal1 += `
                             
             <div id="ModalDetalles" class="modal" style="width: 400px; height: 500px; margin-top: 50px; margin-left: 10px;">
@@ -196,11 +196,11 @@ function modal(id) {
             </div>
         `
         }
- 
 
-      
+
+
         datos_modal.innerHTML = modal1;
-   
+
 
         var modal = document.getElementById("ModalDetalles");
 
@@ -210,21 +210,16 @@ function modal(id) {
         btn.onclick = function() {
             modal.style.display = "block";
         }
-<<<<<<< HEAD
         btn.click();
-=======
-        btn.onclick();
-
->>>>>>> f1b6a04ce35adfeb99162ce4e78f6382519253fa
         span.onclick = function() {
             modal.style.display = "none";
         }
-        if(data.length==1){
-            if(data[0].punto == data[0].id){
+        if (data.length == 1) {
+            if (data[0].punto == data[0].id) {
                 document.getElementById("btnFavorito").classList.add("btn-danger");
-            }else{
+            } else {
                 // document.getElementById("btnFavorito").classList.add("btn-alert");
-    
+
             }
         }
 
@@ -234,20 +229,20 @@ function modal(id) {
 
 }
 
-function favoritos(id){
+function favoritos(id) {
     var ajax = new XMLHttpRequest();
     let formdata = new FormData;
-    formdata.append("id_punt",id);
-    formdata.append("_token",csrf_token);
+    formdata.append("id_punt", id);
+    formdata.append("_token", csrf_token);
     ajax.open('POST', "darFavorito");
-    ajax.onload=function (){
+    ajax.onload = function() {
 
         console.log(ajax.responseText);
-        if(ajax.responseText == "delete"){
+        if (ajax.responseText == "delete") {
             document.getElementById("btnFavorito").classList.remove("btn-danger");
-        }else if(ajax.responseText == "saved"){
+        } else if (ajax.responseText == "saved") {
             document.getElementById("btnFavorito").classList.add("btn-danger");
-        }else{
+        } else {
             console.log(ajax.responseText);
         }
     }
@@ -261,7 +256,7 @@ function favoritos(id){
 //     formdata.append("_token",csrf_token);
 //     ajax.open('POST', "getFavoritoUser");
 //     ajax.onload=function (){
-        
+
 //         console.log(ajax.responseText);
 //         if(ajax.responseText == 1){
 //             FavoritoSet = 1
