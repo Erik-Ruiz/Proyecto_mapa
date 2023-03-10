@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <!-- <link rel="stylesheet" href="{{ asset('../resources/css/index.css') }}">-->
 </head>
 <body>
     {{-- Formulario login --}}
@@ -46,5 +47,15 @@
     <input type="password" name="passwordrepetida" placeholder="Repite la contraseña">
     <input type="submit" value="Iniciar sesión">
     </form>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../resources/js/login.js"></script>
+    @php
+    if(isset($_GET['mensaje'])){
+        $mensaje = $_GET['mensaje'];
+        if($mensaje=="repenombre"){
+           echo "<script>repenombre()</script>";
+        }
+    }   
+    @endphp
 </body>
 </html>

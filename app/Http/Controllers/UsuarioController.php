@@ -134,8 +134,10 @@ class UsuarioController extends Controller{
                             return redirect("/");
                         }
                     }else{
-                        return redirect("/");
+                        $asd="repenombre";
+                        return redirect("/")->with("mensaje","prueba");
 
+                       //return route("index",compact('asd'));
                     }
                 } else {
                     // Redirigir al usuario a una página de error o mostrar un mensaje de error en la misma página
@@ -143,7 +145,7 @@ class UsuarioController extends Controller{
                 }
             }
         } else {
-            return redirect("/");
+            return redirect()->route("index", ['mensaje' => 'repenombre']);
         }
     }
 
