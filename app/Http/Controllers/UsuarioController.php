@@ -58,7 +58,7 @@ class UsuarioController extends Controller{
             $datos = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud', 'favoritos.punto')
             ->join('favoritos','puntos.id','=','favoritos.punto')
             ->where('favoritos.usuario','=', $request->session()->get('id'))->get();
-            return json_encode($datos);
+            return json_encode($datos[0]);
         }else{
             $datos = punto::where('id', $request->get("id"))->first();
             return json_encode($datos);
