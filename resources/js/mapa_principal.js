@@ -44,7 +44,7 @@ var marker, circle, lat, long, accuracy;
 //         // console.log("Your coordinate is: Lat: " + lat + " Long: " + long + " Accuracy: " + accuracy)
 // }
 
-getLocation();
+// getLocation();
 
 // function getLocation() {
 //     if (navigator.geolocation) {
