@@ -10,4 +10,7 @@ class etiqueta extends Model
     use HasFactory;
     protected $fillable = ['nombre'];
     public $timestamps = false;
+    public function punto(){
+        return $this->belongsToMany(punto::class, 'punto_etiquetas','etiqueta','punto');
+    }
 }

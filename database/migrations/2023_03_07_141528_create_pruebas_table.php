@@ -19,7 +19,9 @@ class CreatePruebasTable extends Migration
             $table->text("texto_pregunta");
             $table->text("texto_pista");
             $table->text("respuesta");
-            $table->string("coordenadas");
+            $table->float('latitud',17,15);
+            $table->float("longitud",17,15);
+
         });
     }
 
