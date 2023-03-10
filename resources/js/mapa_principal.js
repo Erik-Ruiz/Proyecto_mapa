@@ -113,30 +113,17 @@ function filtrar() {
 filtrar('');
 
 function modal(id) {
-
-    var resultado = document.getElementById('datos_modal');
-
     var ajax = new XMLHttpRequest();
-}
-let formdata = new FormData;
-formdata.append("_token", csrf_token);
-formdata.append("id", id);
+    let formdata = new FormData;
+    formdata.append("_token", csrf_token);
+    formdata.append("id", id);
 
-ajax.open('POST', "recoger_datos_etiqueta");
-
-ajax.onload = function() {
-    // console.log(ajax.responseText);
-    data = JSON.parse(ajax.responseText)
-    console.log(data);
-
+    ajax.open('POST', "recoger_datos_etiqueta");
     ajax.onload = function() {
         // console.log(ajax.responseText);
         data = JSON.parse(ajax.responseText)
         console.log(data);
-
         var modal1 = ``;
-
-
         modal1 += `
                         
                 <div id="ModalDetalles" class="modal" style="width: 400px; height: 500px; margin-top: 50px; margin-left: 10px;">
@@ -163,7 +150,6 @@ ajax.onload = function() {
                 
                 </div>
             `
-
         datos_modal.innerHTML = modal1;
 
         var modal = document.getElementById("ModalDetalles");
@@ -182,27 +168,22 @@ ajax.onload = function() {
     }
     ajax.send(formdata);
 
-
 }
 
-function favoritos(id){
+function favoritos(id) {
     var ajax = new XMLHttpRequest();
     let formdata = new FormData;
-    formdata.append("id_punt",id);
-    formdata.append("_token",csrf_token);
+    formdata.append("id_punt", id);
+    formdata.append("_token", csrf_token);
     ajax.open('POST', "darFavorito");
-    ajax.onload=function (){
-        if(ajax.responseText == "delete"){
+    ajax.onload = function() {
+        if (ajax.responseText == "delete") {
             document.getElementById("btnFavorito").classList.remove("btn-warning");
-        }else if(ajax.responseText == "saved"){
+        } else if (ajax.responseText == "saved") {
             document.getElementById("btnFavorito").classList.add("btn-warning");
-        }else{
+        } else {
             console.log(ajax.responseText);
         }
     }
     ajax.send(formdata);
 }
-
-
-
-    
