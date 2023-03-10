@@ -41,6 +41,9 @@
     <br>
     <label for="">Contraseña</label>
     <input type="password" name="password" placeholder="Escribe tu contraseña">
+    <br>
+    <label for="">Repita la contraseña</label> 
+    <input type="password" name="passwordrepetida" placeholder="Repite la contraseña">
     <input type="submit" value="Iniciar sesión">
     </form>
 </body>

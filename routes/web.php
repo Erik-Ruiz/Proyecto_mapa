@@ -3,17 +3,6 @@
 use App\Http\Controllers\UsuarioController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
 //Ruta para ir al login
 Route::get("/",[UsuarioController::class, "index"])->name("index");
 //Ruta para logearte
@@ -34,7 +23,6 @@ Route::post("/getData", [UsuarioController::class, "getData"])->name("getData");
 
 //Ruta para registrarte
 Route::post("/admin/register",[UsuarioController::class, "register"])->name("register");
-Route::get("/user/mapa_main",[UsuarioController::class, "user"]);
 
 //RUTAS PÁGINA PRINCIPAL MAPAS
 //Ruta mapa

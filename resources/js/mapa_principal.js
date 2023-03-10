@@ -124,14 +124,14 @@ function modal(id) {
 
     ajax.open('POST', "recoger_datos_etiqueta");
 
-        ajax.onload = function() {
-            data = JSON.parse(ajax.responseText)
-            console.log(data);
+    ajax.onload = function() {
+        data = JSON.parse(ajax.responseText)
+        console.log(data);
 
-            var modal1 = ``;
+        var modal1 = ``;
 
 
-            modal1 += `
+        modal1 += `
                             
                     <div id="ModalDetalles" class="modal" style="width: 400px; height: 500px; margin-top: 50px; margin-left: 10px;">
 
@@ -158,22 +158,21 @@ function modal(id) {
                     </div>
                 `
 
-            datos_modal.innerHTML = modal1;
+        datos_modal.innerHTML = modal1;
 
-            var modal = document.getElementById("ModalDetalles");
+        var modal = document.getElementById("ModalDetalles");
 
-            var btn = document.getElementById("VerDetalles");
+        var btn = document.getElementById("VerDetalles");
 
-            var span = document.getElementsByClassName("close")[0];
+        var span = document.getElementsByClassName("close")[0];
+        btn.onclick = function() {
+            modal.style.display = "block";
+        }
 
-            btn.onclick = function() {
-                modal.style.display = "block";
-            }
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
 
-            span.onclick = function() {
-                modal.style.display = "none";
-            }
-        
 
     }
     ajax.send(formdata);
@@ -197,7 +196,3 @@ function modal(id) {
 //     }
 //     ajax.send(formdata);
 // }
-
-
-
-    
