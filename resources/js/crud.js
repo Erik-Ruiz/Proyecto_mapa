@@ -58,7 +58,7 @@ function getData(){
         if(crudData == 1){
             tableContent = "<tr><th>Username</th><th>Nombre</th><th>Correo</th><th>Grupo</th><th>Acciones</th></tr>"
         }else if(crudData == 2){
-            tableContent = "<tr><th>Nombre</th><th>Descripción</th><th>Coordenadas</th><th>Usuario</th><th>Acciones</th></tr>"
+            tableContent = "<tr><th>Foto</th><th>Nombre</th><th>Descripción</th><th>Coordenadas</th><th>Usuario</th><th>Acciones</th></tr>"
         }else if(crudData == 3){
             tableContent = "<tr><th>Nombre</th><th>Pregunta</th><th>Pista</th><th>Respuesta</th><th>Coordenadas</th><th>Acciones</th></tr>"
         }else{
@@ -68,7 +68,7 @@ function getData(){
             if(crudData == 1){
                 tableContent += `<tr><th>${element.username}</th><th>${element.nombre} ${element.apellidos}</th><th>${element.correo}</th><th>${element.grupo}</th><th><button onclick=eliminar(1,${element.id})>Eliminar</button></th></th></tr>`
             }else if(crudData == 2){
-                tableContent += `<tr><th>${element.nombre}</th><th>${element.descripcion} </th><th>${element.latitud},${element.longitud}</th><th>${element.username}</th><th><button onclick=eliminar(2,${element.id})>Eliminar</button></th></th></tr>`
+                tableContent += `<tr><th><img src='../storage/img/${element.id}.jpg'></th><th>${element.nombre}</th><th>${element.descripcion} </th><th>${element.latitud},${element.longitud}</th><th>${element.username}</th><th><button onclick=eliminar(2,${element.id})>Eliminar</button></th></th></tr>`
             }else if(crudData == 3){
                 tableContent += `<tr><th>${element.nombre}</th><th>${element.texto_pregunta}</th><th>${element.texto_pista}</th><th>${element.respuesta}</th><th>${element.latitud},${element.longitud}</th><th><button onclick=eliminar(3,${element.id})>Eliminar</button></th></tr>`
             }
@@ -105,9 +105,20 @@ function eliminar(crudValue,id){
             pagAct = 0;
             document.getElementById("mostrarPag").innerHTML = "1";
             getTotalData();
-            alert(alertText)
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: alertText,
+                showConfirmButton: false,
+                timer: 1500
+              })
         }else{
-            alert("Error: "+ajax.responseText);
+            Swal.fire({
+                icon: 'error',
+                title: 'ERROR',
+                text: 'Ha ocurrido un error inesperado',
+              })
+            console.log("Error: "+ajax.responseText);
         }
     }
     ajax.send(formdata);
@@ -194,7 +205,35 @@ function insertPIData(){
     var ajax = new XMLHttpRequest();
     ajax.open('POST', "../insertPICrud");
     ajax.onload = function(){
-        console.log(ajax.responseText)
+        if(ajax.responseText == "errorNoSet"){
+            Swal.fire({
+                icon: 'error',
+                title: 'ERROR',
+                text: 'Tienes que rellenar los campos',
+              })
+        }else if(ajax.responseText == "errorCoordenas"){
+            Swal.fire({
+                icon: 'error',
+                title: 'ERROR',
+                text: 'Las coordenadas no son correctas',
+              })
+        }else if(ajax.responseText == "OK"){
+            getTotalData();
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Punto de interés insertado correctamente',
+                showConfirmButton: false,
+                timer: 1500
+              })
+        }else{
+            console.log(ajax.responseText);
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Algo salio mal',
+              })
+        }
     }
     ajax.send(formdata);
 }

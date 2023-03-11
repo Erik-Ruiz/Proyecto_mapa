@@ -234,6 +234,7 @@ class UsuarioController extends Controller{
             }elseif($crudValue == 2){
                 punto_etiqueta::where("punto","=",$id)->delete();
                 punto::where("id","=",$id)->delete();
+                unlink("../storage/app/public/img/".$id.".jpg");
             }else{
                 usuario_prueba::where("prueba","=",$id)->delete();
                 prueba::where("id","=",$id)->delete();
@@ -247,7 +248,29 @@ class UsuarioController extends Controller{
     }
 
     public function insertPICrud(Request $request){
-
+        if(empty($request["nombre"]) || empty($request["latitud"]) || empty($request["longitud"])){
+            return "errorNotSet";
+        }else{
+            if($request["latitud"] > 90 || $request["latitud"] < -90 || $request["longitud"] > 180 || $request["longitud"] < -180){
+                return "errorCoordenas";
+            }
+            try{
+                DB::beginTransaction();
+                $punto = new punto();
+                $punto->nombre = $request["nombre"];
+                $punto->descripcion = $request["descripcion"];
+                $punto->latitud = $request["latitud"];
+                $punto->longitud = $request["longitud"];
+                $punto->personal = 0;
+                $punto->save();
+                $request->file('imagen')->storeAs('/public/img', $punto->id.'.jpg');
+                DB::commit();
+                return "OK";
+            }catch(Exception $e){
+                DB::rollBack();
+                return $e->getMessage();
+            }
+        }
     }
 
     public function insertPruebaCrud(Request $request){
