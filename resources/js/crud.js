@@ -1,6 +1,6 @@
 crudData = 1;
 pagAct = 0;
-cantPag = 8;
+cantPag = 1;
 cantTotal = 0;
 textSearch = "";
 csrf_token = token.content;
@@ -35,6 +35,8 @@ function getTotalData(){
 
 function clickChange(id){
     crudData = id;
+    pagAct = 0;
+    document.getElementById("mostrarPag").innerHTML = "1";
     if(id == 1)
         document.getElementById("btnAdd").disabled = true;
     else
@@ -78,6 +80,8 @@ function getData(){
 
 function cambiarDataBuscar(){
     textSearch = event.target.value
+    pagAct = 0;
+    document.getElementById("mostrarPag").innerHTML = "1";
     getTotalData();
 }
 
@@ -98,6 +102,8 @@ function eliminar(crudValue,id){
             }else{
                 alertText = "Prueba de la gimcana eliminada"
             }
+            pagAct = 0;
+            document.getElementById("mostrarPag").innerHTML = "1";
             getTotalData();
             alert(alertText)
         }else{
@@ -148,7 +154,35 @@ function insertPruebaData(){
     var ajax = new XMLHttpRequest();
     ajax.open('POST', "../insertPruebaCrud");
     ajax.onload = function(){
-        console.log(ajax.responseText)
+        if(ajax.responseText == "errorNoSet"){
+            Swal.fire({
+                icon: 'error',
+                title: 'ERROR',
+                text: 'Tienes que rellenar los campos',
+              })
+        }else if(ajax.responseText == "errorCoordenas"){
+            Swal.fire({
+                icon: 'error',
+                title: 'ERROR',
+                text: 'Las coordenadas no son correctas',
+              })
+        }else if(ajax.responseText == "OK"){
+            getTotalData();
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Prueba insertada correctamente',
+                showConfirmButton: false,
+                timer: 1500
+              })
+        }else{
+            console.log(ajax.responseText);
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Algo salio mal',
+              })
+        }
     }
     ajax.send(formdata);
 }
@@ -163,4 +197,16 @@ function insertPIData(){
         console.log(ajax.responseText)
     }
     ajax.send(formdata);
+}
+
+function changePag(direction){
+    if(direction){
+        if(pagAct+1 < cantTotal)
+            pagAct ++
+    }else{
+        if(pagAct > 0)
+            pagAct--
+    }
+    document.getElementById("mostrarPag").innerHTML = pagAct+1;
+    getTotalData();
 }

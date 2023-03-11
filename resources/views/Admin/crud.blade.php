@@ -17,5 +17,8 @@
      <input type="text" placeholder="buscar" onkeyup="cambiarDataBuscar()">
      <table id="tableData" border="1">
      </table>
+     <button onclick="changePag(false)"><</button>
+     <button id="mostrarPag">1</button>
+     <button onclick="changePag(true)">></button>
 </body>
 </html>

@@ -196,18 +196,20 @@ class UsuarioController extends Controller{
 
     public function getData(Request $request){
         if($request->session()->has('id')){
+            $numRegistros = 1;
             $id = $request->session()->get("id");
+            $pagActual = $request["pagAct"];
             $user = usuario::where("id","=",$id)->get();
             if($user[0]["admin"]==0){
                 return "NOT AUTORIZED";
             }
             $data = $request->except('_token');
             if($data["crudData"] == 1){
-                $registerData = usuario::select('usuarios.id','usuarios.username','usuarios.nombre',DB::raw('(CASE WHEN usuarios.apellidos IS NOT NULL THEN usuarios.apellidos  ELSE "" END) as apellidos'),'usuarios.correo','grupos.nombre as grupo')->join("grupos", 'grupos.id', '=', 'usuarios.grupo')->where("usuarios.username","like","%".$data["buscar"]."%")->where("usuarios.id","!=",$id)->get();
+                $registerData = usuario::select('usuarios.id','usuarios.username','usuarios.nombre',DB::raw('(CASE WHEN usuarios.apellidos IS NOT NULL THEN usuarios.apellidos  ELSE "" END) as apellidos'),'usuarios.correo','grupos.nombre as grupo')->join("grupos", 'grupos.id', '=', 'usuarios.grupo')->where("usuarios.username","like","%".$data["buscar"]."%")->where("usuarios.id","!=",$id)->skip($pagActual*$numRegistros)->take($numRegistros)->get();
             }elseif($data["crudData"] == 2){
-                $registerData = punto::select('puntos.id',DB::raw('(CASE WHEN puntos.usuario > 0 THEN usuarios.username  ELSE "AYUJE" END) as username'),'puntos.nombre',DB::raw('(CASE WHEN puntos.descripcion IS NOT NULL THEN puntos.descripcion  ELSE "" END) as descripcion'),'puntos.latitud','puntos.longitud')->leftjoin("usuarios", 'usuarios.id', '=', 'puntos.usuario')->where("puntos.nombre","like","%".$data["buscar"]."%")->get();
+                $registerData = punto::select('puntos.id',DB::raw('(CASE WHEN puntos.usuario > 0 THEN usuarios.username  ELSE "AYUJE" END) as username'),'puntos.nombre',DB::raw('(CASE WHEN puntos.descripcion IS NOT NULL THEN puntos.descripcion  ELSE "" END) as descripcion'),'puntos.latitud','puntos.longitud')->leftjoin("usuarios", 'usuarios.id', '=', 'puntos.usuario')->where("puntos.nombre","like","%".$data["buscar"]."%")->skip($pagActual*$numRegistros)->take($numRegistros)->get();
             }elseif($data["crudData"] == 3){
-                $registerData = prueba::where("nombre","like","%".$data["buscar"]."%")->get();
+                $registerData = prueba::where("nombre","like","%".$data["buscar"]."%")->skip($pagActual*$numRegistros)->take($numRegistros)->get();
             }else{
                 return "";
             }
@@ -249,7 +251,26 @@ class UsuarioController extends Controller{
     }
 
     public function insertPruebaCrud(Request $request){
-        // if(empty($request["nombre"]) && empty($request["pregunta"]) && empty($request["pista"]));
+        if(empty($request["nombre"]) || empty($request["pregunta"]) || empty($request["pista"]) || empty($request["respuesta"]) || empty($request["latitud"]) || empty($request["longitud"])){
+            return "errorNotSet";
+        }else{
+            if($request["latitud"] > 90 || $request["latitud"] < -90 || $request["longitud"] > 180 || $request["longitud"] < -180){
+                return "errorCoordenas";
+            }
+            try{
+                $prueba = new prueba();
+                $prueba->nombre = $request["nombre"];
+                $prueba->texto_pregunta = $request["pregunta"];
+                $prueba->texto_pista = $request["pista"];
+                $prueba->respuesta = $request["respuesta"];
+                $prueba->latitud = $request["latitud"];
+                $prueba->longitud = $request["longitud"];
+                $prueba->save();
+                return "OK";
+            }catch(Exception $e){
+                return $e->getMessage();
+            }
+        }
     }
     #region Apartado Gincana
     public function view_gincana (Request $request) {
