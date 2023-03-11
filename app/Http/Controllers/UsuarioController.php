@@ -182,7 +182,7 @@ class UsuarioController extends Controller{
             if($data["crudData"] == 1){
                 $registerData = usuario::where("username","like","%".$data["buscar"]."%")->where("id","!=",$id)->count();
             }elseif($data["crudData"] == 2){
-                $registerData = punto::count();
+                $registerData = punto::where("personal","=",0)->count();
             }elseif($data["crudData"] == 3){
                 $registerData = prueba::count();
             }else{
@@ -191,6 +191,43 @@ class UsuarioController extends Controller{
             return $registerData;
         }else{
             return "NOT AUTORIZED";
+        }
+    }
+
+    public function modPICrud(Request $request){
+        if(empty($request["nombre"]) || empty($request["latitud"]) || empty($request["longitud"]) || empty($request["id"])){
+            return "errorNotSet";
+        }else{
+            if($request["latitud"] > 90 || $request["latitud"] < -90 || $request["longitud"] > 180 || $request["longitud"] < -180){
+                return "errorCoordenas";
+            }
+            try{
+                DB::beginTransaction();
+                punto::where("id","=",$request['id'])->update(["nombre" => $request["nombre"], "descripcion" => $request["descripcion"], "latitud" => $request["latitud"], "longitud" => $request["longitud"], "personal" => 0]);
+                if(count($request->file()) == 1)
+                    $request->file('imagen')->storeAs('/public/img', $request["id"].'.jpg');
+                DB::commit();
+                return "OK";
+            }catch(Exception $e){
+                DB::rollBack();
+                return $e->getMessage();
+            }
+        }
+    }
+
+    public function modPruebaCrud(Request $request){
+        if(empty($request["nombre"]) || empty($request["pregunta"]) || empty($request["pista"]) || empty($request["respuesta"]) || empty($request["latitud"]) || empty($request["longitud"])){
+            return "errorNotSet";
+        }else{
+            if($request["latitud"] > 90 || $request["latitud"] < -90 || $request["longitud"] > 180 || $request["longitud"] < -180){
+                return "errorCoordenas";
+            }
+            try{
+                prueba::where("id","=",$request['id'])->update(["nombre" => $request["nombre"], "texto_pregunta" => $request["pregunta"], "respuesta" => $request["respuesta"], "latitud" => $request["latitud"], "longitud" => $request["longitud"], "texto_pista" => $request["pista"]]);
+                return "OK";
+            }catch(Exception $e){
+                return $e->getMessage();
+            }
         }
     }
 
@@ -207,7 +244,7 @@ class UsuarioController extends Controller{
             if($data["crudData"] == 1){
                 $registerData = usuario::select('usuarios.id','usuarios.username','usuarios.nombre',DB::raw('(CASE WHEN usuarios.apellidos IS NOT NULL THEN usuarios.apellidos  ELSE "" END) as apellidos'),'usuarios.correo','grupos.nombre as grupo')->join("grupos", 'grupos.id', '=', 'usuarios.grupo')->where("usuarios.username","like","%".$data["buscar"]."%")->where("usuarios.id","!=",$id)->skip($pagActual*$numRegistros)->take($numRegistros)->get();
             }elseif($data["crudData"] == 2){
-                $registerData = punto::select('puntos.id',DB::raw('(CASE WHEN puntos.usuario > 0 THEN usuarios.username  ELSE "AYUJE" END) as username'),'puntos.nombre',DB::raw('(CASE WHEN puntos.descripcion IS NOT NULL THEN puntos.descripcion  ELSE "" END) as descripcion'),'puntos.latitud','puntos.longitud')->leftjoin("usuarios", 'usuarios.id', '=', 'puntos.usuario')->where("puntos.nombre","like","%".$data["buscar"]."%")->skip($pagActual*$numRegistros)->take($numRegistros)->get();
+                $registerData = punto::select('puntos.id',DB::raw('(CASE WHEN puntos.usuario > 0 THEN usuarios.username  ELSE "AYUJE" END) as username'),'puntos.nombre',DB::raw('(CASE WHEN puntos.descripcion IS NOT NULL THEN puntos.descripcion  ELSE "" END) as descripcion'),'puntos.latitud','puntos.longitud')->leftjoin("usuarios", 'usuarios.id', '=', 'puntos.usuario')->where("puntos.nombre","like","%".$data["buscar"]."%")->where("puntos.personal","=",0)->skip($pagActual*$numRegistros)->take($numRegistros)->get();
             }elseif($data["crudData"] == 3){
                 $registerData = prueba::where("nombre","like","%".$data["buscar"]."%")->skip($pagActual*$numRegistros)->take($numRegistros)->get();
             }else{
@@ -247,8 +284,18 @@ class UsuarioController extends Controller{
         }
     }
 
+    public function getDataById(Request $request){
+        $id = $request->input('id');
+        $crudValue = $request->input('crudData');
+        if($crudValue == 2){
+            return punto::where("id","=",$id)->get();
+        }else{
+            return prueba::where("id","=",$id)->get();
+        }
+    }
+
     public function insertPICrud(Request $request){
-        if(empty($request["nombre"]) || empty($request["latitud"]) || empty($request["longitud"])){
+        if(empty($request["nombre"]) || empty($request["latitud"]) || empty($request["longitud"]) || count($request->file()) == 0){
             return "errorNotSet";
         }else{
             if($request["latitud"] > 90 || $request["latitud"] < -90 || $request["longitud"] > 180 || $request["longitud"] < -180){
