@@ -167,7 +167,8 @@ class UsuarioController extends Controller{
 
     public function register(Request $request) {
         //Filtro para que no envie campos vacios
-        if (!empty($request['username']) && !empty($request['nombre']) && !empty($request['apellidos']) && !empty($request['correo']) && !empty($request['grupo']) && !empty($request['password']) && !empty($request['passwordrepetida'])) {
+        if (!empty(
+            $request['username']) && !empty($request['nombre']) && !empty($request['apellidos']) && !empty($request['correo']) && !empty($request['grupo']) && !empty($request['password']) && !empty($request['passwordrepetida'])) {
             //Suprimir campos en blanco
             $request['username'] = str_replace(' ', '', $request['username']);
             $request['nombre'] = str_replace(' ', '', $request['username']);
@@ -225,8 +226,10 @@ class UsuarioController extends Controller{
             //Recogemos el usuario de la bd
             $checkAdmin = usuario::where("id","=",$id)->get();
             //Comprobamos si es admin, si lo es, lo redirigimos al crud, sino a la página donde estaba
-            if($checkAdmin[0]["admin"] == 1)
-                return view("admin/crud");
+            if($checkAdmin[0]["admin"] == 1){
+                $user = $checkAdmin[0]['correo'];
+                return view("admin/crud",['user' => $user]);
+            }
             else
                 return redirect()->back();
         }
