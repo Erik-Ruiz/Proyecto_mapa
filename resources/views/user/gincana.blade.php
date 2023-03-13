@@ -16,11 +16,14 @@
 <body>
 
     <div id="map" style="width:100%; height: 100vh"></div>
+
+    
     <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
 
-    <script src="../resources/js/gincana/ubicacionActual.js"></script>
-    <!-- <script src="../resources/js/gincana/routing.js"></script> -->
+    <!--  <script src="../resources/js/gincana/ubicacionActual.js"></script> -->
+    <script src="../resources/js/gincana/routing.js"></script>
+    <!-- <script src="../resources/js/gincana/RouteService.js"></script> -->
 
 
 
