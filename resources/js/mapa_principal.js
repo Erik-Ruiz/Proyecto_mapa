@@ -4,6 +4,9 @@ const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
 L.Control.geocoder().addTo(map);
+
+
+
 // if (!navigator.geolocation) {
 //     console.log("Your browser doesn't support geolocation feature!")
 // } else {
@@ -11,7 +14,9 @@ L.Control.geocoder().addTo(map);
 //         navigator.geolocation.getCurrentPosition(getPosition)
 //     }, 5000);
 // };
-var marker, circle, lat, long, accuracy;
+var marker, circle, lat, long, accuracy, waypoints, Routing, layer;
+let routingControl = null;
+
 
 // function getPosition(position) {
 //     // console.log(position)
@@ -35,14 +40,6 @@ var marker, circle, lat, long, accuracy;
 //     var featureGroup = L.featureGroup([marker, circle]).addTo(map)
 
 //     map.fitBounds(featureGroup.getBounds())
-//         // L.Routing.control({
-//         //     waypoints: [
-//         //         L.latLng(lat, long),
-//         //         L.latLng(57.6792, 11.949)
-//         //     ]
-//         // }).addTo(map);
-//         // console.log("Your coordinate is: Lat: " + lat + " Long: " + long + " Accuracy: " + accuracy)
-// }
 
 
 // function getLocation() {
@@ -50,33 +47,20 @@ var marker, circle, lat, long, accuracy;
 //         navigator.geolocation.getCurrentPosition(showPosition);
 //     }
 // }
-// getLocation();
 
-// if (!navigator.geolocation) {
-//     console.log("Your browser doesn't support geolocation feature!")
-// } else {
-//     setInterval(() => {
-//         navigator.geolocation.getCurrentPosition(showPosition);
-//     }, 5000);
-// };
 
-// function showPosition(position) {
+function showPosition(position) {
+    if (marker) {
+        map.removeLayer(marker)
+    }
 
-//     lat = position.coords.latitude;
-//     long = position.coords.longitude;
-//     marker = L.marker([lat, long]).addTo(map);
-//     var featureGroup = L.featureGroup([marker]).addTo(map);
-//     map.fitBounds(featureGroup.getBounds());
+    lat = position.coords.latitude;
+    long = position.coords.longitude;
+    marker = L.marker([lat, long]).addTo(map);
+    var featureGroup = L.featureGroup([marker]).addTo(map);
+    map.fitBounds(featureGroup.getBounds());
 
-//     // if (1 == 2) {
-//     //     L.Routing.control({
-//     //         waypoints: [
-//     //             L.latLng(document.getElementById("lat").value, document.getElementById("lon").value),
-//     //             L.latLng(57.6792, 11.949)
-//     //         ]
-//     //     }).addTo(map);
-// }
-
+}
 
 
 //Filtros del mapa
@@ -139,7 +123,6 @@ function modal(id) {
 
     ajax.onload = function() {
         data = JSON.parse(ajax.responseText)
-        console.log(data);
         var modal1 = ``;
         modal1 += `
                             
@@ -156,7 +139,7 @@ function modal(id) {
                 
                         <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">${data.descripcion}</h5>
                             <div style="display: flex; justify-content: space-between;">
-                                <button style="width: 40%" class="btn btn-success" id="btnRuta" ><i class="fa-solid fa-location-dot"></i></button>
+                                <button style="width: 40%" class="btn btn-success" id="btnRuta" onclick=routae(${data.id})  ><i class="fa-solid fa-location-dot"></i></button>
                                 <button onclick=favoritos(${data.id}) style="width: 40%" class="btn btn-success" id="btnFavorito" ><i class="fa-solid fa-heart"></i></button>
                             </div>
                         </div>
@@ -195,6 +178,51 @@ function modal(id) {
 
 }
 
+
+function routae(id) {
+    var ajax = new XMLHttpRequest();
+    let formdata = new FormData;
+    formdata.append("_token", csrf_token);
+    formdata.append("id", id);
+
+    ajax.open('POST', "recoger_datos_etiqueta");
+    ajax.onload = function() {
+        data = JSON.parse(ajax.responseText);
+        navigator.geolocation.getCurrentPosition(showPosition);
+        if (routingControl == null) {
+            routingControl = L.Routing.control({
+                waypoints: [
+                    L.latLng(lat, long),
+                    L.latLng(data.latitud, data.longitud)
+                ],
+                router: new L.Routing.osrmv1({
+                    language: 'en',
+                    profile: 'foot'
+                }),
+            }).addTo(map);
+        } else {
+            routingControl = null;
+        }
+
+        setInterval(() => {
+            routae(id);
+            navigator.geolocation.getCurrentPosition(showPosition);
+            if (marker) {
+                map.removeLayer(marker)
+            }
+            if (routingControl) {
+                map.removeLayer(routingControl)
+            }
+
+        }, 5000);
+    }
+    ajax.send(formdata);
+}
+
+
+
+
+
 function favoritos(id) {
     var ajax = new XMLHttpRequest();
     let formdata = new FormData;
@@ -203,13 +231,10 @@ function favoritos(id) {
     ajax.open('POST', "darFavorito");
     ajax.onload = function() {
 
-        console.log(ajax.responseText);
         if (ajax.responseText == "delete") {
             document.getElementById("btnFavorito").classList.remove("btn-danger");
         } else if (ajax.responseText == "saved") {
             document.getElementById("btnFavorito").classList.add("btn-danger");
-        } else {
-            console.log(ajax.responseText);
         }
     }
     ajax.send(formdata);
