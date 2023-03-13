@@ -34,21 +34,21 @@ L.Routing.control({
         L.latLng(41.38211, 2.18548)
     ],
     routeWhileDragging: true
-    
+
 }).addTo(map);
 
 //#endregion
 
 map.on("click", function (e) {
-   
+
     L.Routing.control({
         waypoints: [
-            L.latLng((e.latlng.lat), (e.latlng.lng)),
-            L.latLng(41.38458, 2.18128)
+            L.latLng(41.38458, 2.18128),
+            L.latLng((e.latlng.lat), (e.latlng.lng))
         ],
         routeWhileDragging: true
     }).addTo(map);
-    
+
     console.log(map);
 });
 
