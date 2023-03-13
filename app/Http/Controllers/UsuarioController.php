@@ -21,15 +21,19 @@ class UsuarioController extends Controller{
 
     public function pagina_mapa_principal(Request $request){
         $id = Usuario::find(session()->get('id'));
-        $personal = etiqueta::all()->where('campo', '<>', 1);
-        $etiquetas = etiqueta::all();
-        return view('user.mapa_principal',compact('etiquetas'));
+        $personales = etiqueta::all()->where('usuario', '=', $request->session()->get('id'));
+        $etiquetas = etiqueta::all()->where('usuario', '=', null);
+        return view('user.mapa_principal',compact('etiquetas','personales'));
     }
 
     public function filtro_mapa_principal(Request $request){
         $no = $request->get('filtro_etiqueta') == 'NO';
+        $noP = $request->get('filtro_opinion') == 'NO';
         $vacio = empty($request->get('filtro_nombre'));
-        if($vacio && $no){
+        $vacioP = empty($request->get('filtro_nombre'));
+
+        $fav = $request->get('filtro_favorito');
+        if($vacio && $no && $fav == 0 && $noP){
             $puntos = punto::all();
             return json_encode($puntos);
         }elseif(!$vacio && $no){
@@ -37,6 +41,14 @@ class UsuarioController extends Controller{
             return json_encode($puntos);
         }elseif(!$vacio && !$no){
             $query = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud')->join('punto_etiquetas','punto_etiquetas.punto','=','puntos.id')->where('puntos.nombre','LIKE','%'.$request->get('filtro_nombre').'%')->where('punto_etiquetas.etiqueta','=',$request->get('filtro_etiqueta'))->get();
+            return json_encode($query);
+        // }elseif(!$vacioP && !$noP){
+        //     $query = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud')->join('punto_etiquetas','punto_etiquetas.punto','=','puntos.id')->where('puntos.nombre','LIKE','%'.$request->get('filtro_nombre').'%')->where('punto_etiquetas.etiqueta','=',$request->get('filtro_etiqueta'))->where('punto_etiquetas.etiqueta','=',$request->get('filtro_personal'))->get();
+        //     return json_encode($query);
+        }elseif($fav == 1){
+            $query = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud', 'favoritos.punto')
+            ->join('favoritos','puntos.id','=','favoritos.punto')
+            ->where('favoritos.usuario','=', $request->session()->get('id'))->get();
             return json_encode($query);
         }
         else{
