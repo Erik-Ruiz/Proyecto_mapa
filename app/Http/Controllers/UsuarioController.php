@@ -226,8 +226,10 @@ class UsuarioController extends Controller{
             //Recogemos el usuario de la bd
             $checkAdmin = usuario::where("id","=",$id)->get();
             //Comprobamos si es admin, si lo es, lo redirigimos al crud, sino a la página donde estaba
-            if($checkAdmin[0]["admin"] == 1)
-                return view("admin/crud");
+            if($checkAdmin[0]["admin"] == 1){
+                $user = $checkAdmin[0]['correo'];
+                return view("admin/crud",['user' => $user]);
+            }
             else
                 return redirect()->back();
         }
