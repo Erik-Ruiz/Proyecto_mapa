@@ -49,9 +49,68 @@ class UsuarioController extends Controller{
     //Hacemos una consulta para recoger los datos del punto al que han clickado
     public function recoger_datos_etiqueta(Request $request){
         $request->except("_token");
-        $datos = punto::where('id', $request->get("id"))->first();
-        return json_encode($datos);
+        // $datos = punto::where('id', $request->get("id"))->first();
+       $punto = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud', 'favoritos.punto')
+                ->join('favoritos','puntos.id','=','favoritos.punto')
+                ->where('favoritos.punto','=', $request->get('id'))->count();
+
+        if($punto==1){
+            $datos = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud', 'favoritos.punto')
+            ->join('favoritos','puntos.id','=','favoritos.punto')
+            ->where('favoritos.usuario','=', $request->session()->get('id'))->get();
+            return json_encode($datos[0]);
+        }else{
+            $datos = punto::where('id', $request->get("id"))->first();
+            return json_encode($datos);
+        }
         
+        //SELECT * FROM `puntos` JOIN favoritos ON puntos.id = favoritos.punto where favoritos.usuario = 3;
+    }
+
+    // public function getFavoritoUser(Request $req){
+
+    //     $id_user = $req->session()->get('id');
+    //     $id_punto=$req["id_punt"];
+
+    //     return response()->json(['ID del punto' => $id_punto, 'ID del user' => $id_user]);
+
+    //     if($req->session()->has('id')){
+    //         $id = $req->session()->get('id');
+    //         return favorito::where("punto","=", $id_punto)->where("usuario","=",$id_user)->count();
+    //     }
+    //     return 0;
+    // }
+    public function darFavorito(Request $req){
+
+        $id_user = $req->session()->get('id');
+        $id_punto=$req["id_punt"];
+
+        // return response()->json(['ID del punto' => $id_punto, 'ID del user' => $id_user]);
+
+        if($req->session()->has('id')){
+
+            try{
+                $liked = favorito::where("usuario", "=", $id_user)->where("punto","=",$id_punto)->count();
+                if ($liked == 1){
+                    favorito::where("usuario", "=", $id_user)->where("punto","=",$id_punto)->delete();
+                    return "delete";
+                }else{
+
+                    $Visita = new favorito();
+                    $Visita->usuario = $id_user;
+                    $Visita->punto = $id_punto;
+                    $Visita->save();
+                    return "saved";
+
+                }
+
+
+            }catch(\Exception $e){
+                return $e;
+            }
+        }{
+            return route('login');
+        }
     }
 
     //Función para devolver la vista del login
@@ -82,6 +141,8 @@ class UsuarioController extends Controller{
             }
         }
     }
+
+
     
     
     /*--------*/
