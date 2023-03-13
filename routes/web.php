@@ -18,6 +18,12 @@ Route::post("/totalData", [UsuarioController::class, "totalData"])->name("totalD
 Route::delete("/deleteCrud", [UsuarioController::class, "deleteCrud"])->name("deleteCrud");
 Route::post("/insertPICrud", [UsuarioController::class, "insertPICrud"])->name("insertPICrud");
 Route::post("/insertPruebaCrud", [UsuarioController::class, "insertPruebaCrud"])->name("insertPruebaCrud");
+Route::post("/getDataById", [UsuarioController::class, "getDataById"])->name("getDataById");
+Route::put("/modPruebaCrud", [UsuarioController::class, "modPruebaCrud"])->name("modPruebaCrud");
+Route::put("/modPICrud", [UsuarioController::class, "modPICrud"])->name("modPICrud");
+
+
+
 //Ruta para recibir los datos de la tabla del crud
 Route::post("/getData", [UsuarioController::class, "getData"])->name("getData");
 

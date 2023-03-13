@@ -183,7 +183,7 @@ class UsuarioController extends Controller{
             if($data["crudData"] == 1){
                 $registerData = usuario::where("username","like","%".$data["buscar"]."%")->where("id","!=",$id)->count();
             }elseif($data["crudData"] == 2){
-                $registerData = punto::count();
+                $registerData = punto::where("personal","=",0)->count();
             }elseif($data["crudData"] == 3){
                 $registerData = prueba::count();
             }else{
@@ -195,20 +195,59 @@ class UsuarioController extends Controller{
         }
     }
 
+    public function modPICrud(Request $request){
+        if(empty($request["nombre"]) || empty($request["latitud"]) || empty($request["longitud"]) || empty($request["id"])){
+            return "errorNotSet";
+        }else{
+            if($request["latitud"] > 90 || $request["latitud"] < -90 || $request["longitud"] > 180 || $request["longitud"] < -180){
+                return "errorCoordenas";
+            }
+            try{
+                DB::beginTransaction();
+                punto::where("id","=",$request['id'])->update(["nombre" => $request["nombre"], "descripcion" => $request["descripcion"], "latitud" => $request["latitud"], "longitud" => $request["longitud"], "personal" => 0]);
+                if(count($request->file()) == 1)
+                    $request->file('imagen')->storeAs('/public/img', $request["id"].'.jpg');
+                DB::commit();
+                return "OK";
+            }catch(Exception $e){
+                DB::rollBack();
+                return $e->getMessage();
+            }
+        }
+    }
+
+    public function modPruebaCrud(Request $request){
+        if(empty($request["nombre"]) || empty($request["pregunta"]) || empty($request["pista"]) || empty($request["respuesta"]) || empty($request["latitud"]) || empty($request["longitud"])){
+            return "errorNotSet";
+        }else{
+            if($request["latitud"] > 90 || $request["latitud"] < -90 || $request["longitud"] > 180 || $request["longitud"] < -180){
+                return "errorCoordenas";
+            }
+            try{
+                prueba::where("id","=",$request['id'])->update(["nombre" => $request["nombre"], "texto_pregunta" => $request["pregunta"], "respuesta" => $request["respuesta"], "latitud" => $request["latitud"], "longitud" => $request["longitud"], "texto_pista" => $request["pista"]]);
+                return "OK";
+            }catch(Exception $e){
+                return $e->getMessage();
+            }
+        }
+    }
+
     public function getData(Request $request){
         if($request->session()->has('id')){
+            $numRegistros = 1;
             $id = $request->session()->get("id");
+            $pagActual = $request["pagAct"];
             $user = usuario::where("id","=",$id)->get();
             if($user[0]["admin"]==0){
                 return "NOT AUTORIZED";
             }
             $data = $request->except('_token');
             if($data["crudData"] == 1){
-                $registerData = usuario::select('usuarios.id','usuarios.username','usuarios.nombre',DB::raw('(CASE WHEN usuarios.apellidos IS NOT NULL THEN usuarios.apellidos  ELSE "" END) as apellidos'),'usuarios.correo','grupos.nombre as grupo')->join("grupos", 'grupos.id', '=', 'usuarios.grupo')->where("usuarios.username","like","%".$data["buscar"]."%")->where("usuarios.id","!=",$id)->get();
+                $registerData = usuario::select('usuarios.id','usuarios.username','usuarios.nombre',DB::raw('(CASE WHEN usuarios.apellidos IS NOT NULL THEN usuarios.apellidos  ELSE "" END) as apellidos'),'usuarios.correo','grupos.nombre as grupo')->join("grupos", 'grupos.id', '=', 'usuarios.grupo')->where("usuarios.username","like","%".$data["buscar"]."%")->where("usuarios.id","!=",$id)->skip($pagActual*$numRegistros)->take($numRegistros)->get();
             }elseif($data["crudData"] == 2){
-                $registerData = punto::select('puntos.id',DB::raw('(CASE WHEN puntos.usuario > 0 THEN usuarios.username  ELSE "AYUJE" END) as username'),'puntos.nombre',DB::raw('(CASE WHEN puntos.descripcion IS NOT NULL THEN puntos.descripcion  ELSE "" END) as descripcion'),'puntos.latitud','puntos.longitud')->leftjoin("usuarios", 'usuarios.id', '=', 'puntos.usuario')->where("puntos.nombre","like","%".$data["buscar"]."%")->get();
+                $registerData = punto::select('puntos.id',DB::raw('(CASE WHEN puntos.usuario > 0 THEN usuarios.username  ELSE "AYUJE" END) as username'),'puntos.nombre',DB::raw('(CASE WHEN puntos.descripcion IS NOT NULL THEN puntos.descripcion  ELSE "" END) as descripcion'),'puntos.latitud','puntos.longitud')->leftjoin("usuarios", 'usuarios.id', '=', 'puntos.usuario')->where("puntos.nombre","like","%".$data["buscar"]."%")->where("puntos.personal","=",0)->skip($pagActual*$numRegistros)->take($numRegistros)->get();
             }elseif($data["crudData"] == 3){
-                $registerData = prueba::where("nombre","like","%".$data["buscar"]."%")->get();
+                $registerData = prueba::where("nombre","like","%".$data["buscar"]."%")->skip($pagActual*$numRegistros)->take($numRegistros)->get();
             }else{
                 return "";
             }
@@ -233,6 +272,7 @@ class UsuarioController extends Controller{
             }elseif($crudValue == 2){
                 punto_etiqueta::where("punto","=",$id)->delete();
                 punto::where("id","=",$id)->delete();
+                unlink("../storage/app/public/img/".$id.".jpg");
             }else{
                 usuario_prueba::where("prueba","=",$id)->delete();
                 prueba::where("id","=",$id)->delete();
@@ -245,15 +285,62 @@ class UsuarioController extends Controller{
         }
     }
 
-    public function insertPICrud(Request $request){
+    public function getDataById(Request $request){
+        $id = $request->input('id');
+        $crudValue = $request->input('crudData');
+        if($crudValue == 2){
+            return punto::where("id","=",$id)->get();
+        }else{
+            return prueba::where("id","=",$id)->get();
+        }
+    }
 
+    public function insertPICrud(Request $request){
+        if(empty($request["nombre"]) || empty($request["latitud"]) || empty($request["longitud"]) || count($request->file()) == 0){
+            return "errorNotSet";
+        }else{
+            if($request["latitud"] > 90 || $request["latitud"] < -90 || $request["longitud"] > 180 || $request["longitud"] < -180){
+                return "errorCoordenas";
+            }
+            try{
+                DB::beginTransaction();
+                $punto = new punto();
+                $punto->nombre = $request["nombre"];
+                $punto->descripcion = $request["descripcion"];
+                $punto->latitud = $request["latitud"];
+                $punto->longitud = $request["longitud"];
+                $punto->personal = 0;
+                $punto->save();
+                $request->file('imagen')->storeAs('/public/img', $punto->id.'.jpg');
+                DB::commit();
+                return "OK";
+            }catch(Exception $e){
+                DB::rollBack();
+                return $e->getMessage();
+            }
+        }
     }
 
     public function insertPruebaCrud(Request $request){
-        if(!empty($request["nombre"]) && !empty($request["pregunta"]) && !empty($request["pista"]) && !empty($request["respuesta"]) && !empty($request["latitud"]) && !empty($request["longitud"])){
-            dd($request);
+        if(empty($request["nombre"]) || empty($request["pregunta"]) || empty($request["pista"]) || empty($request["respuesta"]) || empty($request["latitud"]) || empty($request["longitud"])){
+            return "errorNotSet";
         }else{
-            return "errorRellenar";
+            if($request["latitud"] > 90 || $request["latitud"] < -90 || $request["longitud"] > 180 || $request["longitud"] < -180){
+                return "errorCoordenas";
+            }
+            try{
+                $prueba = new prueba();
+                $prueba->nombre = $request["nombre"];
+                $prueba->texto_pregunta = $request["pregunta"];
+                $prueba->texto_pista = $request["pista"];
+                $prueba->respuesta = $request["respuesta"];
+                $prueba->latitud = $request["latitud"];
+                $prueba->longitud = $request["longitud"];
+                $prueba->save();
+                return "OK";
+            }catch(Exception $e){
+                return $e->getMessage();
+            }
         }
     }
     #region Apartado Gincana
