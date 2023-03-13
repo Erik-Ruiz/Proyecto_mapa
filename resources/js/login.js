@@ -15,7 +15,7 @@ function campovacio(){
   })
 }
 
-function repenombre(){
+function correoinvalido(){
     Swal.fire({
     icon: 'error',
     title: 'Oops...',
@@ -23,7 +23,7 @@ function repenombre(){
   })
 }
 
-function repenombre(){
+function contraseñanoval(){
     Swal.fire({
     icon: 'error',
     title: 'Oops...',
@@ -33,7 +33,7 @@ function repenombre(){
 
 //Usuario introducido
 
-function repenombre(){
+function registradocorrect(){
     Swal.fire({
         icon: 'success',
         title: 'Usuario registrado y logueado!',
