@@ -232,3 +232,15 @@ function favoritos(id) {
 //     ajax.send(formdata);
 // }
 // getFavoritoUser();
+
+
+//Usuario introducido (Register)
+
+function registradocorrect(){
+    Swal.fire({
+        icon: 'success',
+        title: 'Usuario registrado y logueado!',
+        showConfirmButton: false,
+        timer: 1500
+      })
+}

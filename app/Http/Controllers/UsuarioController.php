@@ -117,6 +117,9 @@ class UsuarioController extends Controller{
     public function index(){
         return view("index");
     }
+    public function index2(){
+        return view("/register");
+    }
 
     //Función para logearte
     public function login(Request $request){
@@ -190,23 +193,20 @@ class UsuarioController extends Controller{
                             $insertaruser->save();
 
                             $request->session()->put('id', $insertaruser['id']);
-                            return redirect("mapa_principal");
+                            return redirect()->route("pagina_mapa_principal", ['mensaje' => 'usuariointroducido']);
                         } else {
-                            return redirect("/");
+                            return redirect()->route("index", ['mensaje' => 'repenombre']);
                         }
                     }else{
-                        $asd="repenombre";
-                        return redirect("/")->with("mensaje","prueba");
-
-                       //return route("index",compact('asd'));
+                        return redirect()->route("index", ['mensaje' => 'contranoval']);
                     }
                 } else {
                     // Redirigir al usuario a una página de error o mostrar un mensaje de error en la misma página
-                    return redirect("/");
+                    return redirect()->route("index", ['mensaje' => 'correoinval']);
                 }
             }
         } else {
-            return redirect()->route("index", ['mensaje' => 'repenombre']);
+            return redirect()->route("index", ['mensaje' => 'rellenacampos']);
         }
     }
 

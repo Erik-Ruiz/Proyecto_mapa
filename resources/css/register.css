@@ -13,7 +13,7 @@
  .form-structor {
 	 background-color: #222;
 	 border-radius: 15px;
-	 height: 550px;
+	 height: 600px;
 	 width: 350px;
 	 position: relative;
 	 overflow: hidden;
@@ -33,7 +33,7 @@
 }
  .form-structor .signup {
 	 position: absolute;
-	 top: 50%;
+	 top: 45%;
 	 left: 50%;
 	 -webkit-transform: translate(-50%, -50%);
 	 width: 65%;
@@ -74,7 +74,7 @@
 	 border-radius: 15px;
 	 background-color: #fff;
 	 overflow: hidden;
-	 margin-top: 50px;
+	 margin-top: 0px;
 	 opacity: 1;
 	 visibility: visible;
 	 -webkit-transition: all 0.3s ease;
