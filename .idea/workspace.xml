@@ -5,7 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ff810d04-3c13-4d9e-aa4d-406c4d5fc973" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/resources/js/gincana/RouteService.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/gincana/routing.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/gincana/routing.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/user/gincana.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/user/gincana.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -152,7 +154,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/xampp/htdocs/testProyects/testProyects/webSites/movieWeb",
+    "last_opened_file_path": "C:/xampp/htdocs/DAW2/M6/mapas/pluginsMapas/tripkit-leaflet",
     "list.type.of.created.stylesheet": "CSS",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -165,8 +167,8 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\xampp\htdocs\DAW2\MP\Proyecto_mapa\resources\views\user" />
       <recent name="C:\xampp\htdocs\DAW2\MP\Proyecto_mapa\resources\js\gincana" />
+      <recent name="C:\xampp\htdocs\DAW2\MP\Proyecto_mapa\resources\views\user" />
     </key>
   </component>
   <component name="RunManager">
@@ -187,7 +189,7 @@
       <workItem from="1678203234159" duration="933000" />
       <workItem from="1678207046894" duration="10792000" />
       <workItem from="1678293437712" duration="6326000" />
-      <workItem from="1678371425483" duration="10917000" />
+      <workItem from="1678371425483" duration="14692000" />
     </task>
     <servers />
   </component>
