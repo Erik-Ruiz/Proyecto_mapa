@@ -3,64 +3,14 @@ var layerGroup = L.layerGroup().addTo(map);
 const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
-L.Control.geocoder().addTo(map);
-
-
-
-// if (!navigator.geolocation) {
-//     console.log("Your browser doesn't support geolocation feature!")
-// } else {
-//     setInterval(() => {
-//         navigator.geolocation.getCurrentPosition(getPosition)
-//     }, 5000);
-// };
+// L.Control.geocoder().addTo(map);
 var marker, circle, lat, long, accuracy, waypoints, Routing, layer;
-let routingControl = null;
 
 
-// function getPosition(position) {
-//     // console.log(position)
-//     lat = position.coords.latitude
-//     long = position.coords.longitude
-//     accuracy = position.coords.accuracy
-
-//     if (marker) {
-//         map.removeLayer(marker)
-//     }
-
-//     if (circle) {
-//         map.removeLayer(circle)
-//     }
-
-//     marker = L.marker([lat, long])
-//     circle = L.circle([lat, long], {
-//         radius: accuracy
-//     })
-
-//     var featureGroup = L.featureGroup([marker, circle]).addTo(map)
-
-//     map.fitBounds(featureGroup.getBounds())
 
 
-// function getLocation() {
-//     if (navigator.geolocation) {
-//         navigator.geolocation.getCurrentPosition(showPosition);
-//     }
-// }
 
 
-function showPosition(position) {
-    if (marker) {
-        map.removeLayer(marker)
-    }
-
-    lat = position.coords.latitude;
-    long = position.coords.longitude;
-    marker = L.marker([lat, long]).addTo(map);
-    var featureGroup = L.featureGroup([marker]).addTo(map);
-    map.fitBounds(featureGroup.getBounds());
-
-}
 
 
 //Filtros del mapa
@@ -188,31 +138,27 @@ function routae(id) {
     ajax.open('POST', "recoger_datos_etiqueta");
     ajax.onload = function() {
         data = JSON.parse(ajax.responseText);
-        navigator.geolocation.getCurrentPosition(showPosition);
-        if (routingControl == null) {
-            routingControl = L.Routing.control({
-                waypoints: [
-                    L.latLng(lat, long),
-                    L.latLng(data.latitud, data.longitud)
-                ],
-                router: new L.Routing.osrmv1({
-                    language: 'en',
-                    profile: 'foot'
-                }),
-            }).addTo(map);
-        } else {
-            routingControl = null;
-        }
-
+        // L.Routing.control({
+        //     waypoints: [
+        //         L.latLng(lat, long),
+        //         L.latLng(data.latitud, data.longitud)
+        //     ],
+        //     router: new L.Routing.osrmv1({
+        //         language: 'en',
+        //         profile: 'foot'
+        //     }),
+        // }).addTo(map);
+        // if (marker) {
+        //     map.removeLayer(marker)
+        // }
         setInterval(() => {
-            routae(id);
+
+
             navigator.geolocation.getCurrentPosition(showPosition);
             if (marker) {
                 map.removeLayer(marker)
             }
-            if (routingControl) {
-                map.removeLayer(routingControl)
-            }
+            // L.Routing.control({ waypoints: [L.latLng(lat, long), L.latLng(data.latitud, data.longitud)] });
 
         }, 5000);
     }
@@ -257,3 +203,16 @@ function favoritos(id) {
 //     ajax.send(formdata);
 // }
 // getFavoritoUser();
+
+
+
+function showPosition(position) {
+    lat = position.coords.latitude
+    long = position.coords.longitude
+    if (marker) {
+        map.removeLayer(marker)
+    }
+    var marker = L.marker([lat, long]).addTo(map);
+    var featureGroup = L.featureGroup([marker]).addTo(map);
+    map.fitBounds(featureGroup.getBounds());
+}
