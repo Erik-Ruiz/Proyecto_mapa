@@ -68,9 +68,9 @@ function getData(){
             if(crudData == 1){
                 tableContent += `<tr><th>${element.username}</th><th>${element.nombre} ${element.apellidos}</th><th>${element.correo}</th><th>${element.grupo}</th><th><button onclick=eliminar(1,${element.id})>Eliminar</button></th></th></tr>`
             }else if(crudData == 2){
-                tableContent += `<tr><th><img src='../storage/img/${element.id}.jpg'></th><th>${element.nombre}</th><th>${element.descripcion} </th><th>${element.latitud},${element.longitud}</th><th>${element.username}</th><th><button onclick=modificar(2,${element.id})>Modificar</button><button onclick=eliminar(2,${element.id})>Eliminar</button></th></th></tr>`
+                tableContent += `<tr><th><img class='img_table' src='../storage/img/${element.id}.jpg'></th><th>${element.nombre}</th><th>${element.descripcion} </th><th>${((Math.round(element.latitud * 1000)) / 1000)},${((Math.round(element.longitud * 1000)) / 1000)}</th><th>${element.username}</th><th><button onclick=modificar(2,${element.id})>Modificar</button><button onclick=eliminar(2,${element.id})>Eliminar</button></th></th></tr>`
             }else if(crudData == 3){
-                tableContent += `<tr><th>${element.nombre}</th><th>${element.texto_pregunta}</th><th>${element.texto_pista}</th><th>${element.respuesta}</th><th>${element.latitud},${element.longitud}</th><th><button onclick=modificar(3,${element.id})>Modificar</button><button onclick=eliminar(3,${element.id})>Eliminar</button></th></tr>`
+                tableContent += `<tr><th>${element.nombre}</th><th>${element.texto_pregunta}</th><th>${element.texto_pista}</th><th>${element.respuesta}</th><th>${((Math.round(element.latitud * 1000)) / 1000)},${((Math.round(element.longitud * 1000)) / 1000)}</th><th><button onclick=modificar(3,${element.id})>Modificar</button><button onclick=eliminar(3,${element.id})>Eliminar</button></th></tr>`
             }
         });
         document.getElementById("tableData").innerHTML = tableContent;
@@ -141,9 +141,9 @@ function modRegistar(data){
     if(crudData == 2){
         form = `<form onsubmit="modPIData()" enctype= multipart/form-data><input type="hidden" id="firstRowForm" name="id" value="${data.id}"> 
         <label>Nombre</label><br><input type="text" id="firstRowForm" placeholder="Escribe el nombre" value="${data.nombre}" name="nombre" required><br>
-        <label>Descripción</label><br><textarea placeholder="Escribe la descripcion" name="descripcion" value="${data.descripcion}"></textarea><br>
-        <label>Latitud</label><br><input type="number" placeholder="Escribe la latitud" name="latitud" value="${data.latitud}" required><br>
-        <label>Longitud</label><br><input type="number" placeholder="Escribe la longitud" name="longitud" value="${data.longitud}" required><br>
+        <label>Descripción</label><br><textarea placeholder="Escribe la descripcion" name="descripcion">${data.descripcion}</textarea><br>
+        <label>Latitud</label><br><input type="number" step="any" placeholder="Escribe la latitud" name="latitud" value="${((Math.round(data.latitud * 1000)) / 1000)}" required><br>
+        <label>Longitud</label><br><input type="number" step="any" placeholder="Escribe la longitud" name="longitud" value="${((Math.round(data.longitud * 1000)) / 1000)}" required><br>
         <label>Imagen</label><br><input type="file" name="imagen"><br>
         <input type="submit" value="Modificar"></form>`
         PopUpFormBasic("Modificar punto de interés", form);
@@ -153,8 +153,8 @@ function modRegistar(data){
         <label>Pregunta</label><br><input  type="text" placeholder="Escribe la pregunta" name="pregunta" value="${data.texto_pregunta}" required><br>
         <label>Pista</label><br><input  type="text" placeholder="Escribe la pista" name="pista" value="${data.texto_pista}" required><br>
         <label>Respuesta</label><br><input  type="text" placeholder="Escribe la respuesta" name="respuesta" value="${data.respuesta}" required><br>
-        <label>Latitud</label><br><input  type="number" placeholder="Escribe la latitud" name="latitud" value="${data.latitud}" required><br>
-        <label>Longitud</label><br><input type="number" placeholder="Escribe la longitud" name="longitud" value="${data.longitud}" required><br>
+        <label>Latitud</label><br><input  type="number" step="any" placeholder="Escribe la latitud" name="latitud" value="${((Math.round(data.latitud * 1000)) / 1000)}" required><br>
+        <label>Longitud</label><br><input type="number" step="any" placeholder="Escribe la longitud" name="longitud" value="${((Math.round(data.longitud * 1000)) / 1000)}" required><br>
         <input type="submit" value="Modificar"></form>`
         PopUpFormBasic("Modificar prueba gimcana", form);
     }
@@ -165,8 +165,8 @@ function addRegister(){
         form = '<form onsubmit="insertPIData()" enctype= multipart/form-data>' +
         '<label>Nombre</label><br><input type="text" id="firstRowForm" placeholder="Escribe el nombre" name="nombre" required><br>' +
         '<label>Descripción</label><br><textarea placeholder="Escribe la descripcion" name="descripcion"></textarea><br>' +
-        '<label>Latitud</label><br><input type="number" placeholder="Escribe la latitud" name="latitud" required><br>' +
-        '<label>Longitud</label><br><input type="number" placeholder="Escribe la longitud" name="longitud" required><br>' +
+        '<label>Latitud</label><br><input type="number" step="any" placeholder="Escribe la latitud" name="latitud" required><br>' +
+        '<label>Longitud</label><br><input type="number" step="any" placeholder="Escribe la longitud" name="longitud" required><br>' +
         '<label>Imagen</label><br><input type="file" name="imagen" required><br>' +
         '<input type="submit" value="Crear"></form>',
         PopUpFormBasic("Añadir punto de interés", form);
@@ -176,8 +176,8 @@ function addRegister(){
         '<label>Pregunta</label><br><input  type="text" placeholder="Escribe la pregunta" name="pregunta" required><br>' +
         '<label>Pista</label><br><input  type="text" placeholder="Escribe la pista" name="pista" required><br>' +
         '<label>Respuesta</label><br><input  type="text" placeholder="Escribe la respuesta" name="respuesta" required><br>' +
-        '<label>Latitud</label><br><input  type="number" placeholder="Escribe la latitud" name="latitud" required><br>' +
-        '<label>Longitud</label><br><input type="number" placeholder="Escribe la longitud" name="longitud" required><br>' +
+        '<label>Latitud</label><br><input  type="number" step="any" placeholder="Escribe la latitud" name="latitud" required><br>' +
+        '<label>Longitud</label><br><input type="number" step="any" placeholder="Escribe la longitud" name="longitud" required><br>' +
         '<input type="submit" value="Crear"></form>',
         PopUpFormBasic("Añadir prueba gimcana", form);
     }
