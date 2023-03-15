@@ -27,7 +27,7 @@ filtro_opinion.addEventListener('change', () => {
 })
 
 
-function filtrar() {
+function filtrar($fav) {
     var ajax = new XMLHttpRequest();
 
     let formdata = new FormData;
@@ -36,11 +36,13 @@ function filtrar() {
     formdata.append('filtro_nombre', filtro_nombre.value)
     formdata.append('filtro_etiqueta', filtro_etiqueta.value)
     formdata.append('filtro_opinion', filtro_opinion.value)
+    formdata.append('filtro_favorito', $fav)
 
     ajax.open('POST', "filtro_mapa_principal");
 
     ajax.onload = function() {
         data = JSON.parse(ajax.responseText)
+        console.log(data);
         layerGroup.clearLayers();
         try {
             for (let index = 0; index < data.length; index++) {
@@ -50,14 +52,17 @@ function filtrar() {
                 mymarker.bindPopup("<b>" + element.nombre + "</b> <input type='button' onclick=modal(" + (element.id) + ") value='Detalles' id='VerDetalles'>");
 
             }
+
         } catch (e) {
             console.log(e);
         }
+
+
     }
     ajax.send(formdata);
 
 }
-filtrar('');
+filtrar();
 
 function modal(id) {
 
@@ -186,33 +191,19 @@ function favoritos(id) {
     ajax.send(formdata);
 }
 
-// function getFavoritoUser(){
-//     var ajax = new XMLHttpRequest();
-//     let formdata = new FormData;
+const boton = document.getElementById("likes");
 
-//     formdata.append("_token",csrf_token);
-//     ajax.open('POST', "getFavoritoUser");
-//     ajax.onload=function (){
+boton.addEventListener("click", function() {
+    if (boton.classList.contains("activo")) {
+        boton.classList.remove("activo");
+        boton.classList.add("desactivo");
+        $fav = 0;
+        filtrar($fav);
 
-//         console.log(ajax.responseText);
-//         if(ajax.responseText == 1){
-//             FavoritoSet = 1
-//             document.getElementById("btnFavorito").classList.add("btn-danger");
-//         }
-//     }
-//     ajax.send(formdata);
-// }
-// getFavoritoUser();
-
-
-
-function showPosition(position) {
-    lat = position.coords.latitude
-    long = position.coords.longitude
-    if (marker) {
-        map.removeLayer(marker)
+    } else {
+        boton.classList.remove("desactivo");
+        boton.classList.add("activo");
+        $fav = 1;
+        filtrar($fav);
     }
-    var marker = L.marker([lat, long]).addTo(map);
-    var featureGroup = L.featureGroup([marker]).addTo(map);
-    map.fitBounds(featureGroup.getBounds());
-}
+});

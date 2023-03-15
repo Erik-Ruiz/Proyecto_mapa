@@ -100,11 +100,11 @@ body {
   }
 
   #likes.activo {
-    background-color: green;
+    background-color: red;
   }
 
   #likes.desactivo {
-    background-color: red;
+    background-color: green;
   }
 
 

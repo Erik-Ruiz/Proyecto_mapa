@@ -91,26 +91,12 @@
                     </select>
                     <select class="select_personal" id="filtro_opinion">
                         <option value="NO" content="NO"></option>
-                        <option value="personal">Personal</option>
+                        @foreach ($personales as $personal)
+                        <option value="{{ $personal->id }}">{{ $personal->nombre }}</option>
+                        @endforeach
                     </select>
-                    <button type="button" id="likes" class="btn activo" style=" margin-left:5%;"><i
+                    <button type="button" id="likes" class="btn desactivo" style=" margin-left:5%;"><i
                             style="color: rgb(255, 255, 255);"; class="fa-solid fa-heart"></i></button>
-
-
-                    <script>
-                        const boton = document.getElementById("likes");
-
-                        boton.addEventListener("click", function() {
-                            if (boton.classList.contains("activo")) {
-                                boton.classList.remove("activo");
-                                boton.classList.add("desactivo");
-                            } else {
-                                boton.classList.remove("desactivo");
-                                boton.classList.add("activo");
-                            }
-                        });
-                    </script>
-
 
                     <div id="datos_modal">
 
