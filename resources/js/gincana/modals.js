@@ -1,13 +1,44 @@
+var estatus = 0;
+var gimcanaPrueba;
+var pruebasTotales;
 
-
-//#region Modal
 var modal = document.getElementById("myModal");
-var btn = document.getElementById("myBtn");
 var span = document.getElementsByClassName("close")[0];
 
-btn.onclick = function() {
-    modal.style.display = "block";
+function getStatusGincana () {
+    var ajax = new XMLHttpRequest();
+    ajax.open('GET', "getStatusGincana");
+
+    ajax.onload = function() {
+        gimcanaPrueba = JSON.parse(ajax.responseText)[0];
+        pruebasTotales = JSON.parse(ajax.responseText)[1];
+
+        if(gimcanaPrueba == 0) {
+            document.getElementById('btn-gimcana').innerHTML = "Empezar gimcana";
+            document.getElementById('btn-gimcana').onclick = empezarGimcana;
+        } else {
+            document.getElementById('btn-gimcana').innerHTML = "Ver pista";
+            document.getElementById('btn-gimcana').onclick = verPista;
+            document.getElementById('contenido-modal').innerHTML = "Quieres borrar la partida?"
+            modal.style.display = "block";
+        }
+
+
+
+    }
+    ajax.send();
 }
+
+function empezarGimcana() {
+    console.log("e")
+}
+
+function verPista() {
+    console.log("a")
+}
+
+//#region Modal
+
 
 span.onclick = function() {
     modal.style.display = "none";
@@ -21,53 +52,7 @@ window.onclick = function(event) {
 }
 //endregion
 
-//#region PuntosInteres
-function getPuntosInteres(){
-
-    var ajax = new XMLHttpRequest();
-    ajax.open('GET', "pagina_gincana");
-    ajax.onload = function() {
-        var data = JSON.parse(ajax.responseText);
-
-        for (let index = 0; index < data.length; index++) {
-
-            const element = data[index];
-            var mymarker = L.marker([(element.latitud), (element.longitud)]).addTo(map);
-
-            mymarker.bindPopup("<b>" + element.nombre + "</b>");
-        }
-
-        document.getElementsByClassName("leaflet-routing-container")[0].style.display = "none";
-
-    }
-    ajax.send();
+window.onload = function() {
+    getStatusGincana();
 }
 
-L.Routing.control({
-    waypoints: [
-        L.latLng(41.38211, 2.18548) ,
-        L.latLng(41.38211, 2.18548)
-    ],
-    routeWhileDragging: true
-
-}).addTo(map);
-
-//#endregion
-
-//#region Ñuting
-map.on("click", function (e) {
-
-    L.Routing.control({
-        waypoints: [
-            L.latLng(41.38458, 2.18128),
-            L.latLng((e.latlng.lat), (e.latlng.lng))
-        ],
-        routeWhileDragging: true
-    }).addTo(map);
-
-    console.log(map);
-});
-
-getPuntosInteres();
-
-//#endregion

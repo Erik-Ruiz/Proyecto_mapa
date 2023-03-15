@@ -441,8 +441,13 @@ class UsuarioController extends Controller{
     public function getStatusGincana(Request $request) {
         if($request->session()->has("id")) {
 
-            $id = Usuario::find(session()->get('id'));
-            
+            $id = session()->get('id');
+            $cantidad = usuario_prueba::where('usuario','=', $id)->count('usuario');
+            $total = prueba::count();
+
+            $array = [$cantidad, $total];
+
+            return json_encode($array);
 
         } else
             return redirect("/");

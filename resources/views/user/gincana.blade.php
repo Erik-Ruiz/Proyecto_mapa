@@ -19,13 +19,16 @@
 
     </div>
 
-
-    <button id="myBtn">Abrir modal</button>
+    <button id="btn-gimcana"></button>
+    <button id="btn-location">Location</button>
 
     <div id="myModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
-            <p>Contenido del modal aquí.</p>
+            <!-- <p>Contenido del modal aquí.</p> -->
+            <div id="contenido-modal">
+
+            </div>
         </div>
     </div>
 

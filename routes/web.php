@@ -41,8 +41,10 @@ Route::post('/recoger_datos_etiqueta', [UsuarioController::class, 'recoger_datos
 Route::post('/darFavorito', [UsuarioController::class, 'darFavorito']);
 
 #region RUTAS GINCANA
-Route::get("/gincana",[UsuarioController::class, "view_gincana"]);
+Route::get("/gincana",[UsuarioController::class, "view_gincana"])->name("gincana-web");
 Route::get("/pagina_gincana",[UsuarioController::class, "pagina_gincana"]);
+
+Route::get("/getStatusGincana", [UsuarioController::class, "getStatusGincana"])->name("getStatusGincana");
 
 #endregion
 
