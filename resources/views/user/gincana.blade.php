@@ -15,14 +15,22 @@
 </head>
 <body>
 
-    <div id="map" style="width:100%; height: 100vh"></div>
+    <div id="map" style="width:100%; height: 100vh">
 
-    
-    <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+    </div>
+
+
+    <button id="myBtn">Abrir modal</button>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>Contenido del modal aquí.</p>
+        </div>
+    </div>
 
     <!--  <script src="../resources/js/gincana/ubicacionActual.js"></script> -->
-    <script src="../resources/js/gincana/routing.js"></script>
+    <script src="../resources/js/gincana/modals.js"></script>
     <!-- <script src="../resources/js/gincana/RouteService.js"></script> -->
 
 

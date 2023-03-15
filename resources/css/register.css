@@ -13,7 +13,7 @@
  .form-structor {
 	 background-color: #222;
 	 border-radius: 15px;
-	 height: 550px;
+	 height: 600px;
 	 width: 350px;
 	 position: relative;
 	 overflow: hidden;
@@ -29,11 +29,11 @@
 	 background-repeat: no-repeat;
 	 background-position: left bottom;
 	 background-size: 500px;
-	 background-image: url('https://images.unsplash.com/photo-1503602642458-232111445657?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=bf884ad570b50659c5fa2dc2cfb20ecf&auto=format&fit=crop&w=1000&q=100');
+	 background-image: url('https://fondosmil.com/fondo/50289.jpg');
 }
  .form-structor .signup {
 	 position: absolute;
-	 top: 50%;
+	 top: 45%;
 	 left: 50%;
 	 -webkit-transform: translate(-50%, -50%);
 	 width: 65%;
@@ -74,7 +74,7 @@
 	 border-radius: 15px;
 	 background-color: #fff;
 	 overflow: hidden;
-	 margin-top: 50px;
+	 margin-top: 0px;
 	 opacity: 1;
 	 visibility: visible;
 	 -webkit-transition: all 0.3s ease;

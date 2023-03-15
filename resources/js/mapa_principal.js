@@ -3,79 +3,13 @@ var layerGroup = L.layerGroup().addTo(map);
 const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
-L.Control.geocoder().addTo(map);
-// if (!navigator.geolocation) {
-//     console.log("Your browser doesn't support geolocation feature!")
-// } else {
-//     setInterval(() => {
-//         navigator.geolocation.getCurrentPosition(getPosition)
-//     }, 5000);
-// };
-var marker, circle, lat, long, accuracy;
-
-// function getPosition(position) {
-//     // console.log(position)
-//     lat = position.coords.latitude
-//     long = position.coords.longitude
-//     accuracy = position.coords.accuracy
-
-//     if (marker) {
-//         map.removeLayer(marker)
-//     }
-
-//     if (circle) {
-//         map.removeLayer(circle)
-//     }
-
-//     marker = L.marker([lat, long])
-//     circle = L.circle([lat, long], {
-//         radius: accuracy
-//     })
-
-//     var featureGroup = L.featureGroup([marker, circle]).addTo(map)
-
-//     map.fitBounds(featureGroup.getBounds())
-//         // L.Routing.control({
-//         //     waypoints: [
-//         //         L.latLng(lat, long),
-//         //         L.latLng(57.6792, 11.949)
-//         //     ]
-//         // }).addTo(map);
-//         // console.log("Your coordinate is: Lat: " + lat + " Long: " + long + " Accuracy: " + accuracy)
-// }
+// L.Control.geocoder().addTo(map);
+var marker, circle, lat, long, accuracy, waypoints, Routing, layer;
 
 
-// function getLocation() {
-//     if (navigator.geolocation) {
-//         navigator.geolocation.getCurrentPosition(showPosition);
-//     }
-// }
-// getLocation();
 
-// if (!navigator.geolocation) {
-//     console.log("Your browser doesn't support geolocation feature!")
-// } else {
-//     setInterval(() => {
-//         navigator.geolocation.getCurrentPosition(showPosition);
-//     }, 5000);
-// };
 
-// function showPosition(position) {
 
-//     lat = position.coords.latitude;
-//     long = position.coords.longitude;
-//     marker = L.marker([lat, long]).addTo(map);
-//     var featureGroup = L.featureGroup([marker]).addTo(map);
-//     map.fitBounds(featureGroup.getBounds());
-
-//     // if (1 == 2) {
-//     //     L.Routing.control({
-//     //         waypoints: [
-//     //             L.latLng(document.getElementById("lat").value, document.getElementById("lon").value),
-//     //             L.latLng(57.6792, 11.949)
-//     //         ]
-//     //     }).addTo(map);
-// }
 
 
 
@@ -114,7 +48,7 @@ function filtrar($fav) {
         try {
             for (let index = 0; index < data.length; index++) {
                 const element = data[index];
-                var mymarker = L.marker([element.latitud, element.longitud]).addTo(layerGroup);
+                var mymarker = L.marker([element.latitud, element.longitud], { icon: greenIcon }).addTo(layerGroup);
 
                 mymarker.bindPopup("<b>" + element.nombre + "</b> <input type='button' onclick=modal(" + (element.id) + ") value='Detalles' id='VerDetalles'>");
 
@@ -123,7 +57,7 @@ function filtrar($fav) {
         } catch (e) {
             console.log(e);
         }
-        
+
 
     }
     ajax.send(formdata);
@@ -145,7 +79,6 @@ function modal(id) {
 
     ajax.onload = function() {
         data = JSON.parse(ajax.responseText)
-        console.log(data);
         var modal1 = ``;
         modal1 += `
                             
@@ -162,7 +95,7 @@ function modal(id) {
                 
                         <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">${data.descripcion}</h5>
                             <div style="display: flex; justify-content: space-between;">
-                                <button style="width: 40%" class="btn btn-success" id="btnRuta" ><i class="fa-solid fa-location-dot"></i></button>
+                                <button style="width: 40%" class="btn btn-success" id="btnRuta" onclick=routae(${data.id})  ><i class="fa-solid fa-location-dot"></i></button>
                                 <button onclick=favoritos(${data.id}) style="width: 40%" class="btn btn-success" id="btnFavorito" ><i class="fa-solid fa-heart"></i></button>
                             </div>
                         </div>
@@ -201,6 +134,47 @@ function modal(id) {
 
 }
 
+
+function routae(id) {
+    var ajax = new XMLHttpRequest();
+    let formdata = new FormData;
+    formdata.append("_token", csrf_token);
+    formdata.append("id", id);
+
+    ajax.open('POST', "recoger_datos_etiqueta");
+    ajax.onload = function() {
+        data = JSON.parse(ajax.responseText);
+        // L.Routing.control({
+        //     waypoints: [
+        //         L.latLng(lat, long),
+        //         L.latLng(data.latitud, data.longitud)
+        //     ],
+        //     router: new L.Routing.osrmv1({
+        //         language: 'en',
+        //         profile: 'foot'
+        //     }),
+        // }).addTo(map);
+        // if (marker) {
+        //     map.removeLayer(marker)
+        // }
+        setInterval(() => {
+
+
+            navigator.geolocation.getCurrentPosition(showPosition);
+            if (marker) {
+                map.removeLayer(marker)
+            }
+            // L.Routing.control({ waypoints: [L.latLng(lat, long), L.latLng(data.latitud, data.longitud)] });
+
+        }, 5000);
+    }
+    ajax.send(formdata);
+}
+
+
+
+
+
 function favoritos(id) {
     var ajax = new XMLHttpRequest();
     let formdata = new FormData;
@@ -209,35 +183,64 @@ function favoritos(id) {
     ajax.open('POST', "darFavorito");
     ajax.onload = function() {
 
-        console.log(ajax.responseText);
         if (ajax.responseText == "delete") {
             document.getElementById("btnFavorito").classList.remove("btn-danger");
         } else if (ajax.responseText == "saved") {
             document.getElementById("btnFavorito").classList.add("btn-danger");
-        } else {
-            console.log(ajax.responseText);
         }
     }
     ajax.send(formdata);
 }
 
 const boton = document.getElementById("likes");
+$fav = 0;
 
 // $fav=0;
 boton.addEventListener("click", function() {
     if (boton.classList.contains("activo")) {
         boton.classList.remove("activo");
         boton.classList.add("desactivo");
-        $fav='';
+        $fav = 0;
         filtrar($fav);
-
     } else {
         boton.classList.remove("desactivo");
         boton.classList.add("activo");
-        $fav=1;
+        $fav = 1;
         filtrar($fav);
     }
+})
+
+//Usuario introducido (Register)
+function registradocorrect() {
+    Swal.fire({
+        icon: 'success',
+        title: 'Usuario registrado y logueado!',
+        showConfirmButton: false,
+        timer: 1500
+    })
+}
+
+var greenIcon = new L.Icon({
+    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
 });
-
-
-
+var blackIcon = new L.Icon({
+    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-black.png',
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
+});
+var redIcon = new L.Icon({
+    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
+});

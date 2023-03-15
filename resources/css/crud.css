@@ -1,0 +1,15 @@
+html, body {
+    width: 100%;
+    height: 100%;
+}
+
+.centrado{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.img_table{
+    width: 100px;
+    height: 100px;
+}
