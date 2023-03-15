@@ -47,7 +47,7 @@ class UsuarioController extends Controller{
             return json_encode($query);
         }
         else{
-            $query = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud')->join('punto_etiquetas','punto_etiquetas.punto','=','puntos.id')->where('punto_etiquetas.etiqueta','=',$request->get('filtro_etiqueta'))->get();
+            $query = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud','etiquetas.color')->join('punto_etiquetas','punto_etiquetas.punto','=','puntos.id')->join('etiquetas','punto_etiquetas.etiqueta','=','etiquetas.id')->where('punto_etiquetas.etiqueta','=',$request->get('filtro_etiqueta'))->get();
             return json_encode($query);
         }
 

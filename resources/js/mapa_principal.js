@@ -9,10 +9,6 @@ var marker, circle, lat, long, accuracy, waypoints, Routing, layer;
 
 
 
-
-
-
-
 //Filtros del mapa
 var csrf_token = token.content;
 filtro_nombre.addEventListener('keyup', () => {
@@ -27,7 +23,10 @@ filtro_opinion.addEventListener('change', () => {
 })
 
 
-function filtrar($fav) {
+function filtrar(fav) {
+
+
+
     var ajax = new XMLHttpRequest();
 
     let formdata = new FormData;
@@ -36,21 +35,34 @@ function filtrar($fav) {
     formdata.append('filtro_nombre', filtro_nombre.value)
     formdata.append('filtro_etiqueta', filtro_etiqueta.value)
     formdata.append('filtro_opinion', filtro_opinion.value)
-    formdata.append('filtro_favorito', $fav)
+    formdata.append('filtro_favorito', fav)
 
     ajax.open('POST', "filtro_mapa_principal");
 
     ajax.onload = function() {
         data = JSON.parse(ajax.responseText)
-        console.log(data);
         layerGroup.clearLayers();
         try {
+            if (data[0].color == null) {
+                var color = 'black';
+            } else {
+                color = data[0].color
+            }
+            var icones = new L.Icon({
+                iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-${color}.png`,
+                shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+                iconSize: [25, 41],
+                color: ['#CB2B3E'],
+                iconAnchor: [12, 41],
+                popupAnchor: [1, -34],
+                shadowSize: [41, 41]
+            });
+
             for (let index = 0; index < data.length; index++) {
                 const element = data[index];
-                var mymarker = L.marker([element.latitud, element.longitud], { icon: blackIcon }).addTo(layerGroup);
+                var mymarker = L.marker([element.latitud, element.longitud], { icon: icones }).addTo(layerGroup);
 
                 mymarker.bindPopup("<b>" + element.nombre + "</b> <input type='button' onclick=modal(" + (element.id) + ") value='Detalles' id='VerDetalles'>");
-
             }
 
         } catch (e) {
@@ -192,19 +204,19 @@ function favoritos(id) {
 }
 
 const boton = document.getElementById("likes");
-$fav = 0;
+var fav = 0;
 
 boton.addEventListener("click", function() {
     if (boton.classList.contains("activo")) {
         boton.classList.remove("activo");
         boton.classList.add("desactivo");
-        $fav = 0;
-        filtrar($fav);
+        fav = 0;
+        filtrar(fav);
     } else {
         boton.classList.remove("desactivo");
         boton.classList.add("activo");
-        $fav = 1;
-        filtrar($fav);
+        fav = 1;
+        filtrar(fav);
     }
 })
 
@@ -217,28 +229,3 @@ function registradocorrect() {
         timer: 1500
     })
 }
-
-var greenIcon = new L.Icon({
-    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
-    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
-    shadowSize: [41, 41]
-});
-var blackIcon = new L.Icon({
-    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-black.png',
-    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
-    shadowSize: [41, 41]
-});
-var redIcon = new L.Icon({
-    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
-    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
-    shadowSize: [41, 41]
-});
