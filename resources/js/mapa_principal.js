@@ -47,7 +47,7 @@ function filtrar($fav) {
         try {
             for (let index = 0; index < data.length; index++) {
                 const element = data[index];
-                var mymarker = L.marker([element.latitud, element.longitud]).addTo(layerGroup);
+                var mymarker = L.marker([element.latitud, element.longitud], { icon: greenIcon }).addTo(layerGroup);
 
                 mymarker.bindPopup("<b>" + element.nombre + "</b> <input type='button' onclick=modal(" + (element.id) + ") value='Detalles' id='VerDetalles'>");
 
@@ -192,6 +192,7 @@ function favoritos(id) {
 }
 
 const boton = document.getElementById("likes");
+$fav = 0;
 
 boton.addEventListener("click", function() {
     if (boton.classList.contains("activo")) {
@@ -199,21 +200,15 @@ boton.addEventListener("click", function() {
         boton.classList.add("desactivo");
         $fav = 0;
         filtrar($fav);
-
-        //         console.log(ajax.responseText);
-        //         if(ajax.responseText == 1){
-        //             FavoritoSet = 1
-        //             document.getElementById("btnFavorito").classList.add("btn-danger");
-        //         }
-        //     }
-        //     ajax.send(formdata);
-        // }
-        // getFavoritoUser();
-
-
-    } //Usuario introducido (Register)
+    } else {
+        boton.classList.remove("desactivo");
+        boton.classList.add("activo");
+        $fav = 1;
+        filtrar($fav);
+    }
 })
 
+//Usuario introducido (Register)
 function registradocorrect() {
     Swal.fire({
         icon: 'success',
@@ -222,3 +217,28 @@ function registradocorrect() {
         timer: 1500
     })
 }
+
+var greenIcon = new L.Icon({
+    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
+});
+var blackIcon = new L.Icon({
+    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-black.png',
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
+});
+var redIcon = new L.Icon({
+    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
+});

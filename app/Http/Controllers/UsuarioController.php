@@ -31,34 +31,24 @@ class UsuarioController extends Controller{
         $no = $request->get('filtro_etiqueta') == 'NO';
         $noP = $request->get('filtro_opinion') == 'NO';
         $fav = $request->get('filtro_favorito');
-
-        if($vacio && $no && $fav == 0 && $noP){
+        if($vacio && $no && $fav==0 && $noP){
             $puntos = punto::all();
             return json_encode($puntos);
-        }elseif(!$vacio && $no){
+        }elseif(!$vacio && $no && $noP && $fav==0){
             $puntos = punto::where('nombre','LIKE','%'.$request->get('filtro_nombre').'%')->get();
             return json_encode($puntos);
-        }elseif(!$vacio && !$no){
+        }elseif(!$vacio && !$no && $noP && $fav==0){
             $query = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud')->join('punto_etiquetas','punto_etiquetas.punto','=','puntos.id')->where('puntos.nombre','LIKE','%'.$request->get('filtro_nombre').'%')->where('punto_etiquetas.etiqueta','=',$request->get('filtro_etiqueta'))->get();
             return json_encode($query);
-        // }elseif(!$vacioP && !$no && $noP){
-        //     $query = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud')->join('punto_etiquetas','punto_etiquetas.punto','=','puntos.id')->where('puntos.nombre','LIKE','%'.$request->get('filtro_nombre').'%')->where('punto_etiquetas.etiqueta','=',$request->get('filtro_etiqueta'))->where('punto_etiquetas.personal','=',$request->get('filtro_personal'))->get();
-        //     return json_encode($query);
-        }elseif($fav == 1){
+        }elseif($fav == 1 && $vacio && $no && $noP){
             $query = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud', 'favoritos.punto')
             ->join('favoritos','puntos.id','=','favoritos.punto')
             ->where('favoritos.usuario','=', $request->session()->get('id'))->get();
             return json_encode($query);
         }
         else{
-            $puntos = punto::all();
-
-            // $query = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud')->join('punto_etiquetas','punto_etiquetas.punto','=','puntos.id')->where('punto_etiquetas.etiqueta','=',$request->get('filtro_etiqueta'))->get();
-            // $puntos = punto::all();
-        
-            return json_encode($puntos);
-            // $puntos = punto::all();
-            // return json_encode($puntos);
+            $query = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud')->join('punto_etiquetas','punto_etiquetas.punto','=','puntos.id')->where('punto_etiquetas.etiqueta','=',$request->get('filtro_etiqueta'))->get();
+            return json_encode($query);
         }
 
     }
