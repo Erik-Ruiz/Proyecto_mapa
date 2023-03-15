@@ -17,8 +17,8 @@ class CreatePuntosTable extends Migration
             $table->id();
             $table->string("nombre");
             $table->text("descripcion")->nullable();
-            $table->float('latitud',17,15);
-            $table->float("longitud",17,15);
+            $table->decimal('latitud',17,15);
+            $table->decimal("longitud",17,15);
             $table->boolean("personal");
             $table->unsignedBigInteger("usuario")->nullable();
 

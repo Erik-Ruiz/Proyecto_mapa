@@ -21,22 +21,29 @@ class UsuarioController extends Controller{
 
     public function pagina_mapa_principal(Request $request){
         $id = Usuario::find(session()->get('id'));
-        $personal = etiqueta::all()->where('campo', '<>', 1);
-        $etiquetas = etiqueta::all();
-        return view('user.mapa_principal',compact('etiquetas'));
+        $personales = etiqueta::all()->where('usuario', '=', $request->session()->get('id'));
+        $etiquetas = etiqueta::all()->where('usuario', '=', null);
+        return view('user.mapa_principal',compact('etiquetas','personales'));
     }
 
     public function filtro_mapa_principal(Request $request){
-        $no = $request->get('filtro_etiqueta') == 'NO';
         $vacio = empty($request->get('filtro_nombre'));
-        if($vacio && $no){
+        $no = $request->get('filtro_etiqueta') == 'NO';
+        $noP = $request->get('filtro_opinion') == 'NO';
+        $fav = $request->get('filtro_favorito');
+        if($vacio && $no && $fav==0 && $noP){
             $puntos = punto::all();
             return json_encode($puntos);
-        }elseif(!$vacio && $no){
+        }elseif(!$vacio && $no && $noP && $fav==0){
             $puntos = punto::where('nombre','LIKE','%'.$request->get('filtro_nombre').'%')->get();
             return json_encode($puntos);
-        }elseif(!$vacio && !$no){
+        }elseif(!$vacio && !$no && $noP && $fav==0){
             $query = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud')->join('punto_etiquetas','punto_etiquetas.punto','=','puntos.id')->where('puntos.nombre','LIKE','%'.$request->get('filtro_nombre').'%')->where('punto_etiquetas.etiqueta','=',$request->get('filtro_etiqueta'))->get();
+            return json_encode($query);
+        }elseif($fav == 1 && $vacio && $no && $noP){
+            $query = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud', 'favoritos.punto')
+            ->join('favoritos','puntos.id','=','favoritos.punto')
+            ->where('favoritos.usuario','=', $request->session()->get('id'))->get();
             return json_encode($query);
         }
         else{
@@ -117,6 +124,9 @@ class UsuarioController extends Controller{
     public function index(){
         return view("index");
     }
+    public function index2(){
+        return view("/register");
+    }
 
     //Función para logearte
     public function login(Request $request){
@@ -164,7 +174,8 @@ class UsuarioController extends Controller{
 
     public function register(Request $request) {
         //Filtro para que no envie campos vacios
-        if (!empty($request['username']) && !empty($request['nombre']) && !empty($request['apellidos']) && !empty($request['correo']) && !empty($request['grupo']) && !empty($request['password']) && !empty($request['passwordrepetida'])) {
+        if (!empty(
+            $request['username']) && !empty($request['nombre']) && !empty($request['apellidos']) && !empty($request['correo']) && !empty($request['grupo']) && !empty($request['password']) && !empty($request['passwordrepetida'])) {
             //Suprimir campos en blanco
             $request['username'] = str_replace(' ', '', $request['username']);
             $request['nombre'] = str_replace(' ', '', $request['username']);
@@ -190,23 +201,20 @@ class UsuarioController extends Controller{
                             $insertaruser->save();
 
                             $request->session()->put('id', $insertaruser['id']);
-                            return redirect("mapa_principal");
+                            return redirect()->route("pagina_mapa_principal", ['mensaje' => 'usuariointroducido']);
                         } else {
-                            return redirect("/");
+                            return redirect()->route("index", ['mensaje' => 'repenombre']);
                         }
                     }else{
-                        $asd="repenombre";
-                        return redirect("/")->with("mensaje","prueba");
-
-                       //return route("index",compact('asd'));
+                        return redirect()->route("index", ['mensaje' => 'contranoval']);
                     }
                 } else {
                     // Redirigir al usuario a una página de error o mostrar un mensaje de error en la misma página
-                    return redirect("/");
+                    return redirect()->route("index", ['mensaje' => 'correoinval']);
                 }
             }
         } else {
-            return redirect()->route("index", ['mensaje' => 'repenombre']);
+            return redirect()->route("index", ['mensaje' => 'rellenacampos']);
         }
     }
 
@@ -225,8 +233,10 @@ class UsuarioController extends Controller{
             //Recogemos el usuario de la bd
             $checkAdmin = usuario::where("id","=",$id)->get();
             //Comprobamos si es admin, si lo es, lo redirigimos al crud, sino a la página donde estaba
-            if($checkAdmin[0]["admin"] == 1)
-                return view("admin/crud");
+            if($checkAdmin[0]["admin"] == 1){
+                $user = $checkAdmin[0]['correo'];
+                return view("admin/crud",['user' => $user]);
+            }
             else
                 return redirect()->back();
         }
