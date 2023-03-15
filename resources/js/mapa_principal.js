@@ -195,7 +195,6 @@ function favoritos(id) {
 const boton = document.getElementById("likes");
 $fav = 0;
 
-// $fav=0;
 boton.addEventListener("click", function() {
     if (boton.classList.contains("activo")) {
         boton.classList.remove("activo");
