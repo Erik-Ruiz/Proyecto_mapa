@@ -47,7 +47,7 @@ function filtrar($fav) {
         try {
             for (let index = 0; index < data.length; index++) {
                 const element = data[index];
-                var mymarker = L.marker([element.latitud, element.longitud], { icon: greenIcon }).addTo(layerGroup);
+                var mymarker = L.marker([element.latitud, element.longitud], { icon: blackIcon }).addTo(layerGroup);
 
                 mymarker.bindPopup("<b>" + element.nombre + "</b> <input type='button' onclick=modal(" + (element.id) + ") value='Detalles' id='VerDetalles'>");
 
