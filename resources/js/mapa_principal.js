@@ -107,8 +107,9 @@ function filtrar($fav) {
     ajax.open('POST', "filtro_mapa_principal");
 
     ajax.onload = function() {
+        console.log(ajax.responseText);
+
         data = JSON.parse(ajax.responseText)
-        console.log(data);
         layerGroup.clearLayers();
         try {
             for (let index = 0; index < data.length; index++) {
@@ -222,11 +223,12 @@ function favoritos(id) {
 
 const boton = document.getElementById("likes");
 
+// $fav=0;
 boton.addEventListener("click", function() {
     if (boton.classList.contains("activo")) {
         boton.classList.remove("activo");
         boton.classList.add("desactivo");
-        $fav=0;
+        $fav='';
         filtrar($fav);
 
     } else {

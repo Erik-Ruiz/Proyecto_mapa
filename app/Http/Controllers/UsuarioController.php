@@ -31,8 +31,9 @@ class UsuarioController extends Controller{
         $no = $request->get('filtro_etiqueta') == 'NO';
         $noP = $request->get('filtro_opinion') == 'NO';
         $fav = $request->get('filtro_favorito');
+        // return json_encode($request->get('filtro_favorito') );
 
-        if($vacio && $no && $fav == 0 && $noP){
+        if($vacio && $no && empty($fav) && $noP){
             $puntos = punto::all();
             return json_encode($puntos);
         }elseif(!$vacio && $no){
@@ -51,12 +52,12 @@ class UsuarioController extends Controller{
             return json_encode($query);
         }
         else{
-            $puntos = punto::all();
+            // $puntos = punto::all();
 
             // $query = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud')->join('punto_etiquetas','punto_etiquetas.punto','=','puntos.id')->where('punto_etiquetas.etiqueta','=',$request->get('filtro_etiqueta'))->get();
             // $puntos = punto::all();
         
-            return json_encode($puntos);
+            // return json_encode($query);
             // $puntos = punto::all();
             // return json_encode($puntos);
         }
