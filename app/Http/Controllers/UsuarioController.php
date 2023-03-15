@@ -30,10 +30,9 @@ class UsuarioController extends Controller{
         $no = $request->get('filtro_etiqueta') == 'NO';
         $noP = $request->get('filtro_opinion') == 'NO';
         $vacio = empty($request->get('filtro_nombre'));
-        $vacioP = empty($request->get('filtro_nombre'));
-
         $fav = $request->get('filtro_favorito');
-        if($vacio && $no && $fav == 0 && $noP){
+
+        if($vacio && $no && $fav == 0 ){
             $puntos = punto::all();
             return json_encode($puntos);
         }elseif(!$vacio && $no){
@@ -42,8 +41,8 @@ class UsuarioController extends Controller{
         }elseif(!$vacio && !$no){
             $query = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud')->join('punto_etiquetas','punto_etiquetas.punto','=','puntos.id')->where('puntos.nombre','LIKE','%'.$request->get('filtro_nombre').'%')->where('punto_etiquetas.etiqueta','=',$request->get('filtro_etiqueta'))->get();
             return json_encode($query);
-        // }elseif(!$vacioP && !$noP){
-        //     $query = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud')->join('punto_etiquetas','punto_etiquetas.punto','=','puntos.id')->where('puntos.nombre','LIKE','%'.$request->get('filtro_nombre').'%')->where('punto_etiquetas.etiqueta','=',$request->get('filtro_etiqueta'))->where('punto_etiquetas.etiqueta','=',$request->get('filtro_personal'))->get();
+        // }elseif(!$vacioP && !$no && $noP){
+        //     $query = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud')->join('punto_etiquetas','punto_etiquetas.punto','=','puntos.id')->where('puntos.nombre','LIKE','%'.$request->get('filtro_nombre').'%')->where('punto_etiquetas.etiqueta','=',$request->get('filtro_etiqueta'))->where('punto_etiquetas.personal','=',$request->get('filtro_personal'))->get();
         //     return json_encode($query);
         }elseif($fav == 1){
             $query = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud', 'favoritos.punto')

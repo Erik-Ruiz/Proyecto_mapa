@@ -93,7 +93,7 @@
                         <option value="NO" content="NO"></option>
                         @foreach ($personales as $personal)
                         <option value="{{ $personal->id }}">{{ $personal->nombre }}</option>
-                    @endforeach
+                        @endforeach
                     </select>
                     <button type="button" id="likes" class="btn desactivo" style=" margin-left:5%;"><i
                             style="color: rgb(255, 255, 255);"; class="fa-solid fa-heart"></i></button>
