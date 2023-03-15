@@ -200,10 +200,25 @@ boton.addEventListener("click", function() {
         $fav = 0;
         filtrar($fav);
 
-    } else {
-        boton.classList.remove("desactivo");
-        boton.classList.add("activo");
-        $fav = 1;
-        filtrar($fav);
-    }
-});
+        //         console.log(ajax.responseText);
+        //         if(ajax.responseText == 1){
+        //             FavoritoSet = 1
+        //             document.getElementById("btnFavorito").classList.add("btn-danger");
+        //         }
+        //     }
+        //     ajax.send(formdata);
+        // }
+        // getFavoritoUser();
+
+
+    } //Usuario introducido (Register)
+})
+
+function registradocorrect() {
+    Swal.fire({
+        icon: 'success',
+        title: 'Usuario registrado y logueado!',
+        showConfirmButton: false,
+        timer: 1500
+    })
+}

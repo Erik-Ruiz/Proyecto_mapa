@@ -109,9 +109,16 @@
         </div>
     </div>
 
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="text/javascript" src="../resources/js/mapa_principal.js"></script>
-
+    @php
+    if(isset($_GET['mensaje'])){
+        $mensaje = $_GET['mensaje'];
+        if($mensaje=="usuariointroducido"){
+           echo "<script>registradocorrect()</script>";
+        }
+    }   
+    @endphp
 </body>
 
 
