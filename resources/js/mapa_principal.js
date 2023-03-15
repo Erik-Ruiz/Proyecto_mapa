@@ -102,7 +102,6 @@ function filtrar($fav) {
     formdata.append('filtro_nombre', filtro_nombre.value)
     formdata.append('filtro_etiqueta', filtro_etiqueta.value)
     formdata.append('filtro_opinion', filtro_opinion.value)
-    // formdata.append('filtro_opinion', filtro_opinion.value)
     formdata.append('filtro_favorito', $fav)
 
     ajax.open('POST', "filtro_mapa_principal");
@@ -129,7 +128,7 @@ function filtrar($fav) {
     ajax.send(formdata);
 
 }
-filtrar('');
+filtrar();
 
 function modal(id) {
 
