@@ -27,7 +27,7 @@ filtro_opinion.addEventListener('change', () => {
 })
 
 
-function filtrar($fav) {
+function filtrar(fav) {
     var ajax = new XMLHttpRequest();
 
     let formdata = new FormData;
@@ -36,7 +36,7 @@ function filtrar($fav) {
     formdata.append('filtro_nombre', filtro_nombre.value)
     formdata.append('filtro_etiqueta', filtro_etiqueta.value)
     formdata.append('filtro_opinion', filtro_opinion.value)
-    formdata.append('filtro_favorito', $fav)
+    formdata.append('filtro_favorito', fav)
 
     ajax.open('POST', "filtro_mapa_principal");
 
@@ -193,19 +193,19 @@ function favoritos(id) {
 }
 
 const boton = document.getElementById("likes");
-$fav = 0;
+var fav = 0;
 
 boton.addEventListener("click", function() {
     if (boton.classList.contains("activo")) {
         boton.classList.remove("activo");
         boton.classList.add("desactivo");
-        $fav = 0;
-        filtrar($fav);
+        fav = 0;
+        filtrar(fav);
     } else {
         boton.classList.remove("desactivo");
         boton.classList.add("activo");
-        $fav = 1;
-        filtrar($fav);
+        fav = 1;
+        filtrar(fav);
     }
 })
 

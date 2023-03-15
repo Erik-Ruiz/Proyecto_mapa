@@ -61,8 +61,15 @@
                         <button type="button" class="btn" style="background-color: #B8E0C3">Perfil</button>
 
                     </a>
-                    <button type="button" class="btn" style="background-color: #B8E0C3">LogOut</button>
+                    <button type="button" onclick="cerrarSesion()" class="btn" style="background-color: #B8E0C3">LogOut</button>
                 </div>
+
+                <script>
+
+                    function cerrarSesion() {
+                        location.href = "logout";
+                    }
+                </script>
             </div>
         </nav>
     </div>
