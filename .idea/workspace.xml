@@ -6,7 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="ff810d04-3c13-4d9e-aa4d-406c4d5fc973" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/gincana/routing.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/gincana/routing.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UsuarioController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UsuarioController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/precharge.sql" beforeDir="false" afterPath="$PROJECT_DIR$/precharge.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/css/gincana.css" beforeDir="false" afterPath="$PROJECT_DIR$/resources/css/gincana.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/gincana/routing.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/gincana/modals.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/user/gincana.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/user/gincana.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -188,7 +192,7 @@
       <workItem from="1678207046894" duration="10792000" />
       <workItem from="1678293437712" duration="6326000" />
       <workItem from="1678371425483" duration="14692000" />
-      <workItem from="1678717907174" duration="2155000" />
+      <workItem from="1678717907174" duration="7183000" />
     </task>
     <servers />
   </component>

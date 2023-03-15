@@ -43,7 +43,7 @@ class UsuarioController extends Controller{
             $query = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud')->join('punto_etiquetas','punto_etiquetas.punto','=','puntos.id')->where('punto_etiquetas.etiqueta','=',$request->get('filtro_etiqueta'))->get();
             return json_encode($query);
         }
-       
+
     }
 
     //Hacemos una consulta para recoger los datos del punto al que han clickado
@@ -63,7 +63,7 @@ class UsuarioController extends Controller{
             $datos = punto::where('id', $request->get("id"))->first();
             return json_encode($datos);
         }
-        
+
         //SELECT * FROM `puntos` JOIN favoritos ON puntos.id = favoritos.punto where favoritos.usuario = 3;
     }
 
@@ -124,7 +124,7 @@ class UsuarioController extends Controller{
         $user = $request->except("_token");
         //Recogemos el usuario de la base de datos( si existe )
         $userDB = usuario::where("username","=",$user["username"])->where("password","=",sha1($user["password"]))->get();
-        //Comprobamos si existe un usuario con esos datos 
+        //Comprobamos si existe un usuario con esos datos
         if(count($userDB) == 0){
             //Si no existe lo redirigimos al login
             return redirect("/");
@@ -143,8 +143,8 @@ class UsuarioController extends Controller{
     }
 
 
-    
-    
+
+
     /*--------*/
     /* Perfil */
     /*--------*/
@@ -210,12 +210,12 @@ class UsuarioController extends Controller{
         }
     }
 
-    
+
 
     /*---------------------*/
     /* Funcionamiento Crud */
     /*---------------------*/
-   
+
     //Funcion para devolver el crud
     public function crud(Request $request){
         //Comprobamos si existe la sesion para redirigirlo a la página
@@ -405,6 +405,8 @@ class UsuarioController extends Controller{
             }
         }
     }
+
+
     #region Apartado Gincana
     public function view_gincana (Request $request) {
     if($request->session()->has("id")) {
