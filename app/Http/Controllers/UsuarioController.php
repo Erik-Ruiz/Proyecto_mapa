@@ -418,14 +418,25 @@ class UsuarioController extends Controller{
     }
     public function pagina_gincana (Request $request) {
 
-    if($request->session()->has("id")) {
+        if($request->session()->has("id")) {
 
-        $puntosInteres = punto::get();
+            $puntosInteres = punto::get();
 
-        return json_encode($puntosInteres);
+            return json_encode($puntosInteres);
 
-    } else
-        return redirect("/");
+        } else
+            return redirect("/");
     }
+
+    public function getStatusGincana(Request $request) {
+        if($request->session()->has("id")) {
+
+            $id = Usuario::find(session()->get('id'));
+            
+
+        } else
+            return redirect("/");
+    }
+
     #endregion
 }

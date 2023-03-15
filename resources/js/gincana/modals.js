@@ -1,3 +1,6 @@
+
+
+//#region Modal
 var modal = document.getElementById("myModal");
 var btn = document.getElementById("myBtn");
 var span = document.getElementsByClassName("close")[0];
@@ -16,7 +19,9 @@ window.onclick = function(event) {
         modal.style.display = "none";
     }
 }
+//endregion
 
+//#region PuntosInteres
 function getPuntosInteres(){
 
     var ajax = new XMLHttpRequest();
@@ -49,6 +54,7 @@ L.Routing.control({
 
 //#endregion
 
+//#region Ñuting
 map.on("click", function (e) {
 
     L.Routing.control({
@@ -64,4 +70,4 @@ map.on("click", function (e) {
 
 getPuntosInteres();
 
-//#region no abrir
+//#endregion
