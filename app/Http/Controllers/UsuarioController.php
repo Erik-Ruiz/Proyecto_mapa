@@ -71,19 +71,11 @@ class UsuarioController extends Controller{
         //SELECT * FROM `puntos` JOIN favoritos ON puntos.id = favoritos.punto where favoritos.usuario = 3;
     }
 
-    // public function getFavoritoUser(Request $req){
+    public function logout(Request $request){
+        $request->session()->forget("id");
+        return redirect("/");
+    }
 
-    //     $id_user = $req->session()->get('id');
-    //     $id_punto=$req["id_punt"];
-
-    //     return response()->json(['ID del punto' => $id_punto, 'ID del user' => $id_user]);
-
-    //     if($req->session()->has('id')){
-    //         $id = $req->session()->get('id');
-    //         return favorito::where("punto","=", $id_punto)->where("usuario","=",$id_user)->count();
-    //     }
-    //     return 0;
-    // }
     public function darFavorito(Request $req){
 
         $id_user = $req->session()->get('id');

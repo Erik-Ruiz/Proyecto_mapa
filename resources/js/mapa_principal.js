@@ -24,9 +24,6 @@ filtro_opinion.addEventListener('change', () => {
 
 
 function filtrar(fav) {
-
-
-
     var ajax = new XMLHttpRequest();
 
     let formdata = new FormData;
@@ -40,6 +37,8 @@ function filtrar(fav) {
     ajax.open('POST', "filtro_mapa_principal");
 
     ajax.onload = function() {
+        console.log(ajax.responseText);
+
         data = JSON.parse(ajax.responseText)
         layerGroup.clearLayers();
         try {
