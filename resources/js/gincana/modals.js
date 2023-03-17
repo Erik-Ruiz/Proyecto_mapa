@@ -1,11 +1,12 @@
 var estatus = 0;
 var gimcanaPrueba;
 var pruebasTotales;
+var csrf_token = token.content
 
 var modal = document.getElementById("myModal");
 var span = document.getElementsByClassName("close")[0];
 
-function getStatusGincana () {
+function getStatusGincanaStart () {
     
     var ajax = new XMLHttpRequest();
     ajax.open('GET', "getStatusGincana");
@@ -32,7 +33,7 @@ function getStatusGincana () {
             </div>
             
             <div class="footer-modal">
-                <button id="delete_registro">Borrar</button>
+                <button onclick="borrarGimcana()">Borrar</button>
             </div>`
 
             modal.style.display = "block";
@@ -42,35 +43,89 @@ function getStatusGincana () {
     ajax.send();
 }
 
-function empezarGimcana() {
-    
+function getStatusGincana () {
     var ajax = new XMLHttpRequest();
+    ajax.open('GET', "getStatusGincana");
+    ajax.onload = function() {
+        gimcanaPrueba = JSON.parse(ajax.responseText)[0];
+        pruebasTotales = JSON.parse(ajax.responseText)[1];
+        if(gimcanaPrueba == 0) {
+            document.getElementById('btn-gimcana').innerHTML = "Empezar gimcana";
+            document.getElementById('btn-gimcana').onclick = empezarGimcana;
+        } else {
+            document.getElementById('btn-gimcana').innerHTML = "Ver pista";
+            document.getElementById('btn-gimcana').onclick = verPista;
+        }
+    }
+    ajax.send();
+}
 
+function empezarGimcana() {
+    var ajax = new XMLHttpRequest();
     ajax.open('POST', "insertarRegistro");
+    var form = new FormData();
+    form.append("_token", csrf_token)
     ajax.onload = function(){
         if(ajax.responseText == "OK"){
-            
+            getStatusGincana();
             Swal.fire({
                 position: 'center',
                 icon: 'success',
-                title: 'Gincana Creada Correctamente',
+                title: 'Gincana creada correctamente',
                 showConfirmButton: false,
                 timer: 1500
             })
         }
     }
+    ajax.send(form)
+}
+
+function borrarGimcana() {
+    var ajax = new XMLHttpRequest();
+    ajax.open('POST', "eliminarRegistro");
+    var form = new FormData();
+    form.append("_token", csrf_token)
+    form.append("_method", "DELETE")
+    ajax.onload = function(){
+        if(ajax.responseText == "OK"){
+            getStatusGincana();
+            modal.style.display = "none";
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Gimcana eliminada correctamente',
+                showConfirmButton: false,
+                timer: 1500
+            })
+        }
+    }
+    ajax.send(form)
 }
 
 function verPista() {
-    console.log("a")
+    var ajax = new XMLHttpRequest();
+    ajax.open('POST', "obtenerDataPrueba");
+    var form = new FormData();
+    form.append("_token", csrf_token)
+    form.append("prueba", gimcanaPrueba)
+    ajax.onload = function(){
+        if(ajax.responseText == "OK"){
+            getStatusGincana();
+            modal.style.display = "block";
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Gimcana eliminada correctamente',
+                showConfirmButton: false,
+                timer: 1500
+            })
+        }
+    }
+    ajax.send(form)
 }
 
 
 //#region Modal
-
-// delete_registro.onclick = function() {
-
-// }
 
 span.onclick = function() {
     modal.style.display = "none";
@@ -85,6 +140,6 @@ window.onclick = function(event) {
 //endregion
 
 window.onload = function() {
-    getStatusGincana();
+    getStatusGincanaStart();
 }
 

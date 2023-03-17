@@ -456,35 +456,47 @@ class UsuarioController extends Controller{
             
     }
 
-    public function eliminarRegistro() {
+    public function eliminarRegistro(Request $request) {
+        if($request->session()->has("id")) {
+            try{
+                DB::beginTransaction();
+                $id = session()->get('id');
+                $registerOld = registro::whereNull("fecha_fin")->where("usuario","=",$id)->get();
+                $registerOldId = $registerOld[0]['id'];
+                usuario_prueba::where("usuario","=",$id)->delete();
+                registro::where("id","=",$registerOldId)->delete();
+                DB::commit();
+                return 'OK';
+            }catch(Exception $e){
+                DB::rollBack();
+                return $e->getMessage();
+            }
+        }else{
+            return redirect("/");
+        }
 
     }
 
-    public function crearRegistro(Request $request) {
+    public function insertarRegistro(Request $request) {
 
         if($request->session()->has("id")) {
-            
             try{
-                
                 DB::beginTransaction();
                 $id = session()->get('id');
                 $registro = new usuario_prueba;
                 $registro -> usuario = $id;
                 $registro -> prueba = 1;
-                
+                $registro->save();
                 $fechaRegistro = new registro;
-                $fechaRegistro -> fecha_inicio = getdate();
-                
+                $fechaRegistro -> fecha_inicio =  date('Y-m-d H:i');
+                $fechaRegistro -> usuario = $id;
+                $fechaRegistro->save();
                 DB::commit();
                 return "OK";
-
             }catch(Exception $e){
-
                 DB::rollBack();
                 return $e->getMessage();
-                
             }
-
         } else {
             return redirect("/");
         }
