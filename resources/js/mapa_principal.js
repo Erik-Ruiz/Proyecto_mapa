@@ -141,6 +141,20 @@ function modal(id) {
 
 }
 
+function getPosition(position) {
+    lat = position.coords.latitude
+    long = position.coords.longitude
+
+    if (marker) {
+        map.removeLayer(marker)
+    }
+
+    marker = L.marker([lat, long])
+
+    var featureGroup = L.featureGroup([marker]).addTo(map)
+
+    map.fitBounds(featureGroup.getBounds())
+}
 
 function routae(id) {
     var ajax = new XMLHttpRequest();
@@ -158,7 +172,7 @@ function routae(id) {
             ],
             router: new L.Routing.osrmv1({
                 language: 'en',
-                profile: 'foot'
+                profile: 'foot',
             }),
         }).addTo(map);
 
@@ -170,6 +184,7 @@ function routae(id) {
                 L.latLng(newLat, newLng),
                 routeControl.options.waypoints[1]
             ]);
+
         }, 5000);
     }
     ajax.send(formdata);
@@ -220,21 +235,4 @@ function registradocorrect() {
         showConfirmButton: false,
         timer: 1500
     })
-}
-
-
-function getPosition(position) {
-    lat = position.coords.latitude
-    long = position.coords.longitude
-    accuracy = position.coords.accuracy
-
-    if (marker) {
-        map.removeLayer(marker)
-    }
-
-    marker = L.marker([lat, long])
-
-    var featureGroup = L.featureGroup([marker]).addTo(map)
-
-    map.fitBounds(featureGroup.getBounds())
 }
