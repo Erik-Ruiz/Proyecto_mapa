@@ -12,14 +12,14 @@ var marker, circle, lat, long, accuracy, waypoints, Routing, layer;
 //Filtros del mapa
 var csrf_token = token.content;
 filtro_nombre.addEventListener('keyup', () => {
-    filtrar()
+    filtrar('')
 })
 
 filtro_etiqueta.addEventListener('change', () => {
-    filtrar()
+    filtrar('')
 })
 filtro_opinion.addEventListener('change', () => {
-    filtrar()
+    filtrar('')
 })
 
 
@@ -37,7 +37,6 @@ function filtrar(fav) {
     ajax.open('POST', "filtro_mapa_principal");
 
     ajax.onload = function() {
-        console.log(ajax.responseText);
 
         data = JSON.parse(ajax.responseText)
         layerGroup.clearLayers();
@@ -51,7 +50,6 @@ function filtrar(fav) {
                 iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-${color}.png`,
                 shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
                 iconSize: [25, 41],
-                color: ['#CB2B3E'],
                 iconAnchor: [12, 41],
                 popupAnchor: [1, -34],
                 shadowSize: [41, 41]
@@ -73,7 +71,7 @@ function filtrar(fav) {
     ajax.send(formdata);
 
 }
-filtrar();
+filtrar('');
 
 function modal(id) {
 
@@ -150,32 +148,23 @@ function routae(id) {
     let formdata = new FormData;
     formdata.append("_token", csrf_token);
     formdata.append("id", id);
-
     ajax.open('POST', "recoger_datos_etiqueta");
     ajax.onload = function() {
         data = JSON.parse(ajax.responseText);
-        // L.Routing.control({
-        //     waypoints: [
-        //         L.latLng(lat, long),
-        //         L.latLng(data.latitud, data.longitud)
-        //     ],
-        //     router: new L.Routing.osrmv1({
-        //         language: 'en',
-        //         profile: 'foot'
-        //     }),
-        // }).addTo(map);
-        // if (marker) {
-        //     map.removeLayer(marker)
-        // }
+        navigator.geolocation.getCurrentPosition(getPosition);
+        L.Routing.control({
+            waypoints: [
+                L.latLng(lat, long),
+                L.latLng(data.latitud, data.longitud)
+            ],
+            router: new L.Routing.osrmv1({
+                language: 'en',
+                profile: 'foot'
+            }),
+        }).addTo(map);
         setInterval(() => {
-
-
-            navigator.geolocation.getCurrentPosition(showPosition);
-            if (marker) {
-                map.removeLayer(marker)
-            }
-            // L.Routing.control({ waypoints: [L.latLng(lat, long), L.latLng(data.latitud, data.longitud)] });
-
+            navigator.geolocation.getCurrentPosition(getPosition);
+            L.Routing.control({ waypoints: [L.latLng(lat, long), L.latLng(data.latitud, data.longitud)] });
         }, 5000);
     }
     ajax.send(formdata);
@@ -227,4 +216,21 @@ function registradocorrect() {
         showConfirmButton: false,
         timer: 1500
     })
+}
+
+
+function getPosition(position) {
+    lat = position.coords.latitude
+    long = position.coords.longitude
+    accuracy = position.coords.accuracy
+
+    if (marker) {
+        map.removeLayer(marker)
+    }
+
+    marker = L.marker([lat, long])
+
+    var featureGroup = L.featureGroup([marker]).addTo(map)
+
+    map.fitBounds(featureGroup.getBounds())
 }
