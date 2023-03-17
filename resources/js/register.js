@@ -28,7 +28,7 @@ signupBtn.addEventListener('click', (e) => {
 });
 
 
-//Errores (llevan a la pagina de login)
+//Sweetalert de register
 function repenombre(){
     Swal.fire({
     icon: 'error',
@@ -59,4 +59,14 @@ function contraseñanoval(){
     title: 'Oops...',
     text: 'Contraseñas incorrectas!',
   })
+}
+
+//Sweetalert Login 
+
+function usunoexsiste(){
+  Swal.fire({
+  icon: 'error',
+  title: 'Oops...',
+  text: 'Usuario o contraseña incorrectos!',
+})
 }

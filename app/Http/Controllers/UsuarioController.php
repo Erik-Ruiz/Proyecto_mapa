@@ -126,7 +126,8 @@ class UsuarioController extends Controller{
         //Comprobamos si existe un usuario con esos datos
         if(count($userDB) == 0){
             //Si no existe lo redirigimos al login
-            return redirect("/");
+            return redirect()->route("index", ['mensaje' => 'usunoexsiste']);
+
         }else{
             //Si existe comprobamos si es admin
             $admin = $userDB[0]["admin"];
@@ -295,7 +296,7 @@ class UsuarioController extends Controller{
 
     public function getData(Request $request){
         if($request->session()->has('id')){
-            $numRegistros = 1;
+            $numRegistros = 5;
             $id = $request->session()->get("id");
             $pagActual = $request["pagAct"];
             $user = usuario::where("id","=",$id)->get();

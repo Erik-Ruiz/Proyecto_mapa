@@ -28,6 +28,10 @@ html, body {
     margin-bottom: 1vw;
 }
 
+.frame{
+  margin-left: 15vw;
+}
+
 /* BOTONES */
 
 .custom-btn {
@@ -122,3 +126,17 @@ html, body {
       inset -4px -4px 6px 0 rgba(255,255,255,.2),
       inset 4px 4px 6px 0 rgba(0, 0, 0, .4);
   }
+
+  @media screen and (max-width: 500px) {
+    .frame{
+      margin-top: 5vw;
+    }
+    .inpbuscar{
+      margin-top: 10vw;
+    }
+    .tablacrud{
+      overflow-x: scroll;
+      margin-top: 10vw;
+      margin-bottom: 5vw;
+    }
+ }

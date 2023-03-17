@@ -29,8 +29,8 @@
           <button class="custom-btn btn-2" onclick="clickChange(1)">Usuarios</button>
           <button class="custom-btn btn-2" onclick="clickChange(2)">Interes</button>
           <button class="custom-btn btn-2" onclick="clickChange(3)">Gimcana</button>
-          <input type="text" placeholder="buscar" onkeyup="cambiarDataBuscar()">
-          <button id="btnAdd" onclick="addRegister()" disabled>Añadir</button>
+          <input type="text" class="inpbuscar" style="margin-left:6vw;" placeholder="buscar" onkeyup="cambiarDataBuscar()">
+          <button class="btn btn-dark" style="width: 100px; margin-top:-5px;" id="btnAdd" onclick="addRegister()" disabled>Añadir</button>
         </div>
       </div>
       <br>

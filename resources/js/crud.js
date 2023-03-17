@@ -1,6 +1,6 @@
 crudData = 1;
 pagAct = 0;
-cantPag = 1;
+cantPag = 5;
 cantTotal = 0;
 textSearch = "";
 csrf_token = token.content;
@@ -66,7 +66,7 @@ function getData(){
         }
         data.forEach(element => {
             if(crudData == 1){
-                tableContent += `<tr><th>${element.username}</th><th>${element.nombre} ${element.apellidos}</th><th>${element.correo}</th><th>${element.grupo}</th><th><button onclick=eliminar(1,${element.id})>Eliminar</button></th></th></tr>`
+                tableContent += `<tr><th>${element.username}</th><th>${element.nombre} ${element.apellidos}</th><th>${element.correo}</th><th>${element.grupo}</th><th><button class="btn btn-danger" onclick=eliminar(1,${element.id})>Eliminar</button></th></th></tr>`
             }else if(crudData == 2){
                 tableContent += `<tr><th><img class='img_table' src='../storage/img/${element.id}.jpg'></th><th>${element.nombre}</th><th>${element.descripcion} </th><th>${((Math.round(element.latitud * 1000)) / 1000)},${((Math.round(element.longitud * 1000)) / 1000)}</th><th>${element.username}</th><th><button onclick=modificar(2,${element.id})>Modificar</button><button onclick=eliminar(2,${element.id})>Eliminar</button></th></th></tr>`
             }else if(crudData == 3){

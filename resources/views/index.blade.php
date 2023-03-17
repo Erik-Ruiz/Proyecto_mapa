@@ -62,6 +62,9 @@
         if($mensaje=="rellenacampos"){
            echo "<script>campovacio()</script>";
         }
+		if($mensaje=="usunoexsiste"){
+           echo "<script>usunoexsiste()</script>";
+        }
     }   
     @endphp
 </body>
