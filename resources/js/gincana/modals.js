@@ -1,5 +1,6 @@
 var estatus = 0;
 var gimcanaPrueba;
+var pruebaActual;
 var pruebasTotales;
 var csrf_token = token.content
 
@@ -14,7 +15,8 @@ function getStatusGincanaStart () {
     ajax.onload = function() {
 
         gimcanaPrueba = JSON.parse(ajax.responseText)[0];
-        pruebasTotales = JSON.parse(ajax.responseText)[1];
+        pruebaActual = JSON.parse(ajax.responseText)[1];
+        pruebasTotales = JSON.parse(ajax.responseText)[2];
 
         if(gimcanaPrueba == 0) {
 
@@ -48,7 +50,8 @@ function getStatusGincana () {
     ajax.open('GET', "getStatusGincana");
     ajax.onload = function() {
         gimcanaPrueba = JSON.parse(ajax.responseText)[0];
-        pruebasTotales = JSON.parse(ajax.responseText)[1];
+        pruebaActual = JSON.parse(ajax.responseText)[1];
+        pruebasTotales = JSON.parse(ajax.responseText)[2];
         if(gimcanaPrueba == 0) {
             document.getElementById('btn-gimcana').innerHTML = "Empezar gimcana";
             document.getElementById('btn-gimcana').onclick = empezarGimcana;
@@ -103,25 +106,13 @@ function borrarGimcana() {
 }
 
 function verPista() {
-    var ajax = new XMLHttpRequest();
-    ajax.open('POST', "obtenerDataPrueba");
-    var form = new FormData();
-    form.append("_token", csrf_token)
-    form.append("prueba", gimcanaPrueba)
-    ajax.onload = function(){
-        if(ajax.responseText == "OK"){
-            getStatusGincana();
-            modal.style.display = "block";
-            Swal.fire({
-                position: 'center',
-                icon: 'success',
-                title: 'Gimcana eliminada correctamente',
-                showConfirmButton: false,
-                timer: 1500
-            })
-        }
-    }
-    ajax.send(form)
+    document.getElementById('contenido-modal').innerHTML = 
+            
+    `<div class="titulo-modal">
+        <h4>${pruebaActual["texto_pista"]}</h4>
+    </div>`
+
+    modal.style.display = "block";
 }
 
 

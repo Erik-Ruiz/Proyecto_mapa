@@ -445,8 +445,14 @@ class UsuarioController extends Controller{
             $id = session()->get('id');
             $cantidad = usuario_prueba::where('usuario','=', $id)->count('usuario');
             $total = prueba::count();
+            $prueba = [];
+            
+            if($cantidad != 0){
+                $pruebaBD = prueba::where("id", "=", $cantidad)->get();
+                $prueba = $pruebaBD[0];
+            }
 
-            $array = [$cantidad, $total];
+            $array = [$cantidad, $prueba, $total];
 
             return json_encode($array);
 
