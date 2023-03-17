@@ -4,11 +4,10 @@ const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
 // L.Control.geocoder().addTo(map);
-var marker, circle, lat, long, accuracy, waypoints, Routing, layer,color,fav;
+var marker, circle, lat, long, accuracy, waypoints, Routing, layer, color, fav;
 
 //Filtros del mapa
 var csrf_token = token.content;
-<<<<<<< HEAD
 filtro_nombre.addEventListener('keyup', () => {
     filtrar('')
 })
@@ -19,9 +18,6 @@ filtro_etiqueta.addEventListener('change', () => {
 filtro_opinion.addEventListener('change', () => {
     filtrar('')
 })
-=======
-
->>>>>>> 35c22fee31ce84e0301f0c3a10922e4440a3137a
 
 
 function filtrar(fav) {
@@ -73,12 +69,6 @@ function filtrar(fav) {
     ajax.send(formdata);
 }
 filtrar('');
-<<<<<<< HEAD
-=======
-filtro_nombre.addEventListener('keyup', () => {
-    filtrar('')
-})
->>>>>>> 35c22fee31ce84e0301f0c3a10922e4440a3137a
 
 filtro_etiqueta.addEventListener('change', () => {
     filtrar('')
@@ -86,6 +76,7 @@ filtro_etiqueta.addEventListener('change', () => {
 filtro_opinion.addEventListener('change', () => {
     filtrar('')
 })
+
 function modal(id) {
 
     var datos_modal = document.getElementById('datos_modal');
