@@ -69,7 +69,6 @@ function filtrar(fav) {
 
     }
     ajax.send(formdata);
-
 }
 filtrar('');
 
@@ -152,7 +151,7 @@ function routae(id) {
     ajax.onload = function() {
         data = JSON.parse(ajax.responseText);
         navigator.geolocation.getCurrentPosition(getPosition);
-        L.Routing.control({
+        routeControl = L.Routing.control({
             waypoints: [
                 L.latLng(lat, long),
                 L.latLng(data.latitud, data.longitud)
@@ -162,14 +161,19 @@ function routae(id) {
                 profile: 'foot'
             }),
         }).addTo(map);
+
         setInterval(() => {
             navigator.geolocation.getCurrentPosition(getPosition);
-            L.Routing.control({ waypoints: [L.latLng(lat, long), L.latLng(data.latitud, data.longitud)] });
+            var newLat = lat;
+            var newLng = long;
+            routeControl.setWaypoints([
+                L.latLng(newLat, newLng),
+                routeControl.options.waypoints[1]
+            ]);
         }, 5000);
     }
     ajax.send(formdata);
 }
-
 
 
 
