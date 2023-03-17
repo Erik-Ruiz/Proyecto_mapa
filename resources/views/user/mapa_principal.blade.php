@@ -64,12 +64,6 @@
                     <button type="button" onclick="cerrarSesion()" class="btn" style="background-color: #B8E0C3">LogOut</button>
                 </div>
 
-                <script>
-
-                    function cerrarSesion() {
-                        location.href = "logout";
-                    }
-                </script>
             </div>
         </nav>
     </div>
@@ -103,7 +97,7 @@
                         @endforeach
                     </select>
                     <button type="button" id="likes" class="btn desactivo" style=" margin-left:5%;"><i
-                            style="color: rgb(255, 255, 255);"; class="fa-solid fa-heart"></i></button>
+                            style="color: rgb(255, 255, 255);" class="fa-solid fa-heart"></i></button>
 
                     <div id="datos_modal">
 
@@ -126,6 +120,37 @@
         }
     }   
     @endphp
+
+
+<div class="main-container">
+    <nav class="navigation">
+        <ul>
+            <li>
+                <i class="fa-solid fa-gamepad"></i>
+            </li>
+            <li onclick="perfil()">
+                <i class="fa-solid fa-user"></i>
+            </li>
+            <li onclick="cerrarSesion()">
+                <i class="fa-solid fa-right-from-bracket"></i>
+            </li>
+
+
+        </ul>
+    </nav>
+</div>
+
+
+
+<script>
+
+    function cerrarSesion() {
+        location.href = "logout";
+    }
+    function perfil() {
+        location.href = "admin/perfil";
+    }
+</script>
 </body>
 
 

@@ -4,13 +4,11 @@ const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
 // L.Control.geocoder().addTo(map);
-var marker, circle, lat, long, accuracy, waypoints, Routing, layer;
-
-
-
+var marker, circle, lat, long, accuracy, waypoints, Routing, layer,color,fav;
 
 //Filtros del mapa
 var csrf_token = token.content;
+<<<<<<< HEAD
 filtro_nombre.addEventListener('keyup', () => {
     filtrar('')
 })
@@ -21,6 +19,9 @@ filtro_etiqueta.addEventListener('change', () => {
 filtro_opinion.addEventListener('change', () => {
     filtrar('')
 })
+=======
+
+>>>>>>> 35c22fee31ce84e0301f0c3a10922e4440a3137a
 
 
 function filtrar(fav) {
@@ -33,7 +34,7 @@ function filtrar(fav) {
     formdata.append('filtro_etiqueta', filtro_etiqueta.value)
     formdata.append('filtro_opinion', filtro_opinion.value)
     formdata.append('filtro_favorito', fav)
-
+    console.log(fav);
     ajax.open('POST', "filtro_mapa_principal");
 
     ajax.onload = function() {
@@ -41,8 +42,9 @@ function filtrar(fav) {
         data = JSON.parse(ajax.responseText)
         layerGroup.clearLayers();
         try {
+            console.log(data)
             if (data[0].color == null) {
-                var color = 'black';
+                color = 'black';
             } else {
                 color = data[0].color
             }
@@ -71,7 +73,19 @@ function filtrar(fav) {
     ajax.send(formdata);
 }
 filtrar('');
+<<<<<<< HEAD
+=======
+filtro_nombre.addEventListener('keyup', () => {
+    filtrar('')
+})
+>>>>>>> 35c22fee31ce84e0301f0c3a10922e4440a3137a
 
+filtro_etiqueta.addEventListener('change', () => {
+    filtrar('')
+})
+filtro_opinion.addEventListener('change', () => {
+    filtrar('')
+})
 function modal(id) {
 
     var datos_modal = document.getElementById('datos_modal');
@@ -211,7 +225,7 @@ function favoritos(id) {
 }
 
 const boton = document.getElementById("likes");
-var fav = 0;
+fav = 0;
 
 boton.addEventListener("click", function() {
     if (boton.classList.contains("activo")) {
