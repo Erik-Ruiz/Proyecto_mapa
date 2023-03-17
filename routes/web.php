@@ -44,7 +44,9 @@ Route::post('/darFavorito', [UsuarioController::class, 'darFavorito']);
 Route::get("/gincana",[UsuarioController::class, "view_gincana"]);
 Route::get("/pagina_gincana",[UsuarioController::class, "pagina_gincana"]);
 
-#endregion
+// Route::get('storage-link', function(){
+// 	Artisan::call('storage:link');
+// });
 
 
 
