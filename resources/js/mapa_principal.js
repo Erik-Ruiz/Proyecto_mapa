@@ -4,23 +4,11 @@ const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
 // L.Control.geocoder().addTo(map);
-var marker, circle, lat, long, accuracy, waypoints, Routing, layer;
-
-
-
+var marker, circle, lat, long, accuracy, waypoints, Routing, layer,color,fav;
 
 //Filtros del mapa
 var csrf_token = token.content;
-filtro_nombre.addEventListener('keyup', () => {
-    filtrar()
-})
 
-filtro_etiqueta.addEventListener('change', () => {
-    filtrar()
-})
-filtro_opinion.addEventListener('change', () => {
-    filtrar()
-})
 
 
 function filtrar(fav) {
@@ -33,7 +21,7 @@ function filtrar(fav) {
     formdata.append('filtro_etiqueta', filtro_etiqueta.value)
     formdata.append('filtro_opinion', filtro_opinion.value)
     formdata.append('filtro_favorito', fav)
-
+    console.log(fav);
     ajax.open('POST', "filtro_mapa_principal");
 
     ajax.onload = function() {
@@ -42,8 +30,9 @@ function filtrar(fav) {
         data = JSON.parse(ajax.responseText)
         layerGroup.clearLayers();
         try {
+            console.log(data)
             if (data[0].color == null) {
-                var color = 'black';
+                color = 'black';
             } else {
                 color = data[0].color
             }
@@ -51,7 +40,6 @@ function filtrar(fav) {
                 iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-${color}.png`,
                 shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
                 iconSize: [25, 41],
-                color: ['#CB2B3E'],
                 iconAnchor: [12, 41],
                 popupAnchor: [1, -34],
                 shadowSize: [41, 41]
@@ -73,8 +61,17 @@ function filtrar(fav) {
     ajax.send(formdata);
 
 }
-filtrar();
+filtrar('');
+filtro_nombre.addEventListener('keyup', () => {
+    filtrar('')
+})
 
+filtro_etiqueta.addEventListener('change', () => {
+    filtrar('')
+})
+filtro_opinion.addEventListener('change', () => {
+    filtrar('')
+})
 function modal(id) {
 
     var datos_modal = document.getElementById('datos_modal');
@@ -203,7 +200,7 @@ function favoritos(id) {
 }
 
 const boton = document.getElementById("likes");
-var fav = 0;
+fav = 0;
 
 boton.addEventListener("click", function() {
     if (boton.classList.contains("activo")) {
