@@ -426,6 +426,7 @@ class UsuarioController extends Controller{
     } else
         return redirect("/");
     }
+
     public function pagina_gincana (Request $request) {
 
         if($request->session()->has("id")) {
@@ -449,8 +450,45 @@ class UsuarioController extends Controller{
 
             return json_encode($array);
 
-        } else
+        } else {
             return redirect("/");
+        }
+            
+    }
+
+    public function eliminarRegistro() {
+
+    }
+
+    public function crearRegistro(Request $request) {
+
+        if($request->session()->has("id")) {
+            
+            try{
+                
+                DB::beginTransaction();
+                $id = session()->get('id');
+                $registro = new usuario_prueba;
+                $registro -> usuario = $id;
+                $registro -> prueba = 1;
+                
+                $fechaRegistro = new registro;
+                $fechaRegistro -> fecha_inicio = getdate();
+                
+                DB::commit();
+                return "OK";
+
+            }catch(Exception $e){
+
+                DB::rollBack();
+                return $e->getMessage();
+                
+            }
+
+        } else {
+            return redirect("/");
+        }
+        
     }
 
     #endregion
