@@ -9,11 +9,11 @@ INSERT INTO `puntos` (`id`, `nombre`, `descripcion`, `latitud`, `longitud`, `per
 
 /* Inputs de Etiquetas */
 INSERT INTO `etiquetas` (`id`, `nombre`, `color`, `personal`, `usuario`) VALUES
-(1, 'Parque', 'Verde', 0, NULL),
-(2, 'Catedral', 'Marrón', 0, NULL),
-(3, 'Museo', 'Azul', 0, NULL),
-(4, 'Monumento', 'Amarillo', 0, NULL),
-(5, 'Circo', 'Rojo', 0, NULL);
+(1, 'Parque', 'green', 0, NULL),
+(2, 'Catedral', 'violet', 0, NULL),
+(3, 'Museo', 'blue', 0, NULL),
+(4, 'Monumento', 'yellow', 0, NULL),
+(5, 'Circo', 'red', 0, NULL);
 
 /* Input de punto_etiquetas */
 

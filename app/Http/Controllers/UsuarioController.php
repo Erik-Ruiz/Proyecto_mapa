@@ -56,21 +56,18 @@ class UsuarioController extends Controller{
     //Hacemos una consulta para recoger los datos del punto al que han clickado
     public function recoger_datos_etiqueta(Request $request){
         $request->except("_token");
-        // $datos = punto::where('id', $request->get("id"))->first();
-       $punto = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud', 'favoritos.punto')
+        $punto = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud', 'favoritos.punto')
+                    ->join('favoritos','puntos.id','=','favoritos.punto')
+                    ->where('favoritos.punto','=', $request->get('id'))->count();
+            if($punto==1){
+                $datos = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud', 'favoritos.punto')
                 ->join('favoritos','puntos.id','=','favoritos.punto')
-                ->where('favoritos.punto','=', $request->get('id'))->count();
-
-        if($punto==1){
-            $datos = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud', 'favoritos.punto')
-            ->join('favoritos','puntos.id','=','favoritos.punto')
-            ->where('favoritos.usuario','=', $request->session()->get('id'))->get();
-            return json_encode($datos[0]);
-        }else{
-            $datos = punto::where('id', $request->get("id"))->first();
-            return json_encode($datos);
-        }
-
+                ->where('favoritos.usuario','=', $request->session()->get('id'))->get();
+                return json_encode($datos[0]);
+            }else{
+                $datos = punto::where('id', $request->get("id"))->first();
+                return json_encode($datos);
+            }
         //SELECT * FROM `puntos` JOIN favoritos ON puntos.id = favoritos.punto where favoritos.usuario = 3;
     }
 
