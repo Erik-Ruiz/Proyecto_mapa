@@ -13,3 +13,112 @@ html, body {
     width: 100px;
     height: 100px;
 }
+
+.centradoboton{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2vw;
+}
+
+.tablacrud{
+    margin-left: 7vw;
+    margin-right: 7vw;
+    margin-top: 2vw;
+    margin-bottom: 1vw;
+}
+
+/* BOTONES */
+
+.custom-btn {
+    width: 130px;
+    height: 40px;
+    color: black;
+    border-radius: 5px;
+    padding: 10px 25px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 500;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+     box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
+     7px 7px 20px 0px rgba(0,0,0,.1),
+     4px 4px 5px 0px rgba(0,0,0,.1);
+    outline: none;
+  }
+
+  .custom-btn2 {
+    width: 0px;
+    height: 40px;
+    color: black;
+    border-radius: 5px;
+    padding: 10px 25px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 500;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+     box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
+     7px 7px 20px 0px rgba(0,0,0,.1),
+     4px 4px 5px 0px rgba(0,0,0,.1);
+    outline: none;
+  }
+
+.btn-2 {
+    background: #34A853;
+    background: linear-gradient(0deg,#34A853 0%, #34A853 100%);
+    border: none;
+    margin-right: 1vw;
+    
+  }
+  .btn-2:before {
+    height: 0%;
+    width: 2px;
+  }
+  .btn-2:hover {
+    box-shadow:  4px 4px 6px 0 rgba(255,255,255,.5),
+                -4px -4px 6px 0 rgba(116, 125, 136, .5), 
+      inset -4px -4px 6px 0 rgba(255,255,255,.2),
+      inset 4px 4px 6px 0 rgba(0, 0, 0, .4);
+  }
+
+  .custom-btn3 {
+    width: 0px;
+    height: 40px;
+    color: black;
+    border-radius: 5px;
+    padding: 10px 25px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 500;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+     box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
+     7px 7px 20px 0px rgba(0,0,0,.1),
+     4px 4px 5px 0px rgba(0,0,0,.1);
+    outline: none;
+  }
+
+.btn-3 {
+    background: #34A853;
+    background: linear-gradient(0deg,#34A853 0%, #34A853 100%);
+    border: none;
+    margin-right: 1vw;
+    
+  }
+  .btn-3:before {
+    height: 0%;
+    width: 2px;
+  }
+  .btn-3:hover {
+    box-shadow:  4px 4px 6px 0 rgba(255,255,255,.5),
+                -4px -4px 6px 0 rgba(116, 125, 136, .5), 
+      inset -4px -4px 6px 0 rgba(255,255,255,.2),
+      inset 4px 4px 6px 0 rgba(0, 0, 0, .4);
+  }

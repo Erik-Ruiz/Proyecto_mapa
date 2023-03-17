@@ -24,19 +24,29 @@
             <button class="btn btn-light"  type="submit"><i class="fa-solid fa-right-from-bracket"></i></button>
         </div>
       </nav>
-      <div class="centrado">
-        <button onclick="clickChange(1)">Usuarios</button>
-        <button onclick="clickChange(2)">Puntos Interes</button>
-        <button onclick="clickChange(3)">Pruebas Gimcana</button>
-        <input type="text" placeholder="buscar" onkeyup="cambiarDataBuscar()">
-        <button id="btnAdd" onclick="addRegister()" disabled>Añadir</button>
+      <div class="centradoboton">
+        <div class="frame">
+          <button class="custom-btn btn-2" onclick="clickChange(1)">Usuarios</button>
+          <button class="custom-btn btn-2" onclick="clickChange(2)">Interes</button>
+          <button class="custom-btn btn-2" onclick="clickChange(3)">Gimcana</button>
+          <input type="text" placeholder="buscar" onkeyup="cambiarDataBuscar()">
+          <button id="btnAdd" onclick="addRegister()" disabled>Añadir</button>
+        </div>
       </div>
-      <table id="tableData"  class="table">
-      </table>
-      <div class="centrado">
-        <button  onclick="changePag(false)"><</button>
-        <button id="mostrarPag">1</button>
-        <button onclick="changePag(true)">></button>
+      <br>
+
+      <div class="tablacrud">
+          <table id="tableData"  class="table">
+          </table>
       </div>
+
+      <div class="centrado">
+        <div class="frame2">
+          <button class="custom-btn2 btn-2" onclick="changePag(false)"><</button>
+          <button class="custom-btn2 btn-2" id="mostrarPag">1</button>
+          <button class="custom-btn2 btn-2" onclick="changePag(true)">></button>
+        </div>
+      </div>
+
 </body>
 </html>
