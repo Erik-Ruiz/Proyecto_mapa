@@ -97,7 +97,7 @@ function modal(id) {
                         <h2 style=" margin-right: 20%;">${data.nombre}</h2>
                     </div>
                     <div class="modal-body">
-                        <div id="form" style="width: 23rem;">
+                        <div class="info" id="form" style="width: 23rem;">
                 
                 
                         <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">${data.descripcion}</h5>
@@ -112,6 +112,7 @@ function modal(id) {
                 </div>
             
             </div>
+
         `
 
 
