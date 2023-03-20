@@ -448,9 +448,21 @@ class UsuarioController extends Controller{
         } else {
             return redirect("/");
         }
-            
     }
 
+    public function getPruebaGimcana(Request $request){
+        if($request->session()->has("id")) {
+            try{
+                $prueba = prueba::where("id","=",$request["prueba"]);
+                return json_encode($prueba);
+            }catch(Exception $e){
+                DB::rollBack();
+                return $e->getMessage();
+            }
+        }else{
+            return redirect("/");
+        }
+    }
     public function eliminarRegistro(Request $request) {
         if($request->session()->has("id")) {
             try{
@@ -495,8 +507,83 @@ class UsuarioController extends Controller{
         } else {
             return redirect("/");
         }
-        
     }
 
-    #endregion
+    public function pasoDePrueba(Request $request) {
+        if($request->session()->has("id")) {
+            try{
+                $id = session()->get('id');
+                $registro = new usuario_prueba;
+                $registro -> usuario = $id;
+                $registro -> prueba = $request["prueba"];
+                $registro->save();
+                return "OK";
+            }catch(Exception $e){
+                return $e->getMessage();
+            }
+        } else {
+            return redirect("/");
+        }
+    }
+
+    public function insertarRegistroFinal(Request $request) {
+
+        if($request->session()->has("id")) {
+            try{
+                DB::beginTransaction();
+                $id = session()->get('id');
+                $registro = new usuario_prueba;
+                $registro -> usuario = $id;
+                $registro -> prueba = 1;
+                $registro->save();
+                registro::where("usuario","=",$id)->whereNull("fecha_fin")->update(["fecha_fin" => date('Y-m-d H:i')]);
+                DB::commit();
+                return "OK";
+            }catch(Exception $e){
+                DB::rollBack();
+                return $e->getMessage();
+            }
+        } else {
+            return redirect("/");
+        }
+    }
+
+    public function weCanStart(Request $request){
+        if($request->session()->has("id")) {
+            try{
+                $id = session()->get('id');
+                $user = usuario::where("id","=",$id)->get();
+                $grupo = usuario::where("grupo","=",$user[0]["grupo"])->count();
+                if($grupo != 4){
+                    return false;
+                }else{
+                    return true;
+                }
+            }catch(Exception $e){
+                return false;
+            }
+        } else {
+            return redirect("/");
+        }
+    }
+
+    public function checkPassToRound(Request $request, $prueba){
+        if($request->session()->has("id")) {
+            try{
+                $id = session()->get('id');
+                $user = usuario::where("id","=",$id)->get();
+                $grupo = usuario_prueba::where("usuario.grupo","=",$user[0]["grupo"])->where("usuario_pruebas.prueba","=",$prueba)->join("usuario","usuario.id","=","usuario_pruebas.usuario")->count();
+                if($grupo != 4){
+                    return false;
+                }else{
+                    return true;
+                }
+            }catch(Exception $e){
+                return false;
+            }
+        } else {
+            return redirect("/");
+        }
+    }
 }
+
