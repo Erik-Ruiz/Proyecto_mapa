@@ -43,17 +43,11 @@ Route::post('/darFavorito', [UsuarioController::class, 'darFavorito'])->middlewa
 Route::post('/darOpinion', [UsuarioController::class, 'darOpinion'])->middleware('logout');
 
 #region RUTAS GINCANA
-<<<<<<< HEAD
 Route::get("/gincana",[UsuarioController::class, "view_gincana"])->name("gincana-web");
 Route::get("/pagina_gincana",[UsuarioController::class, "pagina_gincana"]);
 Route::get("/getStatusGincana", [UsuarioController::class, "getStatusGincana"])->name("getStatusGincana");
 Route::post("/insertarRegistro", [UsuarioController::class, "insertarRegistro"])->name("insertarRegistro");
 Route::delete("/eliminarRegistro", [UsuarioController::class, "eliminarRegistro"])->name("eliminarRegistro");
-=======
-Route::get("/gincana",[UsuarioController::class, "view_gincana"])->name("gincana-web")->middleware('logout');
-Route::get("/pagina_gincana",[UsuarioController::class, "pagina_gincana"])->middleware('logout');
-Route::get("/getStatusGincana", [UsuarioController::class, "getStatusGincana"])->name("getStatusGincana")->middleware('logout');
->>>>>>> cb8299925cc62e1225939cade96daa2eb6c09407
 
 #endregion
 
