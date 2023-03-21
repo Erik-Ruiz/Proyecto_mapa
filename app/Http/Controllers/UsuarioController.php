@@ -31,6 +31,7 @@ class UsuarioController extends Controller{
         $no = $request->get('filtro_etiqueta') == 'NO';
         $noP = $request->get('filtro_opinion') == 'NO';
         $fav = $request->get('filtro_favorito');
+
         if($vacio && $no && $fav==0 && $noP){
             $query = punto::all();
             return json_encode($query);
@@ -44,6 +45,9 @@ class UsuarioController extends Controller{
             $query = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud', 'favoritos.punto')
             ->join('favoritos','puntos.id','=','favoritos.punto')
             ->where('favoritos.usuario','=', $request->session()->get('id'))->get();
+            return json_encode($query);
+        }elseif(!$vacio && !$no && $noP && $fav==1){
+            $query = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud')->join('punto_etiquetas','punto_etiquetas.punto','=','puntos.id')->where('puntos.nombre','LIKE','%'.$request->get('filtro_nombre').'%')->where('punto_etiquetas.etiqueta','=',$request->get('filtro_etiqueta'))->get();
             return json_encode($query);
         }
         else{
@@ -109,6 +113,50 @@ class UsuarioController extends Controller{
         }
     }
 
+    public function darOpinion(Request $req){
+
+        $id_user = $req->session()->get('id');
+        $id_punto=$req["id_punt"];
+        $opinion = $req->get('opinion');
+
+        // return response()->json(['ID del punto' => $id_punto, 'ID del user' => $id_user, 'Opinion' => $opinion]);
+        
+        if($req->session()->has('id')){
+
+            try{
+                $opinado = punto_etiqueta::where("usuario", "=", $id_user)->where("punto","=",$id_punto)->where("personal","=",1)->count();
+                if ($opinado == 1){
+
+                    etiqueta::where("nombre", "=", $id_user)->where("punto","=",$id_punto)->update(["nombre" => $opinion]);
+                    return "update";
+                    
+                }else{
+
+                    // $etiqueta = new etiqueta();
+                    // $etiqueta->nombre = $opinion;
+                    // $etiqueta->color = 'Orange';
+                    // $etiqueta->personal = 1;
+                    // $etiqueta->usuario = $id_user;
+                    // $etiqueta->save();
+
+                    // $etiqueta = new punto_etiqueta();
+                    // $etiqueta->etiqueta = $opinion;
+                    // $etiqueta->punto = $id_punto;
+                    // $etiqueta->personal = 1;
+                    // $etiqueta->usuario = $id_user;
+                    // $etiqueta->save();
+                    return "saved";
+
+                }
+
+
+            }catch(\Exception $e){
+                return $e;
+            }
+        }{
+            return route('login');
+        }
+    }
     //Función para devolver la vista del login
     public function index(){
         return view("index");

@@ -39,6 +39,8 @@ Route::post("/filtro_mapa_principal",[UsuarioController::class, "filtro_mapa_pri
 Route::post('/recoger_datos_etiqueta', [UsuarioController::class, 'recoger_datos_etiqueta'])->middleware('logout');
 //Dar el favorito a el punto de interés
 Route::post('/darFavorito', [UsuarioController::class, 'darFavorito'])->middleware('logout');
+//Dar la opinion a el punto de interés 
+Route::post('/darOpinion', [UsuarioController::class, 'darOpinion'])->middleware('logout');
 
 #region RUTAS GINCANA
 Route::get("/gincana",[UsuarioController::class, "view_gincana"])->name("gincana-web")->middleware('logout');

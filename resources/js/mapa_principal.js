@@ -25,7 +25,7 @@ function filtrar(fav) {
     ajax.open('POST', "filtro_mapa_principal");
 
     ajax.onload = function() {
-        console.log(ajax.responseText);
+        // console.log(ajax.responseText);
 
         data = JSON.parse(ajax.responseText)
         layerGroup.clearLayers();
@@ -101,6 +101,7 @@ function modal(id) {
                 
                 
                         <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">${data.descripcion}</h5>
+                        <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px; display: flex; justify-content: space-between;">Danos tu opinión!!<button style="width: 40%" class="btn btn-warning" id="btnRuta" onclick=opinion(${data.id})><i class="fa-solid fa-message"></i></button></h5>
                             <div style="display: flex; justify-content: space-between;">
                                 <button style="width: 40%" class="btn btn-success" id="btnRuta" onclick=routae(${data.id})  ><i class="fa-solid fa-location-dot"></i></button>
                                 <button onclick=favoritos(${data.id}) style="width: 40%" class="btn btn-success" id="btnFavorito" ><i class="fa-solid fa-heart"></i></button>
@@ -226,3 +227,41 @@ function registradocorrect() {
         timer: 1500
     })
 }
+
+function opinion(id){
+    Swal.fire({
+        title: 'Danos tu opinión!!!',
+        html: `<input type="text" id="login" class="swal2-input" placeholder="Encantado!!">`,
+        confirmButtonText: 'Guardar',
+        focusConfirm: false,
+        preConfirm: () => {
+          const login = Swal.getPopup().querySelector('#login').value
+          if (!login) {
+            Swal.showValidationMessage(`Porfavor opina`)
+          }
+          return { login: login}
+        }
+      }).then((result) => {
+        Swal.fire(`
+          Opinión: ${result.value.login}
+        `.trim())
+        // console.log(result.value.login);
+
+        var ajax = new XMLHttpRequest();
+        let formdata = new FormData;
+
+        formdata.append("opinion", result.value.login);
+        formdata.append("id_punt", id);
+        formdata.append("_token", csrf_token);
+
+        ajax.open('POST', "darOpinion");
+        ajax.onload = function() {
+
+            console.log(ajax.responseText);
+
+        }
+        ajax.send(formdata);
+      })
+
+}
+

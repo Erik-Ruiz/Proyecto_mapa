@@ -36,6 +36,8 @@
     <!-- ICONOS -->
     <script src="https://kit.fontawesome.com/8d74b7c7c2.js" crossorigin="anonymous"></script>
 
+    
+
 </head>
 
 <body>
@@ -111,6 +113,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
     <script type="text/javascript" src="../resources/js/mapa_principal.js"></script>
     @php
     if(isset($_GET['mensaje'])){
