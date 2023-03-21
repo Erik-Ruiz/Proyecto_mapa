@@ -31,6 +31,8 @@ class UsuarioController extends Controller{
         $no = $request->get('filtro_etiqueta') == 'NO';
         $noP = $request->get('filtro_opinion') == 'NO';
         $fav = $request->get('filtro_favorito');
+
+
         if($vacio && $no && $fav==0 && $noP){
             $puntos = punto::all();
             return json_encode($puntos);
@@ -41,6 +43,11 @@ class UsuarioController extends Controller{
             $query = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud')->join('punto_etiquetas','punto_etiquetas.punto','=','puntos.id')->where('puntos.nombre','LIKE','%'.$request->get('filtro_nombre').'%')->where('punto_etiquetas.etiqueta','=',$request->get('filtro_etiqueta'))->get();
             return json_encode($query);
         }elseif($fav == 1 && $vacio && $no && $noP){
+            $query = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud', 'favoritos.punto')
+            ->join('favoritos','puntos.id','=','favoritos.punto')
+            ->where('favoritos.usuario','=', $request->session()->get('id'))->get();
+            return json_encode($query);
+        }elseif(!$noP){
             $query = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud', 'favoritos.punto')
             ->join('favoritos','puntos.id','=','favoritos.punto')
             ->where('favoritos.usuario','=', $request->session()->get('id'))->get();
@@ -58,7 +65,8 @@ class UsuarioController extends Controller{
         $request->except("_token");
         $punto = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud', 'favoritos.punto')
                     ->join('favoritos','puntos.id','=','favoritos.punto')
-                    ->where('favoritos.punto','=', $request->get('id'))->count();
+                    ->where('favoritos.punto','=', $request->get('id'))
+                    ->where('favoritos.usuario','=', $request->session()->get('id'))->count();
             if($punto==1){
                 $datos = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud', 'favoritos.punto')
                 ->join('favoritos','puntos.id','=','favoritos.punto')

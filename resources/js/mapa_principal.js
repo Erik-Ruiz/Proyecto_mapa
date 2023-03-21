@@ -25,12 +25,10 @@ function filtrar(fav) {
 
     let formdata = new FormData;
     formdata.append("_token", csrf_token);
-
     formdata.append('filtro_nombre', filtro_nombre.value)
     formdata.append('filtro_etiqueta', filtro_etiqueta.value)
     formdata.append('filtro_opinion', filtro_opinion.value)
     formdata.append('filtro_favorito', fav)
-    console.log(fav);
     ajax.open('POST', "filtro_mapa_principal");
 
     ajax.onload = function() {
@@ -38,7 +36,6 @@ function filtrar(fav) {
         data = JSON.parse(ajax.responseText)
         layerGroup.clearLayers();
         try {
-            console.log(data)
             if (data[0].color == null) {
                 color = 'black';
             } else {
@@ -150,15 +147,15 @@ function getPosition(position) {
     lat = position.coords.latitude
     long = position.coords.longitude
 
-    if (marker) {
-        map.removeLayer(marker)
-    }
+    // if (marker) {
+    //     map.removeLayer(marker)
+    // }
 
-    marker = L.marker([lat, long])
+    // marker = L.marker([lat, long])
 
-    var featureGroup = L.featureGroup([marker]).addTo(map)
+    // var featureGroup = L.featureGroup([marker]).addTo(map)
 
-    map.fitBounds(featureGroup.getBounds())
+    // map.fitBounds(featureGroup.getBounds())
 }
 
 function routae(id) {
@@ -189,7 +186,6 @@ function routae(id) {
                 L.latLng(newLat, newLng),
                 routeControl.options.waypoints[1]
             ]);
-
         }, 5000);
     }
     ajax.send(formdata);
