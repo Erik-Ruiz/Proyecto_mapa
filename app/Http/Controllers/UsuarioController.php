@@ -407,45 +407,39 @@ class UsuarioController extends Controller{
     }
 
 
-    #region Apartado Gincana
+    /*---------*/
+    /* Gimcana */
+    /*---------*/
+
     public function view_gincana (Request $request) {
-    if($request->session()->has("id")) {
-
-        return view("user.gincana");
-
-    } else
-        return redirect("/");
+        if($request->session()->has("id")) {
+            return view("user.gincana");
+        } else {
+            return redirect("/");
+        }
     }
 
     public function pagina_gincana (Request $request) {
-
         if($request->session()->has("id")) {
-
             $puntosInteres = punto::get();
-
             return json_encode($puntosInteres);
-
-        } else
+        } else {
             return redirect("/");
+        }
     }
 
     public function getStatusGincana(Request $request) {
         if($request->session()->has("id")) {
-
             $id = session()->get('id');
             $cantidad = usuario_prueba::where('usuario','=', $id)->count('usuario');
             $total = prueba::count();
             $prueba = [];
-            
             if($cantidad != 0){
                 $pruebaBD = prueba::where("id", "=", $cantidad)->get();
                 $prueba = $pruebaBD[0];
             }
-
             $array = [$cantidad, $prueba, $total];
-
             return json_encode($array);
-
         } else {
             return redirect("/");
         }
@@ -482,7 +476,6 @@ class UsuarioController extends Controller{
         }else{
             return redirect("/");
         }
-
     }
 
     public function insertarRegistro(Request $request) {
@@ -528,7 +521,6 @@ class UsuarioController extends Controller{
     }
 
     public function insertarRegistroFinal(Request $request) {
-
         if($request->session()->has("id")) {
             try{
                 DB::beginTransaction();
@@ -587,4 +579,3 @@ class UsuarioController extends Controller{
         }
     }
 }
-

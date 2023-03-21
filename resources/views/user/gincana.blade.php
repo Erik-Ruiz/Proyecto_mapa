@@ -16,20 +16,58 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
 
     <link rel="stylesheet" href="../resources/css/gincana.css">
+    <link rel="stylesheet" href="../resources/css/mapa_principal.css">
+
+    <!-- BOOSTRAPP -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
+    </script>
 
     <title>Gincana</title>
 </head>
 <body>
 
-    <div id="map" style="width:100%; height: 100vh">
-        <button id="btn-gimcana" class="my-btn"></button>
+    <!-- NAVBAR -->
+    <div class="navs">
+        <nav class="navbar navbar-expand-lg" style="background-color: #34A853">
+            <div class="container-fluid">
+                <img src="../resources/img/logo.jpg" style=" height:50px; width:50px;">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                    </ul>
+                    <button id="btn-gimcana" type="button" class="btn" style="background-color: #B8E0C3; margin-right: 1%;">Iniciar Gincana</button>
+                    <a class="navbar-brand" href="{{ route('perfil') }}">
+
+                        <button type="button" class="btn" style="background-color: #B8E0C3">Perfil</button>
+
+                    </a>
+                    <button type="button" onclick="cerrarSesion()" class="btn" style="background-color: #B8E0C3">LogOut</button>
+                </div>
+            </div>
+        </nav>
     </div>
+
+    <div class="zona_mapa">
+        <div id="map" style="width:100%; height: 100vh; z-index: -1;"> 
+        </div>    
+    </div>
+    
+   
+
 
     <div id="myModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
             <!-- <p>Contenido del modal aquí.</p> -->
-            <div id="contenido-modal">
+            <div class="modal-body" id="contenido-modal">
 
             </div>
         </div>
