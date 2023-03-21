@@ -13,7 +13,12 @@ const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
 
-
+var circle = L.circle([41.38710079433486, 2.183035577913213], {
+    color: 'red',
+    fillColor: '#f03',
+    fillOpacity: 0.5,
+    radius: 500
+}).addTo(map);
 
 function getStatusGincanaStart () {
     
@@ -35,15 +40,22 @@ function getStatusGincanaStart () {
             document.getElementById('btn-gimcana').innerHTML = "Ver pista";
             document.getElementById('btn-gimcana').onclick = verPista;
             
+<<<<<<< HEAD
             document.getElementById('contenido-modal').innerHTML = 
             `<div class="titulo-modal">
+=======
+            document.getElementById('contenido-modal').innerHTML = `
+            
+            <div class="modal-header">
+>>>>>>> f7603ac3c7898f3562e9bac8a45a31c0f09d6bc8
                 <h1>¿Estas seguro que quieres borrar la partida? </h1>
             </div>
             
             <div class="footer-modal">
                 <button onclick="borrarGimcana()">Borrar</button>
-            </div>`
+            </div>
 
+            `
             modal.style.display = "block";
         }
 
