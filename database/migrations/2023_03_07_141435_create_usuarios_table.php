@@ -19,7 +19,7 @@ class CreateUsuariosTable extends Migration
             $table->string("nombre",20);
             $table->string("apellidos",40)->nullable();
             $table->string("correo",50)->unique();
-            $table->unsignedBigInteger("grupo");
+            $table->unsignedBigInteger("grupo")->nullable();
             $table->text("password");
             $table->boolean("admin");
 

@@ -18,9 +18,11 @@
 			<input type="text" name="username" class="input" placeholder="Usuario">
 			<input type="text" name="nombre" class="input" placeholder="Nombre">
 			<input type="text" name="apellidos" class="input" placeholder="Apellido">
+
 			<select class="input" name="grupo">
-				<option value="1">1</option>
+				{{-- <option value="1">1</option> --}}
    			</select>
+			
 			<input type="text" name="correo" class="input" placeholder="Correo">
 			<input type="password" name="password" class="input" placeholder="Escribe tu contraseña">
 			<input type="password" name="passwordrepetida" class="input" placeholder="Repite la contraseña">
