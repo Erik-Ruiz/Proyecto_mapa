@@ -32,12 +32,10 @@ function getStatusGincanaStart () {
             document.getElementById('btn-gimcana').onclick = empezarGimcana;
 
         } else {
-            
             document.getElementById('btn-gimcana').innerHTML = "Ver pista";
             document.getElementById('btn-gimcana').onclick = verPista;
             
             document.getElementById('contenido-modal').innerHTML = 
-            
             `<div class="titulo-modal">
                 <h1>¿Estas seguro que quieres borrar la partida? </h1>
             </div>
@@ -86,6 +84,14 @@ function empezarGimcana() {
                 showConfirmButton: false,
                 timer: 1500
             })
+        }else if(ajax.responseText == "notGrupo"){
+            Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: 'Para crear una gimcana tienes que tener un grupo asignado',
+                showConfirmButton: false,
+                showConfirmButton: true,
+            })
         }
     }
     ajax.send(form)
@@ -114,13 +120,44 @@ function borrarGimcana() {
 }
 
 function verPista() {
-    document.getElementById('contenido-modal').innerHTML = 
-            
-    `<div class="titulo-modal">
-        <h4>${pruebaActual["texto_pista"]}</h4>
-    </div>`
+    var ajax = new XMLHttpRequest();
+    ajax.open('POST', "checkPassToRound");
+    var form = new FormData();
+    form.append("_token", csrf_token)
+    form.append("prueba", pruebaActual.id)
+    ajax.onload = function(){
+        console.log(ajax.responseText)
+        if(ajax.responseText){
+            if(
+                
+            ){
 
-    modal.style.display = "block";
+            }
+            
+            document.getElementById('contenido-modal').innerHTML = 
+            
+            `<div class="titulo-modal">
+                <h4>${pruebaActual["texto_pista"]}</h4>
+            </div>`
+        
+            modal.style.display = "block";
+        }else{
+            if(pruebaActual == 1){
+                text = "Para empezar todos los usuarios de este grupo tienen que iniciar la gimcana";
+            }else{
+                text = "Todos los integrantes del grupo debeis estar en la misma prueba";
+            }
+            document.getElementById('contenido-modal').innerHTML = 
+            
+            `<div class="titulo-modal">
+                <h4>${text}</h4>
+            </div>`
+        
+            modal.style.display = "block";
+        }
+    }
+    ajax.send(form)
+
 }
 
 

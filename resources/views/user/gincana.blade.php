@@ -21,9 +21,10 @@
 </head>
 <body>
 
-    <div id="map" style="width:100%; height: 100vh">
-        <button id="btn-gimcana" class="my-btn"></button>
+    <div id="map" style="width:100%; height: 100vh; z-index:-1">
     </div>
+
+    <button id="btn-gimcana" class="my-btn"></button>
 
     <div id="myModal" class="modal">
         <div class="modal-content">
