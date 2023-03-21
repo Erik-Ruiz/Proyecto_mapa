@@ -44,6 +44,8 @@ Route::post('/darFavorito', [UsuarioController::class, 'darFavorito']);
 Route::get("/gincana",[UsuarioController::class, "view_gincana"])->name("gincana-web");
 Route::get("/pagina_gincana",[UsuarioController::class, "pagina_gincana"]);
 Route::get("/getStatusGincana", [UsuarioController::class, "getStatusGincana"])->name("getStatusGincana");
+Route::post("/insertarRegistro", [UsuarioController::class, "insertarRegistro"])->name("insertarRegistro");
+Route::delete("/eliminarRegistro", [UsuarioController::class, "eliminarRegistro"])->name("eliminarRegistro");
 
 #endregion
 
