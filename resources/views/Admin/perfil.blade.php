@@ -22,16 +22,59 @@
                 </ul>
                 <button class="btn btn-light"  type="submit"><i class="fa-solid fa-right-from-bracket"></i></button>
             </div>
-            <div class="100">
-                <div class="x">
-
-                </div>
-                <div class="y">
-                        <h1></h1>
-                        <p></p>
-                        <p></p>
-                </div>
-            </div>
     </nav>
+
+    <div class="c100">
+                <div class="c35">
+                    <div class="cont-35 flex">
+                        <img src="{{asset('../resources/img/imagen-usuarios.png')}}" alt="imgusuario">
+                    </div>
+                </div>
+                <div class="c65">
+                    <div class="container65">
+                        <div class="flex">
+                            <h1>Perfil</h1><br>
+                        </div>
+                        <div class="contenido-65">
+                            <h2>Nombre Usuario: Yeray Llorca</h2><br>
+                            <p>Nombre: Yeray</p><br>
+                            <p>Apellidos: Llorca Carrera</p><br>
+                            <p>Correo: yeray@gmail.com</p>
+                            <p></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="c35">
+                    <div class="flex">
+                        <h1>Lugares favoritos</h1><br>
+                    </div>
+                    <div class="contenido-35">
+                        <img src="{{asset('../resources/img/marcadoryeray.png')}}" alt="Marcador">
+                        <p>(Logo marcador) Parc de la serp Num. 100</p>
+                    </div>
+                </div>
+                <div class="c65">
+                    <div class="container65">
+                        <div class="flex">
+                            <h1>Etiquetas</h1><br>
+                        </div>
+                        <div class="contenido-65">
+                            <p>Nombre:</p><br>
+                            <p>Descripción:</p><br>
+                        </div>
+                    </div>
+                </div>
+                <div class="c65right">
+                    <div class="container65">
+                        <div class="flex">
+                            <h1>Histórico pruebas</h1><br>
+                        </div>
+                        <div class="contenido-65">
+                            <p>Prueba:</p><br>
+                            <p>Tiempo:</p><br>
+                        </div>
+                    </div>
+                </div>
+    </div>
 </body>
 </html>
