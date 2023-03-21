@@ -26,7 +26,7 @@
 
     <div class="c100">
                 <div class="c35">
-                    <div class="contenido-35 flex">
+                    <div class="cont-35 flex">
                         <img src="{{asset('../resources/img/imagen-usuarios.png')}}" alt="imgusuario">
                     </div>
                 </div>
@@ -46,10 +46,11 @@
                 </div>
                 <div class="c35">
                     <div class="flex">
-                    <h1>Lugares favoritos</h1><br>
+                        <h1>Lugares favoritos</h1><br>
                     </div>
                     <div class="contenido-35">
-                    <p>(Logo marcador) Parc de la serp Num. 100</p>
+                        <img src="{{asset('../resources/img/marcadoryeray.png')}}" alt="Marcador">
+                        <p>(Logo marcador) Parc de la serp Num. 100</p>
                     </div>
                 </div>
                 <div class="c65">

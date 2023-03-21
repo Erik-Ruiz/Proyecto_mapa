@@ -53,10 +53,11 @@
 /* Contenido dentro de los containers */
 
 .contenido-35{
-
+    margin-left: 2vw;
+    font-size: 25px;
 }
 
-.contenido-35 img{
+.cont-35 img{
     width: 20vw;
 }
 
