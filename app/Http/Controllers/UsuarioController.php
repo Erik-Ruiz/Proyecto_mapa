@@ -431,7 +431,6 @@ class UsuarioController extends Controller{
 
     public function getStatusGincana(Request $request) {
         if($request->session()->has("id")) {
-
             $id = session()->get('id');
             $cantidad = usuario_prueba::where('usuario','=', $id)->count('usuario');
             $total = prueba::count();
@@ -443,7 +442,6 @@ class UsuarioController extends Controller{
             }
 
             $array = [$cantidad, $prueba, $total];
-
             return json_encode($array);
 
         } else {
@@ -464,6 +462,21 @@ class UsuarioController extends Controller{
             return redirect("/");
         }
     }
+    public function getTotalOfUserInGroup(Request $request){
+        if($request->session()->has("id")) {
+            try{
+                $id = session()->get('id');
+                $user = usuario::where("id","=",$id)->get();
+                $grupo = usuario::where("grupo","=",$user[0]["grupo"])->count();
+                return $grupo;
+            }catch(Exception $e){
+                return -1;
+            }
+        } else {
+            return redirect("/");
+        }
+    }
+    
     public function eliminarRegistro(Request $request) {
         if($request->session()->has("id")) {
             try{
@@ -473,6 +486,7 @@ class UsuarioController extends Controller{
                 $registerOldId = $registerOld[0]['id'];
                 usuario_prueba::where("usuario","=",$id)->delete();
                 registro::where("id","=",$registerOldId)->delete();
+                usuario::where("id","=",$id)->update(["grupo" => null]);
                 DB::commit();
                 return 'OK';
             }catch(Exception $e){
@@ -489,8 +503,12 @@ class UsuarioController extends Controller{
 
         if($request->session()->has("id")) {
             try{
-                DB::beginTransaction();
                 $id = session()->get('id');
+                $user = usuario::where("id","=",$id)->get();
+                if($user[0]["grupo"] ==null){
+                    return "notGrupo";
+                }
+                DB::beginTransaction();
                 $registro = new usuario_prueba;
                 $registro -> usuario = $id;
                 $registro -> prueba = 1;
@@ -548,38 +566,21 @@ class UsuarioController extends Controller{
             return redirect("/");
         }
     }
-
-    public function weCanStart(Request $request){
+    public function checkPassToRound(Request $request){
         if($request->session()->has("id")) {
             try{
                 $id = session()->get('id');
+                $prueba = $request["prueba"];
                 $user = usuario::where("id","=",$id)->get();
-                $grupo = usuario::where("grupo","=",$user[0]["grupo"])->count();
-                if($grupo != 4){
+                $grupo = usuario_prueba::where("usuarios.grupo","=",$user[0]["grupo"])->where("usuario_pruebas.prueba","=",$prueba)->join("usuarios","usuarios.id","=","usuario_pruebas.usuario")->count();
+                $totalUsers =  $this->getTotalOfUserInGroup($request);
+                if($grupo != $totalUsers){
                     return false;
                 }else{
                     return true;
                 }
             }catch(Exception $e){
-                return false;
-            }
-        } else {
-            return redirect("/");
-        }
-    }
-
-    public function checkPassToRound(Request $request, $prueba){
-        if($request->session()->has("id")) {
-            try{
-                $id = session()->get('id');
-                $user = usuario::where("id","=",$id)->get();
-                $grupo = usuario_prueba::where("usuario.grupo","=",$user[0]["grupo"])->where("usuario_pruebas.prueba","=",$prueba)->join("usuario","usuario.id","=","usuario_pruebas.usuario")->count();
-                if($grupo != 4){
-                    return false;
-                }else{
-                    return true;
-                }
-            }catch(Exception $e){
+                echo $e->getMessage();
                 return false;
             }
         } else {
