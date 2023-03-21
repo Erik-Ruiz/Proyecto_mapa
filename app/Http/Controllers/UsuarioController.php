@@ -175,14 +175,14 @@ class UsuarioController extends Controller{
     public function register(Request $request) {
         //Filtro para que no envie campos vacios
         if (!empty(
-            $request['username']) && !empty($request['nombre']) && !empty($request['apellidos']) && !empty($request['correo']) && !empty($request['grupo']) && !empty($request['password']) && !empty($request['passwordrepetida'])) {
+            $request['username']) && !empty($request['nombre']) && !empty($request['apellidos']) && !empty($request['correo']) && !empty($request['password']) && !empty($request['passwordrepetida'])) {
             //Suprimir campos en blanco
             $request['username'] = str_replace(' ', '', $request['username']);
             $request['nombre'] = str_replace(' ', '', $request['username']);
             $request['password'] = str_replace(' ', '', $request['password']);
             $request['passwordrepetida'] = str_replace(' ', '', $request['passwordrepetida']);
-            //Filtro para que no envie nada vacio
-            if (!empty(trim($request['username'])) && !empty(trim($request['nombre'])) && !empty(trim($request['correo'])) && !empty(trim($request['grupo'])) && !empty(trim($request['password'])) && !empty(trim($request['passwordrepetida']))) {
+            //Filtro para que no envie nada vacio                
+            if (!empty(trim($request['username'])) && !empty(trim($request['nombre'])) && !empty(trim($request['correo'])) && !empty(trim($request['password'])) && !empty(trim($request['passwordrepetida']))) {
                 // Validar la dirección de correo electrónico
                 if (filter_var(trim($request['correo']), FILTER_VALIDATE_EMAIL)) {
                     if($request['password'] == $request['passwordrepetida']){

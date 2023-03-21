@@ -24,11 +24,15 @@ html,body {
 }
 
 /* Estilos para el botón */
-#myBtn {
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: #fff;
-    border: none;
+.myBtn {
+    /* position: relative !important; */
+    display: flex;
+    flex-direction: row;
+    margin: 10px;
+    z-index: 1000;
+    justify-content: flex-start;
+    width: 50%;
+
     cursor: pointer;
 }
 
