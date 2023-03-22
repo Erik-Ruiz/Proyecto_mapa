@@ -101,7 +101,11 @@ function modal(id) {
                 
                 
                         <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">${data.descripcion}</h5>
-                        <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px; display: flex; justify-content: space-between;">Danos tu opinión!!<button style="width: 40%" class="btn btn-warning" id="btnRuta" onclick=opinion(${data.id})><i class="fa-solid fa-message"></i></button></h5>
+                        <div style="display: flex; justify-content: space-between;">
+                            <h4 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Opinión: </h4>
+                            <h4 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Muy bien</h4>
+                        </div>
+                        <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px; display: flex; justify-content: space-between;">Danos tu opinión!!<button style="width: 40%" class="btn btn-warning" onclick=opinion(${data.id})><i class="fa-solid fa-message"></i></button></h5>
                             <div style="display: flex; justify-content: space-between;">
                                 <button style="width: 40%" class="btn btn-success" id="btnRuta" onclick=routae(${data.id})  ><i class="fa-solid fa-location-dot"></i></button>
                                 <button onclick=favoritos(${data.id}) style="width: 40%" class="btn btn-success" id="btnFavorito" ><i class="fa-solid fa-heart"></i></button>
