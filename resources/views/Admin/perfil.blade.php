@@ -54,28 +54,6 @@
                             <p>Correo: yeray@gmail.com</p>
                             <p></p>
                         </div>
-<!--                         <form action="" method="post" id="frm">
-                            <div class="form-group">
-                                <label for="">Codigo</label>
-                                <input type="hidden" name="idp" id="idp" value="">
-                                <input type="text" name="codigo" id="codigo" placeholder="Codigo" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label for="">Producto</label>
-                                <input type="text" name="producto" id="producto" placeholder="Descripción" class="form-control">
-                            </div>
-                            <div class="form-group">precio
-                                <label for="">Precio</label>
-                                <input type="text" name="precio" id="precio" placeholder="Precio" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label for="">Cantidad</label>
-                                <input type="text" name="cantidad" id="cantidad" placeholder="cantidad" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <input type="button" value="Registrar" id="registrar" class="btn btn-primary btn-block">
-                            </div>
-                        </form> -->
                     </div>
                     <div class="container65">
                         <div class="flex">
@@ -95,12 +73,6 @@
                             <p>Tiempo:</p><br>
                         </div>
                     </div>
-                </div>
-                <div class="c65">
-
-                </div>
-                <div class="c65right">
-
                 </div>
     </div>
 </body>
