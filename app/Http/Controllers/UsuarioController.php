@@ -123,37 +123,58 @@ class UsuarioController extends Controller{
         
         if($req->session()->has('id')){
 
-            try{
-                $opinado = punto_etiqueta::where("usuario", "=", $id_user)->where("punto","=",$id_punto)->where("personal","=",1)->count();
-                if ($opinado == 1){
+                // $opinado = punto_etiqueta::where("usuario", "=", $id_user)->where("punto","=",$id_punto)->where("personal","=",1)->count();
+                $opinado = punto_etiqueta::select('punto_etiquetas.etiqueta')
+                ->where("usuario", "=", $id_user)->where("punto","=",$id_punto)->where("personal","=",1)->get();
+                
+                if (count($opinado) != 0){
 
-                    etiqueta::where("nombre", "=", $id_user)->where("punto","=",$id_punto)->update(["nombre" => $opinion]);
-                    return "update";
+    
+                    etiqueta::where("id", "=", $opinado[0]['etiqueta'])->update(["nombre" => $opinion]);
+
+
+                    return $opinado[0]['etiqueta'];
                     
                 }else{
+                    
+                    try{
+                        DB::beginTransaction();
 
-                    // $etiqueta = new etiqueta();
-                    // $etiqueta->nombre = $opinion;
-                    // $etiqueta->color = 'Orange';
-                    // $etiqueta->personal = 1;
-                    // $etiqueta->usuario = $id_user;
-                    // $etiqueta->save();
+                        $etiqueta = new etiqueta();
+                        $etiqueta->nombre = $opinion;
+                        $etiqueta->color = 'Orange';
+                        $etiqueta->personal = 1;
+                        $etiqueta->usuario = $id_user;
+                        $etiqueta->save();
 
-                    // $etiqueta = new punto_etiqueta();
-                    // $etiqueta->etiqueta = $opinion;
-                    // $etiqueta->punto = $id_punto;
-                    // $etiqueta->personal = 1;
-                    // $etiqueta->usuario = $id_user;
-                    // $etiqueta->save();
+                        $id_etiqueta = DB::getPdo()->lastInsertId();
+
+
+                        $punto_etiqueta = new punto_etiqueta();
+                        $punto_etiqueta->etiqueta = $id_etiqueta;
+                        $punto_etiqueta->punto = $id_punto;
+                        $punto_etiqueta->personal = 1;
+                        $punto_etiqueta->usuario = $id_user;
+                        $punto_etiqueta->save();
+
+                        DB::commit();
+                        return "OK";
+                    }catch(Exception $e){
+                        DB::rollBack();
+                        return $e->getMessage();
+                    }
+
+
+
+
+                    
                     return "saved";
 
                 }
 
 
-            }catch(\Exception $e){
-                return $e;
-            }
-        }{
+
+        }else{
             return route('login');
         }
     }
