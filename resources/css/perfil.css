@@ -17,21 +17,18 @@
 .c35{
     width: 35vw;
     background-color: aqua;
-    height: 20vw;
     float: left;
 }
 
 .c65{
     width: 65vw;
     background-color: aquamarine;
-    height: 20vw;
     float: left;
 }
 
 .c65right{
     width: 65vw;
     background-color: aquamarine;
-    height: 20vw;
     float: right;
 }
 
@@ -51,9 +48,21 @@
 
 
 /* Contenido dentro de los containers */
+.flex h1{
+    margin-top: 1vw;
+}
+.lugares h1{
+    margin-top: 2vw;
+    margin-bottom: 1vw;
+}
+
+.lugares p{
+    margin-top: 0.3vw;
+}
 
 .contenido-35{
-    margin-left: 2vw;
+    margin-left: 4vw;
+    margin-right: 2vw;
     font-size: 25px;
 }
 
@@ -63,5 +72,6 @@
 
 .contenido-65 {
     padding-left: 3vw;
-
+    padding-bottom: 2vw;
+    font-size: 1vw;
 }
