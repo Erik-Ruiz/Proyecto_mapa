@@ -82,8 +82,8 @@ class UsuarioController extends Controller{
         //Saber si tiene favorito
         $punto = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud', 'favoritos.punto')
                     ->join('favoritos','puntos.id','=','favoritos.punto')
-                    ->where('favoritos.punto','=', $request->get('id'))->count();
-        
+                    ->where('favoritos.punto','=', $request->get('id'))
+                    ->where('favoritos.usuario','=', $request->session()->get('id'))->count();
         //Saber si tiene una etiqueta personalizada
         // $opinado = punto_etiqueta::select('punto_etiquetas.etiqueta')
         // ->where("usuario", "=", $request->session()->get('id'))->where("punto","=",$request->get("id"))->where("personal","=",1)->get();
@@ -92,6 +92,7 @@ class UsuarioController extends Controller{
         if($punto==1){
             $datos = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud', 'favoritos.punto')
             ->join('favoritos','puntos.id','=','favoritos.punto')
+            ->where('favoritos.punto','=', $request->get('id'))
             ->where('favoritos.usuario','=', $request->session()->get('id'))->get();
             return json_encode($datos[0]);
 
