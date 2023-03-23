@@ -115,7 +115,9 @@ function modal(id) {
                         <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">${data.descripcion}</h5>
                         <div style="display: flex; justify-content: space-between;">
                             <h4 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Opinión: </h4>
-                            <h4 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">-</h4>
+                            <h4 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">`
+                            if(data.etiquetas == null){modal1 +=`-`}else{modal1 +=data.etiquetas}
+                            modal1 += `</h4>
                         </div>
                         <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px; display: flex; justify-content: space-between;">Danos tu opinión!!<button style="width: 40%" class="btn btn-warning" onclick=opinion(${data.id})><i class="fa-solid fa-message"></i></button></h5>
                             <div style="display: flex; justify-content: space-between;">
