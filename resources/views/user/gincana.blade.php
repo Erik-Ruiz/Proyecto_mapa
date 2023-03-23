@@ -43,7 +43,7 @@
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
                     </ul>
-                    <button id="btn-gimcana" type="button" class="btn" style="background-color: #B8E0C3; margin-right: 1%;">Iniciar Gincana</button>
+
                     <a class="navbar-brand" href="{{ route('perfil') }}">
 
                         <button type="button" class="btn" style="background-color: #B8E0C3">Perfil</button>
@@ -57,6 +57,10 @@
 
     <div class="zona_mapa">
         <div id="map" style="width:100%; height: 100vh; z-index: -1;"> 
+            <div class="containerBtnGim">
+                <button id="btn-gimcana" type="button" class="btn gim-btn" style="background-color: #B8E0C3; margin-left: 5%; margin-top: 2%;">Iniciar Gincana</button>
+                <button id="btn-preguntaGim" type="button" class="btn gim-btn" style="background-color: #B8E0C3; margin-left: 1%; margin-top: 2%;">Ver Pregunta</button>
+            </div>
         </div>    
     </div>
     
