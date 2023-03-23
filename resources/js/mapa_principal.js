@@ -34,7 +34,6 @@ filtro_opinion.addEventListener('change', () => {
 
 function filtrar(fav) {
     var ajax = new XMLHttpRequest();
-
     let formdata = new FormData;
     formdata.append("_token", csrf_token);
     formdata.append('filtro_nombre', filtro_nombre.value)
@@ -44,12 +43,13 @@ function filtrar(fav) {
     ajax.open('POST', "filtro_mapa_principal");
 
     ajax.onload = function() {
-
         data = JSON.parse(ajax.responseText)
         layerGroup.clearLayers();
         try {
             if (data[0].color == null) {
                 color = 'black';
+            } else if (fav == 1 && data[0].color == null) {
+                color = 'yellow';
             } else {
                 color = data[0].color
             }
@@ -97,6 +97,7 @@ function modal(id) {
 
     ajax.onload = function() {
         data = JSON.parse(ajax.responseText)
+        console.log(data);
         var modal1 = ``;
         modal1 += `
                             
