@@ -8,6 +8,7 @@ use App\Models\punto;
 use App\Models\punto_etiqueta;
 use App\Models\registro;
 use App\Models\usuario;
+use App\Models\lugare;
 use App\Models\usuario_prueba;
 use Exception;
 use Illuminate\Http\Request;
@@ -254,14 +255,30 @@ class UsuarioController extends Controller{
         //Comprobamos si existe la sesion para redirigirlo a la página
         if($request->session()->has("id")){
             $id = session()->get("id");
-            //$usuario = usuarios::where($id);
-            //return view("admin/perfil"compact($id)); //hay que seguir
+            $usuario = usuario::where('id','=',$id)->get();
+/*             $favoritos2 = favorito::select('favoritos.punto')
+            ->join('puntos','puntos.id','=','favoritos.punto')
+            ->where('usuario','=',$id); */
+            $favoritos = punto::select('puntos.nombre')
+            ->join('favoritos','favoritos.punto','=','puntos.id')
+            ->where('favoritos.usuario','=',$id);
+            return json_encode($favoritos);
+
+            return view("admin/perfil",compact('usuario','favoritos'));
         }
         else{
             return redirect("/");
-        }
-
+        }   
     }
+
+    // $query = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud')
+    // ->join('punto_etiquetas','punto_etiquetas.punto','=','puntos.id')
+    // ->where('puntos.nombre','LIKE','%'.$request->get('filtro_nombre').'%')
+    // ->where('punto_etiquetas.etiqueta','=',$request->get('filtro_etiqueta'))->get();
+    // return json_encode($query);
+
+
+
     /*------------*/
     /* Registrar */
     /*-----------*/
