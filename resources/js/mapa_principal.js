@@ -46,10 +46,10 @@ function filtrar(fav) {
         data = JSON.parse(ajax.responseText)
         layerGroup.clearLayers();
         try {
-            if (data[0].color == null) {
+            if (data[0].color == null && fav !== 1) {
                 color = 'black';
-            } else if (fav == 1 && data[0].color == null) {
-                color = 'yellow';
+            } else if (fav == 1) {
+                color = 'gold';
             } else {
                 color = data[0].color
             }
@@ -101,7 +101,7 @@ function modal(id) {
         var modal1 = ``;
         modal1 += `
                             
-            <div id="ModalDetalles" class="modal" style="width: 400px; height: 600px; margin-top: 50px; margin-left: 10px;">
+            <div id="ModalDetalles" class="modal" style="width: auto; height: auto; margin-top: 7vh; margin-left: 1vh;">
 
                 <div class="modal-content" style="align-items: center; width:400px">
                     <div class="modal-header" style="width: 100%; display: inline;">
@@ -143,6 +143,18 @@ function modal(id) {
         var span = document.getElementsByClassName("close")[0];
         btn.onclick = function() {
             modal.style.display = "block";
+
+            var x = window.matchMedia("(max-width: 700px)")
+            myFunction(x) // Call listener function at run time
+            x.addListener(myFunction)
+
+            function myFunction(x) {
+                if (x.matches) { // If media query matches
+                    document.getElementById('ModalDetalles').style.width = '95%';
+                    document.getElementsByClassName('modal-content').style.width = '100%';
+                    document.getElementsByClassName('info').style.width = '100%';
+                }
+            }
         }
         btn.click();
         span.onclick = function() {
@@ -158,6 +170,9 @@ function modal(id) {
     ajax.send(formdata);
 
 }
+
+
+
 
 function getPosition(position) {
     lat = position.coords.latitude
