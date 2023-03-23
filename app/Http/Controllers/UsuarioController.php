@@ -62,7 +62,7 @@ class UsuarioController extends Controller{
             ->join('punto_etiquetas','punto_etiquetas.punto','=','puntos.id')
             ->join('etiquetas','punto_etiquetas.etiqueta','=','etiquetas.id')
             ->where('etiquetas.id','=',$request->get('filtro_opinion'))
-            ->where('punto_etiquetas.usuario','=', $request->session()->get('id'))->get();
+            ->where('punto_etiquetas.usuario','=', $request->session()->get('id'))->get(    );
             return json_encode($query);
         }
         else{
