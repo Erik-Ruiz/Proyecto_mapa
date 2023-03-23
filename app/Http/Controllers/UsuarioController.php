@@ -97,7 +97,7 @@ class UsuarioController extends Controller{
             return json_encode($datos[0]);
 
         }else if(count($opinado) !== 0){
-            $datos = punto::select("puntos.nombre","puntos.descripcion","etiquetas.nombre as etiquetas")->join('punto_etiquetas','punto_etiquetas.punto','=','puntos.id')
+            $datos = punto::select("puntos.id","puntos.nombre","puntos.descripcion","etiquetas.nombre as etiquetas")->join('punto_etiquetas','punto_etiquetas.punto','=','puntos.id')
             ->join('etiquetas','punto_etiquetas.etiqueta','=','etiquetas.id')
             ->where('puntos.id', $request->get("id"))
             ->where('etiquetas.id','=',$opinado[0]['etiqueta'])->get();
@@ -153,19 +153,17 @@ class UsuarioController extends Controller{
     public function darOpinion(Request $req){
 
         $id_user = $req->session()->get('id');
-        $id_punto=$req["id_punt"];
+        $id_punto=$req->get('id_punt');
         $opinion = $req->get('opinion');
-
         // return response()->json(['ID del punto' => $id_punto, 'ID del user' => $id_user, 'Opinion' => $opinion]);
         
         if($req->session()->has('id')){
 
                 // $opinado = punto_etiqueta::where("usuario", "=", $id_user)->where("punto","=",$id_punto)->where("personal","=",1)->count();
-                $opinado = punto_etiqueta::select('punto_etiquetas.etiqueta')
-                ->where("usuario", "=", $id_user)->where("punto","=",$id_punto)->where("personal","=",1)->get();
-                
-                if (count($opinado) != 0){
-
+                $opinado = punto_etiqueta::select('etiqueta')
+                ->where("usuario", "=", $id_user)
+                ->where("punto","=",$id_punto)->get();
+                if (count($opinado) !== 0){
     
                     etiqueta::where("id", "=", $opinado[0]['etiqueta'])->update(["nombre" => $opinion]);
 
