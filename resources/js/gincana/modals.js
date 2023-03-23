@@ -3,15 +3,28 @@ var gimcanaPrueba;
 var pruebaActual;
 var pruebasTotales;
 var csrf_token = token.content
+var marker;
+
 
 var modal = document.getElementById("myModal");
 var span = document.getElementsByClassName("close")[0];
 
-const map = L.map('map').setView([41.38710079433486, 2.183035577913213], 15);
-var layerGroup = L.layerGroup().addTo(map);
-const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-}).addTo(map);
+var map
+var layerGroup;
+var tiles;
+//const map = L.map('map').setView([41.38710079433486, 2.183035577913213], 15);
+navigator.geolocation.getCurrentPosition( e => {
+    map = L.map("map").setView([e.coords.latitude, e.coords.longitude], 15);
+    layerGroup = L.layerGroup().addTo(map);
+    tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+} )
+
+
+
+
+
 
 function getStatusGincanaStart () {
     
@@ -264,9 +277,26 @@ window.onclick = function(event) {
         modal.style.display = "none";
     }
 }
+
+function getPosition() {
+    navigator.geolocation.getCurrentPosition(e => {
+        map.removeLayer(marker);
+        marker = L.marker([e.coords.latitude, e.coords.longitude]).addTo(map);
+    })
+
+
+}
+
+function getFirstPosition() {
+    navigator.geolocation.getCurrentPosition(e => {
+        marker = L.marker([e.coords.latitude,e.coords.longitude]).addTo(map);
+    })
+}
 //endregion
 
 window.onload = function() {
     getStatusGincanaStart();
+    getFirstPosition();
+    setInterval(getPosition,1000);
 }
 
