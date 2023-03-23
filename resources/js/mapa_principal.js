@@ -299,7 +299,6 @@ function opinion(id) {
         ajax.open('POST', "darOpinion");
         ajax.onload = function() {
             window.location.reload();
-
         }
         ajax.send(formdata);
     })
