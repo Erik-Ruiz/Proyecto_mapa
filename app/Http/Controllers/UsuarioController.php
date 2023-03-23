@@ -252,13 +252,16 @@ class UsuarioController extends Controller{
 
     public function perfil(Request $request){
         //Comprobamos si existe la sesion para redirigirlo a la página
-        if($request->session()->has("id"))
-            return view("admin/perfil");
-        else
+        if($request->session()->has("id")){
+            $id = session()->get("id");
+            //$usuario = usuarios::where($id);
+            //return view("admin/perfil"compact($id)); //hay que seguir
+        }
+        else{
             return redirect("/");
+        }
+
     }
-
-
     /*------------*/
     /* Registrar */
     /*-----------*/
