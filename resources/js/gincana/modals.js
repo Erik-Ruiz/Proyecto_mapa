@@ -13,13 +13,6 @@ const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
 
-var circle = L.circle([41.38710079433486, 2.183035577913213], {
-    color: 'red',
-    fillColor: '#f03',
-    fillOpacity: 0.5,
-    radius: 500
-}).addTo(map);
-
 function getStatusGincanaStart () {
     
     var ajax = new XMLHttpRequest();
@@ -39,22 +32,16 @@ function getStatusGincanaStart () {
         } else {
             document.getElementById('btn-gimcana').innerHTML = "Ver pista";
             document.getElementById('btn-gimcana').onclick = verPista;
-            document.getElementById("btn-localizacion").disabled = false;
-            document.getElementById("btn-localizacion").onclick = checkPosition;
+            //document.getElementById("btn-localizacion").disabled = false;
+            //document.getElementById("btn-localizacion").onclick = checkPosition;
             
-<<<<<<< HEAD
             document.getElementById('contenido-modal').innerHTML = 
             `<div class="titulo-modal">
-=======
-            document.getElementById('contenido-modal').innerHTML = `
-            
-            <div class="modal-header">
->>>>>>> f7603ac3c7898f3562e9bac8a45a31c0f09d6bc8
                 <h1>¿Estas seguro que quieres borrar la partida? </h1>
             </div>
             
             <div class="footer-modal">
-                <button onclick="borrarGimcana()">Borrar</button>
+                <button class="btn delete_btn" style="background-color: #B8E0C3;" onclick="borrarGimcana()">Borrar</button>
             </div>
 
             `
@@ -79,8 +66,8 @@ function getStatusGincana () {
         } else {
             document.getElementById('btn-gimcana').innerHTML = "Ver pista";
             document.getElementById('btn-gimcana').onclick = verPista;
-            document.getElementById("btn-localizacion").disabled = false;
-            document.getElementById("btn-localizacion").onclick = checkPosition;
+            //document.getElementById("btn-localizacion").disabled = false;
+            //document.getElementById("btn-localizacion").onclick = checkPosition;
         }
     }
     ajax.send();
@@ -145,6 +132,8 @@ function verPista() {
     ajax.onload = function(){
         console.log(ajax.responseText)
         if(ajax.responseText){
+            document.getElementById("btn-localizacion").disabled = false;
+            document.getElementById("btn-localizacion").onclick = checkPosition;
             document.getElementById('contenido-modal').innerHTML = 
             
             `<div class="titulo-modal">
@@ -175,8 +164,10 @@ function checkPosition(){
     navigator.geolocation.getCurrentPosition(e => {
             //posicionActualX = e.coords.longitude;
             //posicionActualY = e.coords.latitude;
-            posicionActualX = 41.391;
-            posicionActualY = 2.179;
+            //posicionActualX = 41.391;
+            //posicionActualY = 2.179;
+            posicionActualX = 41.3887;
+            posicionActualY = 2.183;
 			puntoX = parseFloat(pruebaActual.latitud);
 			puntoY = parseFloat(pruebaActual.longitud);
             rango = 0.00200;
@@ -210,6 +201,7 @@ function checkPosition(){
 
 function checkRespuesta(){
     respuesta = document.getElementById("inputRespuesta").value 
+    respuesta = respuesta.toUpperCase();
     var ajax = new XMLHttpRequest();
     if(pruebasTotales == pruebaActual.id){
         ajax.open('POST', "insertarRegistroFinal");
@@ -221,12 +213,20 @@ function checkRespuesta(){
     form.append("respuesta", respuesta)
     form.append("prueba", pruebaActual.id)
     ajax.onload = function(){
+        modal.style.display = "none";
         if(ajax.responseText == "OK"){
+            document.getElementById("btn-localizacion").disabled = true;
+            document.getElementById("btn-localizacion").onclick = null;
+            if(pruebasTotales == pruebaActual.id){
+                textModal = "Felicidades, has completado la gimcana"
+            }else{
+                textModal = 'Respuesta correcta';
+            }
             getStatusGincana();
             Swal.fire({
                 position: 'center',
                 icon: 'success',
-                title: 'Respuesta correcta',
+                title: textModal,
                 showConfirmButton: false,
                 timer: 1500
             })

@@ -624,7 +624,7 @@ class UsuarioController extends Controller{
     public function pasoDePrueba(Request $request) {
         if($request->session()->has("id")) {
             try{
-                if($this -> checkRespuesta($request))
+                if(!$this -> checkRespuesta($request))
                     return "FALLO";
                 $id = session()->get('id');
                 $registro = new usuario_prueba;
@@ -643,12 +643,12 @@ class UsuarioController extends Controller{
     public function insertarRegistroFinal(Request $request) {
         if($request->session()->has("id")) {
             try{
+                if(!$this -> checkRespuesta($request))
+                    return "FALLO";
                 DB::beginTransaction();
                 $id = session()->get('id');
-                $registro = new usuario_prueba;
-                $registro -> usuario = $id;
-                $registro -> prueba = 1;
-                $registro->save();
+                usuario::where("id","=",$id)->update(["grupo" => null]);
+                usuario_prueba::where("usuario","=",$id)->delete();
                 registro::where("usuario","=",$id)->whereNull("fecha_fin")->update(["fecha_fin" => date('Y-m-d H:i')]);
                 DB::commit();
                 return "OK";
@@ -664,7 +664,7 @@ class UsuarioController extends Controller{
     public function checkRespuesta(Request $request){
         if($request->session()->has("id")) {
             try{
-                $pruebas = prueba::where("prueba","=",$request["prueba"])->where("respuesta","=",$request["respuesta"])->count();
+                $pruebas = prueba::where("id","=",$request["prueba"])->where("respuesta","=",$request["respuesta"])->count();
                 if($pruebas == 0){
                     return false;
                 }else{
