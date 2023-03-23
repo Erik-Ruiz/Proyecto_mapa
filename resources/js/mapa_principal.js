@@ -5,18 +5,30 @@ const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 // L.Control.geocoder().addTo(map);
 var marker, circle, lat, long, accuracy, waypoints, Routing, layer, color, fav;
-
+fav = 0;
 //Filtros del mapa
 var csrf_token = token.content;
 filtro_nombre.addEventListener('keyup', () => {
-    filtrar('')
+    if (fav == 1) {
+        filtrar(fav)
+    } else {
+        filtrar('')
+    }
 })
 
 filtro_etiqueta.addEventListener('change', () => {
-    filtrar('')
+    if (fav == 1) {
+        filtrar(fav)
+    } else {
+        filtrar('')
+    }
 })
 filtro_opinion.addEventListener('change', () => {
-    filtrar('')
+    if (fav == 1) {
+        filtrar(fav)
+    } else {
+        filtrar('')
+    }
 })
 
 
@@ -65,14 +77,11 @@ function filtrar(fav) {
     }
     ajax.send(formdata);
 }
-filtrar('');
-
-filtro_etiqueta.addEventListener('change', () => {
+if (fav == 1) {
+    filtrar(fav)
+} else {
     filtrar('')
-})
-filtro_opinion.addEventListener('change', () => {
-    filtrar('')
-})
+}
 
 function modal(id) {
 
@@ -214,7 +223,6 @@ function favoritos(id) {
 }
 
 const boton = document.getElementById("likes");
-fav = 0;
 
 boton.addEventListener("click", function() {
     if (boton.classList.contains("activo")) {
