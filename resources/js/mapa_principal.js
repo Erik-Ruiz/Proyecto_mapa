@@ -97,7 +97,6 @@ function modal(id) {
 
     ajax.onload = function() {
         data = JSON.parse(ajax.responseText)
-        console.log(data);
         var modal1 = ``;
         modal1 += `
                             
@@ -144,17 +143,17 @@ function modal(id) {
         btn.onclick = function() {
             modal.style.display = "block";
 
-            var x = window.matchMedia("(max-width: 700px)")
-            myFunction(x) // Call listener function at run time
-            x.addListener(myFunction)
+            // var x = window.matchMedia("(max-width: 700px)")
+            // myFunction(x) // Call listener function at run time
+            // x.addListener(myFunction)
 
-            function myFunction(x) {
-                if (x.matches) { // If media query matches
-                    document.getElementById('ModalDetalles').style.width = '95%';
-                    document.getElementsByClassName('modal-content').style.width = '100%';
-                    document.getElementsByClassName('info').style.width = '100%';
-                }
-            }
+            // function myFunction(x) {
+            //     if (x.matches) { // If media query matches
+            //         document.getElementById('ModalDetalles').style.width = '95%';
+            //         document.getElementsByClassName('modal-content').style.width = '100%';
+            //         document.getElementsByClassName('info').style.width = '100%';
+            //     }
+            // }
         }
         btn.click();
         span.onclick = function() {
@@ -177,7 +176,7 @@ function modal(id) {
 function getPosition(position) {
     lat = position.coords.latitude
     long = position.coords.longitude
-
+    map.panTo([lat, long]);
     // if (marker) {
     //     map.removeLayer(marker)
     // }
@@ -190,6 +189,7 @@ function getPosition(position) {
 }
 
 function routae(id) {
+    var modal = document.getElementById("ModalDetalles");
     var ajax = new XMLHttpRequest();
     let formdata = new FormData;
     formdata.append("_token", csrf_token);
@@ -197,6 +197,7 @@ function routae(id) {
     ajax.open('POST', "recoger_datos_etiqueta");
     ajax.onload = function() {
         data = JSON.parse(ajax.responseText);
+        modal.style.display = "none";
         navigator.geolocation.getCurrentPosition(getPosition);
         routeControl = L.Routing.control({
             waypoints: [
@@ -217,7 +218,7 @@ function routae(id) {
                 L.latLng(newLat, newLng),
                 routeControl.options.waypoints[1]
             ]);
-        }, 5000);
+        }, 1000);
     }
     ajax.send(formdata);
 }
@@ -285,7 +286,6 @@ function opinion(id) {
         Swal.fire(`
           Opinión: ${result.value.login}
         `.trim())
-            // console.log(result.value.login);
 
         var ajax = new XMLHttpRequest();
         let formdata = new FormData;
@@ -297,7 +297,6 @@ function opinion(id) {
         ajax.open('POST', "darOpinion");
         ajax.onload = function() {
 
-            console.log(ajax.responseText);
 
         }
         ajax.send(formdata);
