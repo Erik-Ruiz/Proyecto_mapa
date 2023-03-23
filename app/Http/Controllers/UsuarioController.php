@@ -256,14 +256,16 @@ class UsuarioController extends Controller{
         if($request->session()->has("id")){
             $id = session()->get("id");
             $usuario = usuario::where('id','=',$id)->get();
-/*             $favoritos2 = favorito::select('favoritos.punto')
-            ->join('puntos','puntos.id','=','favoritos.punto')
-            ->where('usuario','=',$id); */
+
+            /* $favoritos = punto::select('puntos.nombre')
+            ->join('favoritos','favoritos.punto','=','puntos.id')
+            ->where('favoritos.usuario','=',$id); */
+
             $favoritos = punto::select('puntos.nombre')
             ->join('favoritos','favoritos.punto','=','puntos.id')
-            ->where('favoritos.usuario','=',$id);
-            return json_encode($favoritos);
+            ->where('favoritos.usuario','=',$id)->get();
 
+            /* return json_encode($favoritos);*/
             return view("admin/perfil",compact('usuario','favoritos'));
         }
         else{

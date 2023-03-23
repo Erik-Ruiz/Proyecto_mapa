@@ -13,9 +13,6 @@
     <link rel="stylesheet" href="../../resources/css/perfil.css">
 </head>
 <body>
-    <?php
-    var_dump($favoritos);
-    ?>
     <nav class="navbar navbar-expand-lg" style="background-color: #34A853">
             <div class="container-fluid">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -39,13 +36,11 @@
                         <h1>Lugares favoritos</h1>
                     </div>
                     <div class="contenido-35">
-<!--                     @foreach ($favoritos as $fav)
-                        <p><i class="fa-solid fa-location-dot" style="color: #34a853;"></i> {{$fav->}}</p>
-                        <p><i class="fa-solid fa-location-dot" style="color: #34a853;"></i> Calle Leonardo Da Vinci numero XX hola que tal bien que si que estoy bien</p>
-                        <p><i class="fa-solid fa-location-dot" style="color: #34a853;"></i> Parc de la serp Num. 100 numero XX hola</p>
-                        <p><i class="fa-solid fa-location-dot" style="color: #34a853;"></i> Parc de la serp Num. 100</p>
+                    @foreach ($favoritos as $fav)
+                        <p><i class="fa-solid fa-location-dot" style="color: #34a853;"></i>{{$fav->nombre}} </p>
+                    @endforeach
                     </div>
-                    @endforeach -->
+                    
                 </div>
                 <div class="c65">
                     <div class="container65">
