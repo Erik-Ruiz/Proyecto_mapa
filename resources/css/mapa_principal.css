@@ -223,9 +223,8 @@ select {
       padding: 2px 16px;
     }
     
-    
 
-    @media screen and (max-width: 600px) {
+    @media screen and (max-width: 500px) {
 
       .navigation{
         display: block;
@@ -253,10 +252,13 @@ select {
         height: 100vh;
       } 
     
-      .ModalDetalles{
-        width: 85%;
+      #ModalDetalles{
+        width: 95%;
       }
       .modal-content{
+        width: 100%;
+      }
+      .info{
         width: 100%;
       }
     }

@@ -37,13 +37,19 @@ function getStatusGincanaStart () {
             document.getElementById('btn-gimcana').onclick = empezarGimcana;
 
         } else {
-            
             document.getElementById('btn-gimcana').innerHTML = "Ver pista";
             document.getElementById('btn-gimcana').onclick = verPista;
+            document.getElementById("btn-localizacion").disabled = false;
+            document.getElementById("btn-localizacion").onclick = checkPosition;
             
+<<<<<<< HEAD
+            document.getElementById('contenido-modal').innerHTML = 
+            `<div class="titulo-modal">
+=======
             document.getElementById('contenido-modal').innerHTML = `
             
             <div class="modal-header">
+>>>>>>> f7603ac3c7898f3562e9bac8a45a31c0f09d6bc8
                 <h1>¿Estas seguro que quieres borrar la partida? </h1>
             </div>
             
@@ -69,9 +75,12 @@ function getStatusGincana () {
         if(gimcanaPrueba == 0) {
             document.getElementById('btn-gimcana').innerHTML = "Empezar gimcana";
             document.getElementById('btn-gimcana').onclick = empezarGimcana;
+            document.getElementById("btn-localizacion").disabled = true;
         } else {
             document.getElementById('btn-gimcana').innerHTML = "Ver pista";
             document.getElementById('btn-gimcana').onclick = verPista;
+            document.getElementById("btn-localizacion").disabled = false;
+            document.getElementById("btn-localizacion").onclick = checkPosition;
         }
     }
     ajax.send();
@@ -91,6 +100,14 @@ function empezarGimcana() {
                 title: 'Gincana creada correctamente',
                 showConfirmButton: false,
                 timer: 1500
+            })
+        }else if(ajax.responseText == "notGrupo"){
+            Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: 'Para crear una gimcana tienes que tener un grupo asignado',
+                showConfirmButton: false,
+                showConfirmButton: true,
             })
         }
     }
@@ -120,15 +137,120 @@ function borrarGimcana() {
 }
 
 function verPista() {
-    document.getElementById('contenido-modal').innerHTML = 
+    var ajax = new XMLHttpRequest();
+    ajax.open('POST', "checkPassToRound");
+    var form = new FormData();
+    form.append("_token", csrf_token)
+    form.append("prueba", pruebaActual.id)
+    ajax.onload = function(){
+        console.log(ajax.responseText)
+        if(ajax.responseText){
+            document.getElementById('contenido-modal').innerHTML = 
             
-    `<div class="titulo-modal">
-        <h4>${pruebaActual["texto_pista"]}</h4>
-    </div>`
+            `<div class="titulo-modal">
+                <h4>${pruebaActual["texto_pista"]}</h4>
+            </div>`
+        
+            modal.style.display = "block";
+        }else{
+            if(pruebaActual == 1){
+                text = "Para empezar todos los usuarios de este grupo tienen que iniciar la gimcana";
+            }else{
+                text = "Todos los integrantes del grupo debeis estar en la misma prueba";
+            }
+            document.getElementById('contenido-modal').innerHTML = 
+            
+            `<div class="titulo-modal">
+                <h4>${text}</h4>
+            </div>`
+        
+            modal.style.display = "block";
+        }
+    }
+    ajax.send(form)
 
-    modal.style.display = "block";
 }
 
+function checkPosition(){
+    navigator.geolocation.getCurrentPosition(e => {
+            //posicionActualX = e.coords.longitude;
+            //posicionActualY = e.coords.latitude;
+            posicionActualX = 41.391;
+            posicionActualY = 2.179;
+			puntoX = parseFloat(pruebaActual.latitud);
+			puntoY = parseFloat(pruebaActual.longitud);
+            rango = 0.00200;
+            minLat =  puntoY - rango;
+            minLong = puntoX - rango;
+            maxLat = puntoY + rango;
+            maxLong = puntoX + rango;
+            if( (minLat < posicionActualY && maxLat > posicionActualY) && (minLong < posicionActualX && maxLong > posicionActualX) )     {
+                document.getElementById('contenido-modal').innerHTML = 
+            
+                `<div class="titulo-modal">
+                    <h4>${pruebaActual["texto_pregunta"]}</h4>
+                    <input type="text" id="inputRespuesta">
+                    <button onclick="checkRespuesta()">Enviar</button>
+                </div>`
+            
+                modal.style.display = "block";
+            }else{
+                document.getElementById('contenido-modal').innerHTML = 
+            
+                `<div class="titulo-modal">
+                    <h4>No estás dentro del rango</h4>
+                </div>`
+            
+                modal.style.display = "block";
+            }
+            
+
+    })           
+}
+
+function checkRespuesta(){
+    respuesta = document.getElementById("inputRespuesta").value 
+    var ajax = new XMLHttpRequest();
+    if(pruebasTotales == pruebaActual.id){
+        ajax.open('POST', "insertarRegistroFinal");
+    }else{
+        ajax.open('POST', "pasoDePrueba");
+    }
+    var form = new FormData();
+    form.append("_token", csrf_token)
+    form.append("respuesta", respuesta)
+    form.append("prueba", pruebaActual.id)
+    ajax.onload = function(){
+        if(ajax.responseText == "OK"){
+            getStatusGincana();
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Respuesta correcta',
+                showConfirmButton: false,
+                timer: 1500
+            })
+        }else if(ajax.responseText == "FALLO"){
+            Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: 'Respuesta errónea',
+                showConfirmButton: false,
+                showConfirmButton: true,
+            })
+        }else{
+            Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: 'Hubo un error inesperado',
+                showConfirmButton: false,
+                showConfirmButton: true,
+            })
+        }
+    }
+    ajax.send(form)
+
+}
 
 //#region Modal
 

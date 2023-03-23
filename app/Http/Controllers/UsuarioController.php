@@ -31,23 +31,45 @@ class UsuarioController extends Controller{
         $no = $request->get('filtro_etiqueta') == 'NO';
         $noP = $request->get('filtro_opinion') == 'NO';
         $fav = $request->get('filtro_favorito');
+
+
         if($vacio && $no && $fav==0 && $noP){
-            $puntos = punto::all();
-            return json_encode($puntos);
+            $query = punto::all();
+            return json_encode($query);
         }elseif(!$vacio && $no && $noP && $fav==0){
-            $puntos = punto::where('nombre','LIKE','%'.$request->get('filtro_nombre').'%')->get();
-            return json_encode($puntos);
+            $query = punto::where('nombre','LIKE','%'.$request->get('filtro_nombre').'%')->get();
+            return json_encode($query);
         }elseif(!$vacio && !$no && $noP && $fav==0){
-            $query = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud')->join('punto_etiquetas','punto_etiquetas.punto','=','puntos.id')->where('puntos.nombre','LIKE','%'.$request->get('filtro_nombre').'%')->where('punto_etiquetas.etiqueta','=',$request->get('filtro_etiqueta'))->get();
+            $query = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud')
+            ->join('punto_etiquetas','punto_etiquetas.punto','=','puntos.id')
+            ->where('puntos.nombre','LIKE','%'.$request->get('filtro_nombre').'%')
+            ->where('punto_etiquetas.etiqueta','=',$request->get('filtro_etiqueta'))->get();
             return json_encode($query);
         }elseif($fav == 1 && $vacio && $no && $noP){
             $query = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud', 'favoritos.punto')
             ->join('favoritos','puntos.id','=','favoritos.punto')
             ->where('favoritos.usuario','=', $request->session()->get('id'))->get();
             return json_encode($query);
+        }elseif($fav == 1 && $vacio && !$no && $noP){
+            $query = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud', 'favoritos.punto')
+            ->join('favoritos','puntos.id','=','favoritos.punto')
+            ->join('punto_etiquetas','punto_etiquetas.punto','=','puntos.id')
+            ->where('punto_etiquetas.etiqueta','=',$request->get('filtro_etiqueta'))
+            ->where('favoritos.usuario','=', $request->session()->get('id'))->get();
+            return json_encode($query);
+        }elseif(!$noP){
+            $query = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud','etiquetas.color')
+            ->join('punto_etiquetas','punto_etiquetas.punto','=','puntos.id')
+            ->join('etiquetas','punto_etiquetas.etiqueta','=','etiquetas.id')
+            ->where('etiquetas.id','=',$request->get('filtro_opinion'))
+            ->where('punto_etiquetas.usuario','=', $request->session()->get('id'))->get(    );
+            return json_encode($query);
         }
         else{
-            $query = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud','etiquetas.color')->join('punto_etiquetas','punto_etiquetas.punto','=','puntos.id')->join('etiquetas','punto_etiquetas.etiqueta','=','etiquetas.id')->where('punto_etiquetas.etiqueta','=',$request->get('filtro_etiqueta'))->get();
+            $query = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud','etiquetas.color')
+            ->join('punto_etiquetas','punto_etiquetas.punto','=','puntos.id')
+            ->join('etiquetas','punto_etiquetas.etiqueta','=','etiquetas.id')
+            ->where('punto_etiquetas.etiqueta','=',$request->get('filtro_etiqueta'))->get();
             return json_encode($query);
         }
 
@@ -56,19 +78,33 @@ class UsuarioController extends Controller{
     //Hacemos una consulta para recoger los datos del punto al que han clickado
     public function recoger_datos_etiqueta(Request $request){
         $request->except("_token");
+
+        //Saber si tiene favorito
         $punto = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud', 'favoritos.punto')
                     ->join('favoritos','puntos.id','=','favoritos.punto')
                     ->where('favoritos.punto','=', $request->get('id'))->count();
-            if($punto==1){
-                $datos = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud', 'favoritos.punto')
-                ->join('favoritos','puntos.id','=','favoritos.punto')
-                ->where('favoritos.usuario','=', $request->session()->get('id'))->get();
-                return json_encode($datos[0]);
-            }else{
-                $datos = punto::where('id', $request->get("id"))->first();
-                return json_encode($datos);
-            }
-        //SELECT * FROM `puntos` JOIN favoritos ON puntos.id = favoritos.punto where favoritos.usuario = 3;
+        
+        //Saber si tiene una etiqueta personalizada
+        // $opinado = punto_etiqueta::select('punto_etiquetas.etiqueta')
+        // ->where("usuario", "=", $request->session()->get('id'))->where("punto","=",$request->get("id"))->where("personal","=",1)->get();
+        // dd($opinado[0]['etiqueta']);
+
+        if($punto==1){
+            $datos = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud', 'favoritos.punto')
+            ->join('favoritos','puntos.id','=','favoritos.punto')
+            ->where('favoritos.usuario','=', $request->session()->get('id'))->get();
+            return json_encode($datos[0]);
+
+        // }else if(count($opinado) != 0){
+        
+        //     $datos = etiqueta::select('nombre')->where('id','=',$opinado[0]['etiqueta'])->get();
+        //     dd($datos[0]['nombre']);
+
+        
+        }else{
+            $datos = punto::where('id', $request->get("id"))->first();
+            return json_encode($datos);
+        }
     }
 
     public function logout(Request $request){
@@ -109,6 +145,71 @@ class UsuarioController extends Controller{
         }
     }
 
+    public function darOpinion(Request $req){
+
+        $id_user = $req->session()->get('id');
+        $id_punto=$req["id_punt"];
+        $opinion = $req->get('opinion');
+
+        // return response()->json(['ID del punto' => $id_punto, 'ID del user' => $id_user, 'Opinion' => $opinion]);
+        
+        if($req->session()->has('id')){
+
+                // $opinado = punto_etiqueta::where("usuario", "=", $id_user)->where("punto","=",$id_punto)->where("personal","=",1)->count();
+                $opinado = punto_etiqueta::select('punto_etiquetas.etiqueta')
+                ->where("usuario", "=", $id_user)->where("punto","=",$id_punto)->where("personal","=",1)->get();
+                
+                if (count($opinado) != 0){
+
+    
+                    etiqueta::where("id", "=", $opinado[0]['etiqueta'])->update(["nombre" => $opinion]);
+
+
+                    return $opinado[0]['etiqueta'];
+                    
+                }else{
+                    
+                    try{
+                        DB::beginTransaction();
+
+                        $etiqueta = new etiqueta();
+                        $etiqueta->nombre = $opinion;
+                        $etiqueta->color = 'Orange';
+                        $etiqueta->personal = 1;
+                        $etiqueta->usuario = $id_user;
+                        $etiqueta->save();
+
+                        $id_etiqueta = DB::getPdo()->lastInsertId();
+
+
+                        $punto_etiqueta = new punto_etiqueta();
+                        $punto_etiqueta->etiqueta = $id_etiqueta;
+                        $punto_etiqueta->punto = $id_punto;
+                        $punto_etiqueta->personal = 1;
+                        $punto_etiqueta->usuario = $id_user;
+                        $punto_etiqueta->save();
+
+                        DB::commit();
+                        return "OK";
+                    }catch(Exception $e){
+                        DB::rollBack();
+                        return $e->getMessage();
+                    }
+
+
+
+
+                    
+                    return "saved";
+
+                }
+
+
+
+        }else{
+            return route('login');
+        }
+    }
     //Función para devolver la vista del login
     public function index(){
         return view("index");
@@ -151,13 +252,16 @@ class UsuarioController extends Controller{
 
     public function perfil(Request $request){
         //Comprobamos si existe la sesion para redirigirlo a la página
-        if($request->session()->has("id"))
-            return view("admin/perfil");
-        else
+        if($request->session()->has("id")){
+            $id = session()->get("id");
+            //$usuario = usuarios::where($id);
+            //return view("admin/perfil"compact($id)); //hay que seguir
+        }
+        else{
             return redirect("/");
+        }
+
     }
-
-
     /*------------*/
     /* Registrar */
     /*-----------*/
@@ -435,7 +539,7 @@ class UsuarioController extends Controller{
             $total = prueba::count();
             $prueba = [];
             if($cantidad != 0){
-                $pruebaBD = prueba::where("id", "=", $cantidad)->get();
+                $pruebaBD = prueba::select("id","latitud","longitud","nombre","texto_pista","texto_pregunta")->where("id", "=", $cantidad)->get();
                 $prueba = $pruebaBD[0];
             }
             $array = [$cantidad, $prueba, $total];
@@ -458,6 +562,21 @@ class UsuarioController extends Controller{
             return redirect("/");
         }
     }
+    public function getTotalOfUserInGroup(Request $request){
+        if($request->session()->has("id")) {
+            try{
+                $id = session()->get('id');
+                $user = usuario::where("id","=",$id)->get();
+                $grupo = usuario::where("grupo","=",$user[0]["grupo"])->count();
+                return $grupo;
+            }catch(Exception $e){
+                return -1;
+            }
+        } else {
+            return redirect("/");
+        }
+    }
+    
     public function eliminarRegistro(Request $request) {
         if($request->session()->has("id")) {
             try{
@@ -467,6 +586,7 @@ class UsuarioController extends Controller{
                 $registerOldId = $registerOld[0]['id'];
                 usuario_prueba::where("usuario","=",$id)->delete();
                 registro::where("id","=",$registerOldId)->delete();
+                usuario::where("id","=",$id)->update(["grupo" => null]);
                 DB::commit();
                 return 'OK';
             }catch(Exception $e){
@@ -482,8 +602,12 @@ class UsuarioController extends Controller{
 
         if($request->session()->has("id")) {
             try{
-                DB::beginTransaction();
                 $id = session()->get('id');
+                $user = usuario::where("id","=",$id)->get();
+                if($user[0]["grupo"] ==null){
+                    return "notGrupo";
+                }
+                DB::beginTransaction();
                 $registro = new usuario_prueba;
                 $registro -> usuario = $id;
                 $registro -> prueba = 1;
@@ -506,10 +630,12 @@ class UsuarioController extends Controller{
     public function pasoDePrueba(Request $request) {
         if($request->session()->has("id")) {
             try{
+                if($this -> checkRespuesta($request))
+                    return "FALLO";
                 $id = session()->get('id');
                 $registro = new usuario_prueba;
                 $registro -> usuario = $id;
-                $registro -> prueba = $request["prueba"];
+                $registro -> prueba = (int)$request["prueba"]+1;
                 $registro->save();
                 return "OK";
             }catch(Exception $e){
@@ -541,37 +667,38 @@ class UsuarioController extends Controller{
         }
     }
 
-    public function weCanStart(Request $request){
+    public function checkRespuesta(Request $request){
         if($request->session()->has("id")) {
             try{
-                $id = session()->get('id');
-                $user = usuario::where("id","=",$id)->get();
-                $grupo = usuario::where("grupo","=",$user[0]["grupo"])->count();
-                if($grupo != 4){
+                $pruebas = prueba::where("prueba","=",$request["prueba"])->where("respuesta","=",$request["respuesta"])->count();
+                if($pruebas == 0){
                     return false;
                 }else{
                     return true;
                 }
             }catch(Exception $e){
+                echo $e->getMessage();
                 return false;
             }
         } else {
             return redirect("/");
         }
-    }
-
-    public function checkPassToRound(Request $request, $prueba){
+    } 
+    public function checkPassToRound(Request $request){
         if($request->session()->has("id")) {
             try{
                 $id = session()->get('id');
+                $prueba = $request["prueba"];
                 $user = usuario::where("id","=",$id)->get();
-                $grupo = usuario_prueba::where("usuario.grupo","=",$user[0]["grupo"])->where("usuario_pruebas.prueba","=",$prueba)->join("usuario","usuario.id","=","usuario_pruebas.usuario")->count();
-                if($grupo != 4){
+                $grupo = usuario_prueba::where("usuarios.grupo","=",$user[0]["grupo"])->where("usuario_pruebas.prueba","=",$prueba)->join("usuarios","usuarios.id","=","usuario_pruebas.usuario")->count();
+                $totalUsers =  $this->getTotalOfUserInGroup($request);
+                if($grupo != $totalUsers){
                     return false;
                 }else{
                     return true;
                 }
             }catch(Exception $e){
+                echo $e->getMessage();
                 return false;
             }
         } else {
