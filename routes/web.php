@@ -49,6 +49,11 @@ Route::get("/getStatusGincana", [UsuarioController::class, "getStatusGincana"])-
 Route::post("/insertarRegistro", [UsuarioController::class, "insertarRegistro"])->name("insertarRegistro");
 Route::delete("/eliminarRegistro", [UsuarioController::class, "eliminarRegistro"])->name("eliminarRegistro");
 Route::post("/checkPassToRound", [UsuarioController::class, "checkPassToRound"])->name("checkPassToRound");
+Route::post("/pasoDePrueba", [UsuarioController::class, "pasoDePrueba"])->name("pasoDePrueba");
+Route::post("/pasoDePrueba", [UsuarioController::class, "pasoDePrueba"])->name("pasoDePrueba");
+Route::post("/insertarRegistroFinal", [UsuarioController::class, "insertarRegistroFinal"])->name("insertarRegistroFinal");
+
+
 #endregion
 
 // Route::get('storage-link', function(){

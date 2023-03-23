@@ -39,6 +39,8 @@ function getStatusGincanaStart () {
         } else {
             document.getElementById('btn-gimcana').innerHTML = "Ver pista";
             document.getElementById('btn-gimcana').onclick = verPista;
+            document.getElementById("btn-localizacion").disabled = false;
+            document.getElementById("btn-localizacion").onclick = checkPosition;
             
 <<<<<<< HEAD
             document.getElementById('contenido-modal').innerHTML = 
@@ -73,9 +75,12 @@ function getStatusGincana () {
         if(gimcanaPrueba == 0) {
             document.getElementById('btn-gimcana').innerHTML = "Empezar gimcana";
             document.getElementById('btn-gimcana').onclick = empezarGimcana;
+            document.getElementById("btn-localizacion").disabled = true;
         } else {
             document.getElementById('btn-gimcana').innerHTML = "Ver pista";
             document.getElementById('btn-gimcana').onclick = verPista;
+            document.getElementById("btn-localizacion").disabled = false;
+            document.getElementById("btn-localizacion").onclick = checkPosition;
         }
     }
     ajax.send();
@@ -140,12 +145,6 @@ function verPista() {
     ajax.onload = function(){
         console.log(ajax.responseText)
         if(ajax.responseText){
-            if(
-                
-            ){
-
-            }
-            
             document.getElementById('contenido-modal').innerHTML = 
             
             `<div class="titulo-modal">
@@ -172,6 +171,86 @@ function verPista() {
 
 }
 
+function checkPosition(){
+    navigator.geolocation.getCurrentPosition(e => {
+            //posicionActualX = e.coords.longitude;
+            //posicionActualY = e.coords.latitude;
+            posicionActualX = 41.391;
+            posicionActualY = 2.179;
+			puntoX = parseFloat(pruebaActual.latitud);
+			puntoY = parseFloat(pruebaActual.longitud);
+            rango = 0.00200;
+            minLat =  puntoY - rango;
+            minLong = puntoX - rango;
+            maxLat = puntoY + rango;
+            maxLong = puntoX + rango;
+            if( (minLat < posicionActualY && maxLat > posicionActualY) && (minLong < posicionActualX && maxLong > posicionActualX) )     {
+                document.getElementById('contenido-modal').innerHTML = 
+            
+                `<div class="titulo-modal">
+                    <h4>${pruebaActual["texto_pregunta"]}</h4>
+                    <input type="text" id="inputRespuesta">
+                    <button onclick="checkRespuesta()">Enviar</button>
+                </div>`
+            
+                modal.style.display = "block";
+            }else{
+                document.getElementById('contenido-modal').innerHTML = 
+            
+                `<div class="titulo-modal">
+                    <h4>No estás dentro del rango</h4>
+                </div>`
+            
+                modal.style.display = "block";
+            }
+            
+
+    })           
+}
+
+function checkRespuesta(){
+    respuesta = document.getElementById("inputRespuesta").value 
+    var ajax = new XMLHttpRequest();
+    if(pruebasTotales == pruebaActual.id){
+        ajax.open('POST', "insertarRegistroFinal");
+    }else{
+        ajax.open('POST', "pasoDePrueba");
+    }
+    var form = new FormData();
+    form.append("_token", csrf_token)
+    form.append("respuesta", respuesta)
+    form.append("prueba", pruebaActual.id)
+    ajax.onload = function(){
+        if(ajax.responseText == "OK"){
+            getStatusGincana();
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Respuesta correcta',
+                showConfirmButton: false,
+                timer: 1500
+            })
+        }else if(ajax.responseText == "FALLO"){
+            Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: 'Respuesta errónea',
+                showConfirmButton: false,
+                showConfirmButton: true,
+            })
+        }else{
+            Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: 'Hubo un error inesperado',
+                showConfirmButton: false,
+                showConfirmButton: true,
+            })
+        }
+    }
+    ajax.send(form)
+
+}
 
 //#region Modal
 

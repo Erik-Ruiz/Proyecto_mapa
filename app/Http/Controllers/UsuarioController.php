@@ -539,7 +539,7 @@ class UsuarioController extends Controller{
             $total = prueba::count();
             $prueba = [];
             if($cantidad != 0){
-                $pruebaBD = prueba::where("id", "=", $cantidad)->get();
+                $pruebaBD = prueba::select("id","latitud","longitud","nombre","texto_pista","texto_pregunta")->where("id", "=", $cantidad)->get();
                 $prueba = $pruebaBD[0];
             }
             $array = [$cantidad, $prueba, $total];
@@ -630,10 +630,12 @@ class UsuarioController extends Controller{
     public function pasoDePrueba(Request $request) {
         if($request->session()->has("id")) {
             try{
+                if($this -> checkRespuesta($request))
+                    return "FALLO";
                 $id = session()->get('id');
                 $registro = new usuario_prueba;
                 $registro -> usuario = $id;
-                $registro -> prueba = $request["prueba"];
+                $registro -> prueba = (int)$request["prueba"]+1;
                 $registro->save();
                 return "OK";
             }catch(Exception $e){
@@ -664,6 +666,24 @@ class UsuarioController extends Controller{
             return redirect("/");
         }
     }
+
+    public function checkRespuesta(Request $request){
+        if($request->session()->has("id")) {
+            try{
+                $pruebas = prueba::where("prueba","=",$request["prueba"])->where("respuesta","=",$request["respuesta"])->count();
+                if($pruebas == 0){
+                    return false;
+                }else{
+                    return true;
+                }
+            }catch(Exception $e){
+                echo $e->getMessage();
+                return false;
+            }
+        } else {
+            return redirect("/");
+        }
+    } 
     public function checkPassToRound(Request $request){
         if($request->session()->has("id")) {
             try{

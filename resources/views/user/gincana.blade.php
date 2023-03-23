@@ -55,6 +55,7 @@
         </nav>
     </div>
 
+<<<<<<< HEAD
     <div class="zona_mapa">
         <div id="map" style="width:100%; height: 100vh; z-index: -1;"> 
         </div>    
@@ -62,6 +63,8 @@
     
    
 
+    <button id="btn-gimcana" class="my-btn"></button>
+    <button id="btn-localizacion" class="my-btn" disabled>Ver pregunta</button>
 
     <div id="myModal" class="modal">
         <div class="modal-content">
