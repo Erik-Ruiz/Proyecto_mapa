@@ -9,4 +9,5 @@ class punto_etiqueta extends Model
 {
     use HasFactory;
     public $timestamps = false;
+
 }

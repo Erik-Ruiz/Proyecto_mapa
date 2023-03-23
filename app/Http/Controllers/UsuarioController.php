@@ -78,20 +78,33 @@ class UsuarioController extends Controller{
     //Hacemos una consulta para recoger los datos del punto al que han clickado
     public function recoger_datos_etiqueta(Request $request){
         $request->except("_token");
+
+        //Saber si tiene favorito
         $punto = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud', 'favoritos.punto')
                     ->join('favoritos','puntos.id','=','favoritos.punto')
-                    ->where('favoritos.punto','=', $request->get('id'))
-                    ->where('favoritos.usuario','=', $request->session()->get('id'))->count();
-            if($punto==1){
-                $datos = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud', 'favoritos.punto')
-                ->join('favoritos','puntos.id','=','favoritos.punto')
-                ->where('favoritos.usuario','=', $request->session()->get('id'))->get();
-                return json_encode($datos[0]);
-            }else{
-                $datos = punto::where('id', $request->get("id"))->first();
-                return json_encode($datos);
-            }
-        //SELECT * FROM `puntos` JOIN favoritos ON puntos.id = favoritos.punto where favoritos.usuario = 3;
+                    ->where('favoritos.punto','=', $request->get('id'))->count();
+        
+        //Saber si tiene una etiqueta personalizada
+        // $opinado = punto_etiqueta::select('punto_etiquetas.etiqueta')
+        // ->where("usuario", "=", $request->session()->get('id'))->where("punto","=",$request->get("id"))->where("personal","=",1)->get();
+        // dd($opinado[0]['etiqueta']);
+
+        if($punto==1){
+            $datos = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud', 'favoritos.punto')
+            ->join('favoritos','puntos.id','=','favoritos.punto')
+            ->where('favoritos.usuario','=', $request->session()->get('id'))->get();
+            return json_encode($datos[0]);
+
+        // }else if(count($opinado) != 0){
+        
+        //     $datos = etiqueta::select('nombre')->where('id','=',$opinado[0]['etiqueta'])->get();
+        //     dd($datos[0]['nombre']);
+
+        
+        }else{
+            $datos = punto::where('id', $request->get("id"))->first();
+            return json_encode($datos);
+        }
     }
 
     public function logout(Request $request){
@@ -142,37 +155,58 @@ class UsuarioController extends Controller{
         
         if($req->session()->has('id')){
 
-            try{
-                $opinado = punto_etiqueta::where("usuario", "=", $id_user)->where("punto","=",$id_punto)->where("personal","=",1)->count();
-                if ($opinado == 1){
+                // $opinado = punto_etiqueta::where("usuario", "=", $id_user)->where("punto","=",$id_punto)->where("personal","=",1)->count();
+                $opinado = punto_etiqueta::select('punto_etiquetas.etiqueta')
+                ->where("usuario", "=", $id_user)->where("punto","=",$id_punto)->where("personal","=",1)->get();
+                
+                if (count($opinado) != 0){
 
-                    etiqueta::where("nombre", "=", $id_user)->where("punto","=",$id_punto)->update(["nombre" => $opinion]);
-                    return "update";
+    
+                    etiqueta::where("id", "=", $opinado[0]['etiqueta'])->update(["nombre" => $opinion]);
+
+
+                    return $opinado[0]['etiqueta'];
                     
                 }else{
+                    
+                    try{
+                        DB::beginTransaction();
 
-                    // $etiqueta = new etiqueta();
-                    // $etiqueta->nombre = $opinion;
-                    // $etiqueta->color = 'Orange';
-                    // $etiqueta->personal = 1;
-                    // $etiqueta->usuario = $id_user;
-                    // $etiqueta->save();
+                        $etiqueta = new etiqueta();
+                        $etiqueta->nombre = $opinion;
+                        $etiqueta->color = 'Orange';
+                        $etiqueta->personal = 1;
+                        $etiqueta->usuario = $id_user;
+                        $etiqueta->save();
 
-                    // $etiqueta = new punto_etiqueta();
-                    // $etiqueta->etiqueta = $opinion;
-                    // $etiqueta->punto = $id_punto;
-                    // $etiqueta->personal = 1;
-                    // $etiqueta->usuario = $id_user;
-                    // $etiqueta->save();
+                        $id_etiqueta = DB::getPdo()->lastInsertId();
+
+
+                        $punto_etiqueta = new punto_etiqueta();
+                        $punto_etiqueta->etiqueta = $id_etiqueta;
+                        $punto_etiqueta->punto = $id_punto;
+                        $punto_etiqueta->personal = 1;
+                        $punto_etiqueta->usuario = $id_user;
+                        $punto_etiqueta->save();
+
+                        DB::commit();
+                        return "OK";
+                    }catch(Exception $e){
+                        DB::rollBack();
+                        return $e->getMessage();
+                    }
+
+
+
+
+                    
                     return "saved";
 
                 }
 
 
-            }catch(\Exception $e){
-                return $e;
-            }
-        }{
+
+        }else{
             return route('login');
         }
     }
