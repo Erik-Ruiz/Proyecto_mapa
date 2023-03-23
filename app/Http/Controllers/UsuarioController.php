@@ -195,16 +195,7 @@ class UsuarioController extends Controller{
                         DB::rollBack();
                         return $e->getMessage();
                     }
-
-
-
-
-                    
-                    return "saved";
-
                 }
-
-
 
         }else{
             return route('login');
