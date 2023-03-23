@@ -54,7 +54,7 @@ function getStatusGincanaStart () {
             </div>
             
             <div class="footer-modal">
-                <button onclick="borrarGimcana()">Borrar</button>
+                <button class="btn delete_btn" style="background-color: #B8E0C3;" onclick="borrarGimcana()">Borrar</button>
             </div>
 
             `
