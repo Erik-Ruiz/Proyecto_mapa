@@ -4,22 +4,20 @@ var pruebaActual;
 var pruebasTotales;
 var csrf_token = token.content
 var marker;
+var lat = 41.391;
+var long = 2.183;
 
 
 var modal = document.getElementById("myModal");
 var span = document.getElementsByClassName("close")[0];
 
-var map
-var layerGroup;
-var tiles;
 //const map = L.map('map').setView([41.38710079433486, 2.183035577913213], 15);
-navigator.geolocation.getCurrentPosition( e => {
-    map = L.map("map").setView([e.coords.latitude, e.coords.longitude], 15);
-    layerGroup = L.layerGroup().addTo(map);
-    tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    }).addTo(map);
-} )
+const map = L.map("map").setView([lat, long], 15);
+var layerGroup = L.layerGroup().addTo(map);
+const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+}).addTo(map);
+
 
 
 
@@ -175,12 +173,12 @@ function verPista() {
 
 function checkPosition(){
     navigator.geolocation.getCurrentPosition(e => {
-            //posicionActualX = e.coords.longitude;
-            //posicionActualY = e.coords.latitude;
+            posicionActualX = e.coords.longitude;
+            posicionActualY = e.coords.latitude;
             //posicionActualX = 41.391;
             //posicionActualY = 2.179;
-            posicionActualX = 41.3887;
-            posicionActualY = 2.183;
+            // posicionActualX = 41.3887;
+            // posicionActualY = 2.183;
 			puntoX = parseFloat(pruebaActual.latitud);
 			puntoY = parseFloat(pruebaActual.longitud);
             rango = 0.00200;
@@ -295,8 +293,13 @@ function getFirstPosition() {
 //endregion
 
 window.onload = function() {
+    navigator.geolocation.getCurrentPosition( e => {
+        lat = e.coords.latitude
+        long = e.coords.longitude
+        map.setView([lat,long],17);
+    })
     getStatusGincanaStart();
     getFirstPosition();
-    setInterval(getPosition,1000);
+    setInterval(getPosition,2000);
 }
 

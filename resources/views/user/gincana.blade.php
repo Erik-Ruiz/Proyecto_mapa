@@ -81,10 +81,10 @@
     </div>
 
     <!--  <script src="../resources/js/gincana/ubicacionActual.js"></script> -->
-    <script src="../resources/js/gincana/modals.js"></script>
     <!-- <script src="../resources/js/gincana/RouteService.js"></script> -->
 
 
-
+    <script src="../resources/js/gincana/modals.js"></script>
 </body>
 </html>
+
