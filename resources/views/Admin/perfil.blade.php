@@ -30,7 +30,9 @@
                         <img src="{{asset('../resources/img/imagen-usuarios.png')}}" alt="imgusuario">
                     </div>
                     <div class="lugares flex">
-                        <h2>Nombre usuario</h2>
+                        @foreach ($usuario as $usu)
+                            <h2>{{$usu->username}}<h2>
+                        @endforeach
                     </div>
                     <div class="lugares flex">
                         <h1>Lugares favoritos</h1>
