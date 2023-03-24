@@ -104,7 +104,17 @@
         </nav>
     </div>
 
-    <script src="../resources/js/gincana/modals.js"></script>
+    <script>
+
+        function cerrarSesion() {
+            location.href = "admin/logout";
+        }
+        function perfil() {
+            location.href = "admin/perfil";
+        }
+    </script>
+
+<script src="../resources/js/gincana/modals.js"></script>
 </body>
 </html>
 

@@ -102,12 +102,12 @@ function modal(id) {
                             
             <div id="ModalDetalles" class="modal" style="width: auto; height: auto; margin-top: 7vh; margin-left: 1vh;">
 
-                <div class="modal-content" style="align-items: center; width:400px">
+                <div class="modal-content" id="modal-content" style="align-items: center; width:400px">
                     <div class="modal-header" style="width: 100%; display: inline;">
                         <span class="close">&times;</span>
                         <h2 style=" margin-right: 20%;">${data.nombre}</h2>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body" id="modal-body">
                         <div class="info" id="form" style="width: 23rem;">
                 
                 
@@ -132,30 +132,26 @@ function modal(id) {
             </div>
 
         `
-
-
         datos_modal.innerHTML = modal1;
-
-
         var modal = document.getElementById("ModalDetalles");
-
         var btn = document.getElementById("VerDetalles");
-
         var span = document.getElementsByClassName("close")[0];
         btn.onclick = function() {
             modal.style.display = "block";
 
-            // var x = window.matchMedia("(max-width: 700px)")
-            // myFunction(x) // Call listener function at run time
-            // x.addListener(myFunction)
+            var x = window.matchMedia("(max-width: 700px)")
+            myFunction(x) // Call listener function at run time
+            x.addListener(myFunction)
 
-            // function myFunction(x) {
-            //     if (x.matches) { // If media query matches
-            //         document.getElementById('ModalDetalles').style.width = '95%';
-            //         document.getElementsByClassName('modal-content').style.width = '100%';
-            //         document.getElementsByClassName('info').style.width = '100%';
-            //     }
-            // }
+            function myFunction(x) {
+                if (x.matches) { // If media query matches
+                    // console.log(document.getElementById('modalsi'));
+
+                    document.getElementById('modal-content').style.width = '43vh';
+                    document.getElementById('ModalDetalles').style.width = '95%';
+                    document.getElementById('form').style.width = '100%';
+                }
+            }
         }
         btn.click();
         span.onclick = function() {
@@ -175,19 +171,11 @@ function modal(id) {
 
 
 
+
 function getPosition(position) {
     lat = position.coords.latitude
     long = position.coords.longitude
     map.panTo([lat, long]);
-    // if (marker) {
-    //     map.removeLayer(marker)
-    // }
-
-    // marker = L.marker([lat, long])
-
-    // var featureGroup = L.featureGroup([marker]).addTo(map)
-
-    // map.fitBounds(featureGroup.getBounds())
 }
 
 function routae(id) {
@@ -205,14 +193,7 @@ function routae(id) {
             waypoints: [
                 L.latLng(lat, long),
                 L.latLng(data.latitud, data.longitud)
-            ],
-            router: osrRouter,
-            profile: routingprofile,
-            router: new L.Routing.osrmv1({
-                language: 'en',
-                profile: 'foot-walking',
-            }),
-
+            ]
         }).addTo(map);
 
         setInterval(() => {

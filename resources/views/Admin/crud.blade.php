@@ -21,7 +21,7 @@
                     <img width="50px" height="50px" src="../../resources/img/logo.jpg" alt="">
                 </li>
             </ul>
-            <button class="btn btn-light"  type="submit"><i class="fa-solid fa-right-from-bracket"></i></button>
+            <button class="btn btn-light"  type="button" onclick="cerrarSesion()"><i class="fa-solid fa-right-from-bracket"></i></button>
         </div>
       </nav>
       <div class="centradoboton">
@@ -48,5 +48,13 @@
         </div>
       </div>
 
+
+      <script>
+
+        function cerrarSesion() {
+            location.href = "logout";
+        }
+
+    </script>
 </body>
 </html>
