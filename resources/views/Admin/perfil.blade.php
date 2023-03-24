@@ -36,7 +36,7 @@
                     </div>
                     <div class="lugares flex">
                         @foreach ($usuario as $usu)
-                            <h2>{{$usu->username}}<h2>
+                            <h2 id="usernameInFoto">{{$usu->username}}<h2>
                         @endforeach
                     </div>
                     <div class="container35">
