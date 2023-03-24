@@ -145,17 +145,17 @@ function modal(id) {
         btn.onclick = function() {
             modal.style.display = "block";
 
-            // var x = window.matchMedia("(max-width: 700px)")
-            // myFunction(x) // Call listener function at run time
-            // x.addListener(myFunction)
+            var x = window.matchMedia("(max-width: 700px)")
+            myFunction(x) // Call listener function at run time
+            x.addListener(myFunction)
 
-            // function myFunction(x) {
-            //     if (x.matches) { // If media query matches
-            //         document.getElementById('ModalDetalles').style.width = '95%';
-            //         document.getElementsByClassName('modal-content').style.width = '100%';
-            //         document.getElementsByClassName('info').style.width = '100%';
-            //     }
-            // }
+            function myFunction(x) {
+                if (x.matches) { // If media query matches
+                    document.getElementById('ModalDetalles').style.width = '95%';
+                    document.getElementsByClassName('modal-content').style.width = '100%';
+                    document.getElementsByClassName('info').style.width = '100%';
+                }
+            }
         }
         btn.click();
         span.onclick = function() {
@@ -206,12 +206,7 @@ function routae(id) {
                 L.latLng(lat, long),
                 L.latLng(data.latitud, data.longitud)
             ],
-            router: osrRouter,
-            profile: routingprofile,
-            router: new L.Routing.osrmv1({
-                language: 'en',
-                profile: 'foot-walking',
-            }),
+            profile: 'foot',
 
         }).addTo(map);
 
