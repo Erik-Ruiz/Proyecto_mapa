@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
 
     <link rel="stylesheet" href="../resources/css/gincana.css">
-    <link rel="stylesheet" href="../resources/css/mapa_principal.css">
+    {{-- <link rel="stylesheet" href="../resources/css/mapa_principal.css"> --}}
 
     <!-- BOOSTRAPP -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -24,6 +24,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
     </script>
+
+     <!-- ICONOS -->
+     <script src="https://kit.fontawesome.com/8d74b7c7c2.js" crossorigin="anonymous"></script>
 
     <title>Gincana</title>
 </head>
@@ -56,18 +59,19 @@
     </div>
 
     <div class="zona_mapa">
+        <div class="containerBtnGim">
+            <button id="btn-gimcana" type="button" class="btn gim-btn" style="background-color: #B8E0C3; margin-left: 5%; margin-top: 2%;">Iniciar Gincana</button>
+            <button id="btn-preguntaGim" type="button" class="btn gim-btn" style="background-color: #B8E0C3; margin-left: 1%; margin-top: 2%;">Ver Pregunta</button>
+        </div>
         <div id="map" style="width:100%; height: 100vh; z-index: -1;"> 
-            <div class="containerBtnGim">
-                <button id="btn-gimcana" type="button" class="btn gim-btn" style="background-color: #B8E0C3; margin-left: 5%; margin-top: 2%;">Iniciar Gincana</button>
-                <button id="btn-preguntaGim" type="button" class="btn gim-btn" style="background-color: #B8E0C3; margin-left: 1%; margin-top: 2%;">Ver Pregunta</button>
-            </div>
+            
         </div>    
     </div>
     
    
 
-    <button id="btn-gimcana" class="my-btn"></button>
-    <button id="btn-localizacion" class="my-btn" disabled>Ver pregunta</button>
+    {{-- <button id="btn-gimcana" class="my-btn"></button>
+    <button id="btn-localizacion" class="my-btn" disabled>Ver pregunta</button> --}}
 
     <div id="myModal" class="modal">
         <div class="modal-content">
@@ -83,7 +87,33 @@
     <script src="../resources/js/gincana/modals.js"></script>
     <!-- <script src="../resources/js/gincana/RouteService.js"></script> -->
 
+    <div class="main-container">
+        <nav class="navigation">
+            <ul>
+                <li>
+                    <i class="fa-solid fa-gamepad"></i>
+                </li>
+                <li onclick="perfil()">
+                    <i class="fa-solid fa-user"></i>
+                </li>
+                <li onclick="cerrarSesion()">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </li>
+    
+    
+            </ul>
+        </nav>
+    </div>
 
+    <script>
+
+        function cerrarSesion() {
+            location.href = "logout";
+        }
+        function perfil() {
+            location.href = "admin/perfil";
+        }
+    </script>
 
 </body>
 </html>
