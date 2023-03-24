@@ -102,12 +102,12 @@ function modal(id) {
                             
             <div id="ModalDetalles" class="modal" style="width: auto; height: auto; margin-top: 7vh; margin-left: 1vh;">
 
-                <div class="modal-content" style="align-items: center; width:400px">
+                <div class="modal-content" id="modal-content" style="align-items: center; width:400px">
                     <div class="modal-header" style="width: 100%; display: inline;">
                         <span class="close">&times;</span>
                         <h2 style=" margin-right: 20%;">${data.nombre}</h2>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body" id="modal-body">
                         <div class="info" id="form" style="width: 23rem;">
                 
                 
@@ -139,17 +139,19 @@ function modal(id) {
         btn.onclick = function() {
             modal.style.display = "block";
 
-            // var x = window.matchMedia("(max-width: 700px)")
-            // myFunction(x) // Call listener function at run time
-            // x.addListener(myFunction)
+            var x = window.matchMedia("(max-width: 700px)")
+            myFunction(x) // Call listener function at run time
+            x.addListener(myFunction)
 
-            // function myFunction(x) {
-            //     if (x.matches) { // If media query matches
-            //         document.getElementById('ModalDetalles').style.width = '95%';
-            //         document.getElementByClassName('modal-content').style.width = '100%';
-            //         document.getElementByClassName('info').style.width = '100%';
-            //     }
-            // }
+            function myFunction(x) {
+                if (x.matches) { // If media query matches
+                    // console.log(document.getElementById('modalsi'));
+
+                    document.getElementById('modal-content').style.width = '46vh';
+                    document.getElementById('ModalDetalles').style.width = '95%';
+                    document.getElementById('form').style.width = '100%';
+                }
+            }
         }
         btn.click();
         span.onclick = function() {
@@ -165,6 +167,7 @@ function modal(id) {
     ajax.send(formdata);
 
 }
+
 
 
 
