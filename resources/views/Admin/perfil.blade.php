@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="../../resources/css/perfil.css">
     <script src="../../resources/js/perfil.js"></script>
 </head>
-<body>
+<body class="cuerpo">
     <nav class="navbar navbar-expand-lg" style="background-color: #34A853">
             <div class="container-fluid">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -39,33 +39,36 @@
                             <h2>{{$usu->username}}<h2>
                         @endforeach
                     </div>
-                    <div class="lugares flex">
-                        <h1>Lugares favoritos</h1>
+                    <div class="container35">
+                        <div class="lugares flex">
+                                <h1>Lugares favoritos</h1>
+                            </div>
+                            <div class="contenido-35">
+                            @foreach ($favoritos as $fav)
+                                <p><i class="fa-solid fa-location-dot" style="color: #34a853;"></i>{{$fav->nombre}} </p>
+                            @endforeach
+                        </div>
                     </div>
-                    <div class="contenido-35">
-                    @foreach ($favoritos as $fav)
-                        <p><i class="fa-solid fa-location-dot" style="color: #34a853;"></i>{{$fav->nombre}} </p>
-                    @endforeach
-                    </div>
+
                     
                 </div>
                 <div class="c65">
                     <div class="container65">
-                        <div class="flex">
+                    <div class="flex">
                             <h1>Perfil</h1><br>
                             <div class="flex">
-                                <button class="btn btn-light" onclick="changeStatusForm()"><i class="fa-solid fa-pen-to-square" style="color: #000000;"></i></button>
+                                <button class="btn btn-light" onclick="changeStatusForm()"><i class="fa-solid fa-pen-to-square" style="color: #34A853;"></i></button>
                             </div>
                         </div>
 
                         <div class="contenido-65">
                         @foreach ($usuario as $usu)
-                            <h2>Nombre Usuario: <input id="usernameForm" type="text" value="{{$usu->username}}" disabled></h2><br>
-                            <p>Nombre: <input id="nameForm" type="text" value="{{$usu->nombre}}" disabled></p><br>
-                            <p>Apellidos: <input id="surnameForm" type="text" value="{{$usu->apellidos}}" disabled></p><br>
-                            <p>Correo: <input id="mailForm" type="mail" value="{{$usu->correo}}" disabled></p>
+                            <p>Nombre Usuario: <br><input id="usernameForm" type="text" value="{{$usu->username}}" disabled></p><br>
+                            <p>Nombre: <br><input id="nameForm" type="text" value="{{$usu->nombre}}" disabled></p><br>
+                            <p>Apellidos: <br><input id="surnameForm" type="text" value="{{$usu->apellidos}}" disabled></p><br>
+                            <p>Correo: <br><input id="mailForm" type="mail" value="{{$usu->correo}}" disabled></p>
                         @endforeach
-                            
+
                             <p></p>
                         </div>
                     </div>
@@ -74,8 +77,11 @@
                             <h1>Etiquetas</h1><br>
                         </div>
                         <div class="contenido-65">
-                            <p>Nombre:</p><br>
-                            <p>Descripción:</p><br>
+                            <p>Tus etiquetas:</p><br>
+                        @foreach ($etiquetas as $eti)
+                            <p>{{$eti->nombre}}</p><br>
+                        @endforeach
+                        
                         </div>
                     </div>
                     <div class="container65">
