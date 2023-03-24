@@ -11,6 +11,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- <script src="../../resources/js/crud.js"></script> -->
     <link rel="stylesheet" href="../../resources/css/perfil.css">
+    <script src="../../resources/js/perfil.js"></script>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg" style="background-color: #34A853">
@@ -48,13 +49,17 @@
                     <div class="container65">
                         <div class="flex">
                             <h1>Perfil</h1><br>
+                            <div class="flex">
+                                <button class="btn btn-light" onclick="changeStatusForm()"><i class="fa-solid fa-pen-to-square" style="color: #000000;"></i></button>
+                            </div>
                         </div>
+
                         <div class="contenido-65">
                         @foreach ($usuario as $usu)
-                            <h2>Nombre Usuario: {{$usu->username}}</h2><br>
-                            <p>Nombre: {{$usu->nombre}}</p><br>
-                            <p>Apellidos: {{$usu->apellidos}}</p><br>
-                            <p>Correo: {{$usu->correo}}</p>
+                            <h2>Nombre Usuario: <input id="usernameForm" type="text" value="{{$usu->username}}" disabled></h2><br>
+                            <p>Nombre: <input id="nameForm" type="text" value="{{$usu->nombre}}" disabled></p><br>
+                            <p>Apellidos: <input id="surnameForm" type="text" value="{{$usu->apellidos}}" disabled></p><br>
+                            <p>Correo: <input id="mailForm" type="mail" value="{{$usu->correo}}" disabled></p>
                         @endforeach
                             
                             <p></p>
