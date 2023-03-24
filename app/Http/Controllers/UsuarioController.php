@@ -82,23 +82,28 @@ class UsuarioController extends Controller{
         //Saber si tiene favorito
         $punto = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud', 'favoritos.punto')
                     ->join('favoritos','puntos.id','=','favoritos.punto')
-                    ->where('favoritos.punto','=', $request->get('id'))->count();
-        
+                    ->where('favoritos.punto','=', $request->get('id'))
+                    ->where('favoritos.usuario','=', $request->session()->get('id'))->count();
         //Saber si tiene una etiqueta personalizada
-        // $opinado = punto_etiqueta::select('punto_etiquetas.etiqueta')
-        // ->where("usuario", "=", $request->session()->get('id'))->where("punto","=",$request->get("id"))->where("personal","=",1)->get();
-        // dd($opinado[0]['etiqueta']);
+        $opinado = punto_etiqueta::select('punto_etiquetas.etiqueta')
+        ->where("usuario", "=", $request->session()->get('id'))
+        ->where("punto","=",$request->get("id"))->get();
 
-        if($punto==1){
+        if($punto==1 && count($opinado)==0){
             $datos = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud', 'favoritos.punto')
             ->join('favoritos','puntos.id','=','favoritos.punto')
+            ->where('favoritos.punto','=', $request->get('id'))
             ->where('favoritos.usuario','=', $request->session()->get('id'))->get();
             return json_encode($datos[0]);
 
-        // }else if(count($opinado) != 0){
-        
-        //     $datos = etiqueta::select('nombre')->where('id','=',$opinado[0]['etiqueta'])->get();
-        //     dd($datos[0]['nombre']);
+        }else if(count($opinado) !== 0){
+            $datos = punto::select("puntos.id","puntos.nombre","puntos.descripcion","etiquetas.nombre as etiquetas")->join('punto_etiquetas','punto_etiquetas.punto','=','puntos.id')
+            ->join('etiquetas','punto_etiquetas.etiqueta','=','etiquetas.id')
+            ->where('puntos.id', $request->get("id"))
+            ->where('etiquetas.id','=',$opinado[0]['etiqueta'])->get();
+            // $datos = etiqueta::select('nombre')->where('id','=',$opinado[0]['etiqueta'])->get();
+
+            return json_encode($datos[0]);
 
         
         }else{
@@ -148,19 +153,17 @@ class UsuarioController extends Controller{
     public function darOpinion(Request $req){
 
         $id_user = $req->session()->get('id');
-        $id_punto=$req["id_punt"];
+        $id_punto=$req->get('id_punt');
         $opinion = $req->get('opinion');
-
         // return response()->json(['ID del punto' => $id_punto, 'ID del user' => $id_user, 'Opinion' => $opinion]);
         
         if($req->session()->has('id')){
 
                 // $opinado = punto_etiqueta::where("usuario", "=", $id_user)->where("punto","=",$id_punto)->where("personal","=",1)->count();
-                $opinado = punto_etiqueta::select('punto_etiquetas.etiqueta')
-                ->where("usuario", "=", $id_user)->where("punto","=",$id_punto)->where("personal","=",1)->get();
-                
-                if (count($opinado) != 0){
-
+                $opinado = punto_etiqueta::select('etiqueta')
+                ->where("usuario", "=", $id_user)
+                ->where("punto","=",$id_punto)->get();
+                if (count($opinado) !== 0){
     
                     etiqueta::where("id", "=", $opinado[0]['etiqueta'])->update(["nombre" => $opinion]);
 
@@ -174,7 +177,7 @@ class UsuarioController extends Controller{
 
                         $etiqueta = new etiqueta();
                         $etiqueta->nombre = $opinion;
-                        $etiqueta->color = 'Orange';
+                        $etiqueta->color = 'orange';
                         $etiqueta->personal = 1;
                         $etiqueta->usuario = $id_user;
                         $etiqueta->save();
@@ -195,16 +198,7 @@ class UsuarioController extends Controller{
                         DB::rollBack();
                         return $e->getMessage();
                     }
-
-
-
-
-                    
-                    return "saved";
-
                 }
-
-
 
         }else{
             return route('login');

@@ -46,10 +46,10 @@ function filtrar(fav) {
         data = JSON.parse(ajax.responseText)
         layerGroup.clearLayers();
         try {
-            if (data[0].color == null) {
+            if (data[0].color == null && fav !== 1) {
                 color = 'black';
-            } else if (fav == 1 && data[0].color == null) {
-                color = 'yellow';
+            } else if (fav == 1) {
+                color = 'gold';
             } else {
                 color = data[0].color
             }
@@ -97,11 +97,10 @@ function modal(id) {
 
     ajax.onload = function() {
         data = JSON.parse(ajax.responseText)
-        console.log(data);
         var modal1 = ``;
         modal1 += `
                             
-            <div id="ModalDetalles" class="modal" style="width: 400px; height: 600px; margin-top: 50px; margin-left: 10px;">
+            <div id="ModalDetalles" class="modal" style="width: auto; height: auto; margin-top: 7vh; margin-left: 1vh;">
 
                 <div class="modal-content" style="align-items: center; width:400px">
                     <div class="modal-header" style="width: 100%; display: inline;">
@@ -115,7 +114,9 @@ function modal(id) {
                         <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">${data.descripcion}</h5>
                         <div style="display: flex; justify-content: space-between;">
                             <h4 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Opinión: </h4>
-                            <h4 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">-</h4>
+                            <h4 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">`
+        if (data.etiquetas == null) { modal1 += `-` } else { modal1 += data.etiquetas }
+        modal1 += `</h4>
                         </div>
                         <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px; display: flex; justify-content: space-between;">Danos tu opinión!!<button style="width: 40%" class="btn btn-warning" onclick=opinion(${data.id})><i class="fa-solid fa-message"></i></button></h5>
                             <div style="display: flex; justify-content: space-between;">
@@ -143,6 +144,18 @@ function modal(id) {
         var span = document.getElementsByClassName("close")[0];
         btn.onclick = function() {
             modal.style.display = "block";
+
+            // var x = window.matchMedia("(max-width: 700px)")
+            // myFunction(x) // Call listener function at run time
+            // x.addListener(myFunction)
+
+            // function myFunction(x) {
+            //     if (x.matches) { // If media query matches
+            //         document.getElementById('ModalDetalles').style.width = '95%';
+            //         document.getElementsByClassName('modal-content').style.width = '100%';
+            //         document.getElementsByClassName('info').style.width = '100%';
+            //     }
+            // }
         }
         btn.click();
         span.onclick = function() {
@@ -159,10 +172,13 @@ function modal(id) {
 
 }
 
+
+
+
 function getPosition(position) {
     lat = position.coords.latitude
     long = position.coords.longitude
-
+    map.panTo([lat, long]);
     // if (marker) {
     //     map.removeLayer(marker)
     // }
@@ -175,6 +191,7 @@ function getPosition(position) {
 }
 
 function routae(id) {
+    var modal = document.getElementById("ModalDetalles");
     var ajax = new XMLHttpRequest();
     let formdata = new FormData;
     formdata.append("_token", csrf_token);
@@ -182,6 +199,7 @@ function routae(id) {
     ajax.open('POST', "recoger_datos_etiqueta");
     ajax.onload = function() {
         data = JSON.parse(ajax.responseText);
+        modal.style.display = "none";
         navigator.geolocation.getCurrentPosition(getPosition);
         routeControl = L.Routing.control({
             waypoints: [
@@ -202,7 +220,7 @@ function routae(id) {
                 L.latLng(newLat, newLng),
                 routeControl.options.waypoints[1]
             ]);
-        }, 5000);
+        }, 1000);
     }
     ajax.send(formdata);
 }
@@ -270,7 +288,6 @@ function opinion(id) {
         Swal.fire(`
           Opinión: ${result.value.login}
         `.trim())
-            // console.log(result.value.login);
 
         var ajax = new XMLHttpRequest();
         let formdata = new FormData;
@@ -281,9 +298,7 @@ function opinion(id) {
 
         ajax.open('POST', "darOpinion");
         ajax.onload = function() {
-
-            console.log(ajax.responseText);
-
+            window.location.reload();
         }
         ajax.send(formdata);
     })
