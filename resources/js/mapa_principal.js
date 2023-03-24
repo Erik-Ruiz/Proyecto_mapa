@@ -135,7 +135,7 @@ function modal(id) {
         datos_modal.innerHTML = modal1;
         var modal = document.getElementById("ModalDetalles");
         var btn = document.getElementById("VerDetalles");
-        var span = document.getElementByClassName("close")[0];
+        var span = document.getElementsByClassName("close")[0];
         btn.onclick = function() {
             modal.style.display = "block";
 
