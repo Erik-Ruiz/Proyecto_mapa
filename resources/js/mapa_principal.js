@@ -147,7 +147,7 @@ function modal(id) {
                 if (x.matches) { // If media query matches
                     // console.log(document.getElementById('modalsi'));
 
-                    document.getElementById('modal-content').style.width = '46vh';
+                    document.getElementById('modal-content').style.width = '43vh';
                     document.getElementById('ModalDetalles').style.width = '95%';
                     document.getElementById('form').style.width = '100%';
                 }
