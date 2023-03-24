@@ -9,6 +9,8 @@ Route::get("/",[UsuarioController::class, "index"])->name("index");
 Route::post("/admin/login",[UsuarioController::class, "login"])->name("login");
 //Ruta para ir al perfil
 Route::get("/admin/perfil",[UsuarioController::class, "perfil"])->name("perfil")->middleware('logout');
+Route::put("/editUser",[UsuarioController::class, "editUser"])->name("editUser")->middleware('logout');
+
 //Ruta para ir al crud
 Route::get("/admin/crud",[UsuarioController::class, "crud"])->name("crud")->middleware('logout');
 //Ruta para recibir la cantidad total de registros del crud

@@ -267,6 +267,27 @@ class UsuarioController extends Controller{
         }   
     }
 
+    public function editUser(Request $request){
+        if($request->session()->has("id")){
+            $id = session()->get("id");
+            try{
+                if(empty($request["name"]) || empty($request["surname"]) || empty($request["username"]) || empty($request["mail"]))
+                    return "ERROR";
+                if(usuario::where("username", "=", $request["username"])->where("id","!=",$id)->count() != 0)
+                    return "REPEUSER";
+                if(usuario::where("correo", "=", $request["mail"])->where("id","!=",$id)->count() != 0)
+                    return "REPEMAIL";
+                usuario::where('id','=',$id)->update(["username" => $request["username"], "nombre" => $request["name"], "apellidos" => $request["surname"], "correo" => $request["mail"]]);
+            }catch(Exception $e){
+                return $e->getMessage();
+            }
+            return "OK";
+        }
+        else{
+            return redirect("/");
+        }  
+    }
+
     // $query = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud')
     // ->join('punto_etiquetas','punto_etiquetas.punto','=','puntos.id')
     // ->where('puntos.nombre','LIKE','%'.$request->get('filtro_nombre').'%')
