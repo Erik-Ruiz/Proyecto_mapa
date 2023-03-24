@@ -60,11 +60,10 @@
 
     <div class="zona_mapa">
         <div class="containerBtnGim">
-            <button id="btn-gimcana" type="button" class="btn gim-btn" style="background-color: #B8E0C3; margin-left: 5%; margin-top: 2%;">Iniciar Gincana</button>
-            <button id="btn-preguntaGim" type="button" class="btn gim-btn" style="background-color: #B8E0C3; margin-left: 1%; margin-top: 2%;">Ver Pregunta</button>
+            <button id="btn-gimcana" type="button" class="btn gim-btn" style="background-color: #B8E0C3; margin-left: 5%; margin-top: 2%;"></button>
+            <button id="btn-localizacion" type="button" class="btn gim-btn" style="background-color: #B8E0C3; margin-left: 1%; margin-top: 2%;" disabled>Ver Pregunta</button>
         </div>
-        <div id="map" style="width:100%; height: 100vh; z-index: -1;"> 
-            
+        <div id="map" style="width:100%; height: 100vh;"> 
         </div>    
 
     </div>
@@ -115,6 +114,7 @@
         }
     </script>
 
+<script src="../resources/js/gincana/modals.js"></script>
 </body>
 </html>
 
