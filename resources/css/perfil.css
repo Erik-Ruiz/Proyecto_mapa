@@ -63,6 +63,10 @@
     margin-top: 1vw;
     color:#34A853;
 }
+.btn{
+    margin-left: 3vw;
+
+}
 .lugares h1{
     margin-bottom: 1vw;
     color:#34A853;
@@ -97,7 +101,7 @@
     font-size: 1vw;
 }
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 1400px) {
     .container65{
         margin-left: 8vw;
         margin-right: 7vw;
@@ -110,5 +114,55 @@
 
     .contenido-65 p{
         font-size: 23px;
+    }
+ }
+
+ @media screen and (max-width: 842px) {
+    .c35{
+        width: 100vw;
+    }
+    .c65{
+        width: 100vw;
+        margin-bottom: 5vw;
+    }
+    .container65{
+        margin-left: 8vw;
+        margin-right: 7vw;
+        margin-top: 10vw;
+    }
+    
+    .container35{
+        margin-top: 3vw;
+        margin-left: 8vw;
+        margin-right: 7vw;
+        padding-left: 4vw;
+    }
+
+    
+    .contenido-65 p{
+        font-size: 23px;
+    }
+    .cont-35 img{
+        margin-top: 3vw;
+        width: 40vw;
+    }
+
+    .contenido-65 {
+        padding-left: 7vw;
+        padding-bottom: 2vw;
+        font-size: 1vw;
+    }
+
+    .lugares h1{
+        margin-bottom: 3vw;
+        margin-top: 2vw;
+    }
+
+    .flex h1{
+        margin-bottom: 3vw;
+        margin-top: 2vw;
+    }
+    .contenido-35 i{
+        margin-right: 2vw;
     }
  }
