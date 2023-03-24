@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
 
     <link rel="stylesheet" href="../resources/css/gincana.css">
-    <link rel="stylesheet" href="../resources/css/mapa_principal.css">
+    {{-- <link rel="stylesheet" href="../resources/css/mapa_principal.css"> --}}
 
     <!-- BOOSTRAPP -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -24,6 +24,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
     </script>
+
+     <!-- ICONOS -->
+     <script src="https://kit.fontawesome.com/8d74b7c7c2.js" crossorigin="anonymous"></script>
 
     <title>Gincana</title>
 </head>
@@ -67,8 +70,8 @@
     
    
 
-    {{-- <button id="btn-gimcana" class="my-btn"></button> --}}
-    {{-- <button id="btn-localizacion" class="my-btn" disabled>Ver pregunta</button> --}}
+    {{-- <button id="btn-gimcana" class="my-btn"></button>
+    <button id="btn-localizacion" class="my-btn" disabled>Ver pregunta</button> --}}
 
     <div id="myModal" class="modal">
         <div class="modal-content">
@@ -83,6 +86,23 @@
     <!--  <script src="../resources/js/gincana/ubicacionActual.js"></script> -->
     <!-- <script src="../resources/js/gincana/RouteService.js"></script> -->
 
+    <div class="main-container">
+        <nav class="navigation">
+            <ul>
+                <li>
+                    <i class="fa-solid fa-gamepad"></i>
+                </li>
+                <li onclick="perfil()">
+                    <i class="fa-solid fa-user"></i>
+                </li>
+                <li onclick="cerrarSesion()">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </li>
+    
+    
+            </ul>
+        </nav>
+    </div>
 
     <script src="../resources/js/gincana/modals.js"></script>
 </body>
