@@ -206,10 +206,13 @@ function routae(id) {
                 L.latLng(lat, long),
                 L.latLng(data.latitud, data.longitud)
             ],
+            router: osrRouter,
+            profile: routingprofile,
             router: new L.Routing.osrmv1({
                 language: 'en',
-                profile: 'foot',
+                profile: 'foot-walking',
             }),
+
         }).addTo(map);
 
         setInterval(() => {
