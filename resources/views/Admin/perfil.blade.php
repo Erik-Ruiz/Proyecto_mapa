@@ -12,7 +12,7 @@
     <!-- <script src="../../resources/js/crud.js"></script> -->
     <link rel="stylesheet" href="../../resources/css/perfil.css">
 </head>
-<body>
+<body class="cuerpo">
     <nav class="navbar navbar-expand-lg" style="background-color: #34A853">
             <div class="container-fluid">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -34,14 +34,17 @@
                             <h2>{{$usu->username}}<h2>
                         @endforeach
                     </div>
-                    <div class="lugares flex">
-                        <h1>Lugares favoritos</h1>
+                    <div class="container35">
+                        <div class="lugares flex">
+                                <h1>Lugares favoritos</h1>
+                            </div>
+                            <div class="contenido-35">
+                            @foreach ($favoritos as $fav)
+                                <p><i class="fa-solid fa-location-dot" style="color: #34a853;"></i>{{$fav->nombre}} </p>
+                            @endforeach
+                        </div>
                     </div>
-                    <div class="contenido-35">
-                    @foreach ($favoritos as $fav)
-                        <p><i class="fa-solid fa-location-dot" style="color: #34a853;"></i>{{$fav->nombre}} </p>
-                    @endforeach
-                    </div>
+
                     
                 </div>
                 <div class="c65">
@@ -56,7 +59,6 @@
                             <p>Apellidos: {{$usu->apellidos}}</p><br>
                             <p>Correo: {{$usu->correo}}</p>
                         @endforeach
-                            
                             <p></p>
                         </div>
                     </div>
@@ -65,8 +67,11 @@
                             <h1>Etiquetas</h1><br>
                         </div>
                         <div class="contenido-65">
-                            <p>Nombre:</p><br>
-                            <p>Descripción:</p><br>
+                            <p>Tus etiquetas:</p><br>
+                        @foreach ($etiquetas as $eti)
+                            <p>{{$eti->nombre}}</p><br>
+                        @endforeach
+                        
                         </div>
                     </div>
                     <div class="container65">

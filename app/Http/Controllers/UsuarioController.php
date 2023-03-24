@@ -251,27 +251,20 @@ class UsuarioController extends Controller{
             $id = session()->get("id");
             $usuario = usuario::where('id','=',$id)->get();
 
-            /* $favoritos = punto::select('puntos.nombre')
-            ->join('favoritos','favoritos.punto','=','puntos.id')
-            ->where('favoritos.usuario','=',$id); */
-
             $favoritos = punto::select('puntos.nombre')
             ->join('favoritos','favoritos.punto','=','puntos.id')
             ->where('favoritos.usuario','=',$id)->get();
 
+            $etiquetas = etiqueta::where('usuario','=',$id)->get();
+            
+
             /* return json_encode($favoritos);*/
-            return view("admin/perfil",compact('usuario','favoritos'));
+            return view("admin/perfil",compact('usuario','favoritos','etiquetas'));
         }
         else{
             return redirect("/");
         }   
     }
-
-    // $query = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud')
-    // ->join('punto_etiquetas','punto_etiquetas.punto','=','puntos.id')
-    // ->where('puntos.nombre','LIKE','%'.$request->get('filtro_nombre').'%')
-    // ->where('punto_etiquetas.etiqueta','=',$request->get('filtro_etiqueta'))->get();
-    // return json_encode($query);
 
 
 
