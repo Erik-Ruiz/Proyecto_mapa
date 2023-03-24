@@ -107,7 +107,7 @@
     <script>
 
         function cerrarSesion() {
-            location.href = "logout";
+            location.href = "admin/logout";
         }
         function perfil() {
             location.href = "admin/perfil";

@@ -22,6 +22,7 @@ Route::put("/modPruebaCrud", [UsuarioController::class, "modPruebaCrud"])->name(
 Route::put("/modPICrud", [UsuarioController::class, "modPICrud"])->name("modPICrud")->middleware('logout');
 
 //Logout
+Route::get("logout", [UsuarioController::class, 'logout'])->name("logout");
 Route::get("/admin/logout", [UsuarioController::class, 'logout'])->name("logout");
 Route::get("/user/logout", [UsuarioController::class, 'logout'])->name("logout");
 

@@ -57,7 +57,7 @@
 
                     </ul>
                     <a href="{{'gincana'}}">
-                        <button type="button" class="btn" style="background-color: #B8E0C3; margin-right: 1%;">Iniciar Gincana</button>
+                        <button type="button" class="btn" style="height: 38px; width: 200px; background-color: #B8E0C3; margin-right: 15px;">Iniciar Gincana</button>
                     </a>
                     <a class="navbar-brand" href="{{ route('perfil') }}">
 
