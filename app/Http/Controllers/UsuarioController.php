@@ -705,4 +705,18 @@ class UsuarioController extends Controller{
             return redirect("/");
         }
     }
+
+    /*-------*/
+    /* Top V */
+    /*-------*/
+
+    public function view_TopV(Request $request) {
+
+        if($request->session()->has("id")) {
+            return view("user.topV");
+        } else {
+            return redirect("/");
+        }
+
+    }
 }

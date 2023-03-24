@@ -52,8 +52,10 @@ Route::post("/checkPassToRound", [UsuarioController::class, "checkPassToRound"])
 Route::post("/pasoDePrueba", [UsuarioController::class, "pasoDePrueba"])->name("pasoDePrueba");
 Route::post("/pasoDePrueba", [UsuarioController::class, "pasoDePrueba"])->name("pasoDePrueba");
 Route::post("/insertarRegistroFinal", [UsuarioController::class, "insertarRegistroFinal"])->name("insertarRegistroFinal");
+#endregion
 
-
+#region RUTAS TOPV
+Route::get("/topV",[UsuarioController::class, "view_TopV"])->name("topV-web");
 #endregion
 
 // Route::get('storage-link', function(){

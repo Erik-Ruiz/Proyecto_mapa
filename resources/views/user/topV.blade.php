@@ -35,8 +35,10 @@
         <div class="container">
             <h3>Top 5 Users</h3>
             <div class="list">
-                <div class="img">
-                    {{-- <img src="" alt=""> --}}
+                <div class="container-icon">
+                    <div class="icon">
+                        <i class="fa-solid fa-user"></i>    
+                    </div>
                 </div>
                 <div class="content">
                     <h2 class="rank">
