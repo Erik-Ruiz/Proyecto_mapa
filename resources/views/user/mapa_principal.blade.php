@@ -56,8 +56,9 @@
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
                     </ul>
-                    <button type="button" class="btn" style="background-color: #B8E0C3; margin-right: 1%;">Iniciar
-                        Gincana</button>
+                    <a href="{{'gincana'}}">
+                        <button type="button" class="btn" style="background-color: #B8E0C3; margin-right: 1%;">Iniciar Gincana</button>
+                    </a>
                     <a class="navbar-brand" href="{{ route('perfil') }}">
 
                         <button type="button" class="btn" style="background-color: #B8E0C3">Perfil</button>
@@ -128,7 +129,7 @@
 <div class="main-container">
     <nav class="navigation">
         <ul>
-            <li>
+            <li onclick="gincana()">
                 <i class="fa-solid fa-gamepad"></i>
             </li>
             <li onclick="perfil()">
@@ -152,6 +153,9 @@
     }
     function perfil() {
         location.href = "admin/perfil";
+    }
+    function gincana() {
+        location.href = "gincana";
     }
 </script>
 </body>

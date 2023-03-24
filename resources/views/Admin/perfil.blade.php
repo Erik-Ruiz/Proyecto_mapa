@@ -20,7 +20,10 @@
                         <img width="50px" height="50px" src="../../resources/img/logo.jpg" alt="">
                     </li>
                 </ul>
-                <button class="btn btn-light"  type="submit"><i class="fa-solid fa-right-from-bracket"></i></button>
+                <button class="btn btn-light" type="button" onclick="cerrarSesion()" ><i class="fa-solid fa-right-from-bracket"></i></button>
+                <a  href="{{'../mapa_principal'}}">
+                <button class="btn btn-light" ><i class="fa-solid fa-location-dot" style="color: #34a853;"></i></button>
+                </a>
             </div>
     </nav>
 
@@ -80,5 +83,13 @@
                     </div>
                 </div>
     </div>
+
+    <script>
+
+        function cerrarSesion() {
+            location.href = "logout";
+        }
+
+    </script>
 </body>
 </html>
