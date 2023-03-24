@@ -30,17 +30,19 @@
                         <img src="{{asset('../resources/img/imagen-usuarios.png')}}" alt="imgusuario">
                     </div>
                     <div class="lugares flex">
-                        <h2>Nombre usuario</h2>
+                        @foreach ($usuario as $usu)
+                            <h2>{{$usu->username}}<h2>
+                        @endforeach
                     </div>
                     <div class="lugares flex">
                         <h1>Lugares favoritos</h1>
                     </div>
                     <div class="contenido-35">
-                        <p><i class="fa-solid fa-location-dot" style="color: #34a853;"></i> Parc de la serp Num. 100 numero XX hola</p>
-                        <p><i class="fa-solid fa-location-dot" style="color: #34a853;"></i> Calle Leonardo Da Vinci numero XX hola que tal bien que si que estoy bien</p>
-                        <p><i class="fa-solid fa-location-dot" style="color: #34a853;"></i> Parc de la serp Num. 100 numero XX hola</p>
-                        <p><i class="fa-solid fa-location-dot" style="color: #34a853;"></i> Parc de la serp Num. 100</p>
+                    @foreach ($favoritos as $fav)
+                        <p><i class="fa-solid fa-location-dot" style="color: #34a853;"></i>{{$fav->nombre}} </p>
+                    @endforeach
                     </div>
+                    
                 </div>
                 <div class="c65">
                     <div class="container65">
@@ -48,10 +50,13 @@
                             <h1>Perfil</h1><br>
                         </div>
                         <div class="contenido-65">
-                            <h2>Nombre Usuario: Yeray Llorca</h2><br>
-                            <p>Nombre: Yeray</p><br>
-                            <p>Apellidos: Llorca Carrera</p><br>
-                            <p>Correo: yeray@gmail.com</p>
+                        @foreach ($usuario as $usu)
+                            <h2>Nombre Usuario: {{$usu->username}}</h2><br>
+                            <p>Nombre: {{$usu->nombre}}</p><br>
+                            <p>Apellidos: {{$usu->apellidos}}</p><br>
+                            <p>Correo: {{$usu->correo}}</p>
+                        @endforeach
+                            
                             <p></p>
                         </div>
                     </div>
