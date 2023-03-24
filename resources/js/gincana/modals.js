@@ -192,7 +192,7 @@ function checkPosition(){
                 `<div class="titulo-modal">
                     <h4>${pruebaActual["texto_pregunta"]}</h4>
                     <input type="text" id="inputRespuesta">
-                    <button onclick="checkRespuesta()">Enviar</button>
+                    <button onclick="checkRespuesta()" type="button" class="btn gim-btn" style="background-color: #B8E0C3;">Enviar</button>
                 </div>`
             
                 modal.style.display = "block";
