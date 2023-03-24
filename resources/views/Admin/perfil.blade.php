@@ -11,6 +11,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- <script src="../../resources/js/crud.js"></script> -->
     <link rel="stylesheet" href="../../resources/css/perfil.css">
+    <script src="../../resources/js/perfil.js"></script>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg" style="background-color: #34A853">
@@ -20,7 +21,10 @@
                         <img width="50px" height="50px" src="../../resources/img/logo.jpg" alt="">
                     </li>
                 </ul>
-                <button class="btn btn-light"  type="submit"><i class="fa-solid fa-right-from-bracket"></i></button>
+                <button class="btn btn-light" type="button" onclick="cerrarSesion()" ><i class="fa-solid fa-right-from-bracket"></i></button>
+                <a  href="{{'../mapa_principal'}}">
+                <button class="btn btn-light" ><i class="fa-solid fa-location-dot" style="color: #34a853;"></i></button>
+                </a>
             </div>
     </nav>
 
@@ -30,28 +34,37 @@
                         <img src="{{asset('../resources/img/imagen-usuarios.png')}}" alt="imgusuario">
                     </div>
                     <div class="lugares flex">
-                        <h2>Nombre usuario</h2>
+                        @foreach ($usuario as $usu)
+                            <h2>{{$usu->username}}<h2>
+                        @endforeach
                     </div>
                     <div class="lugares flex">
                         <h1>Lugares favoritos</h1>
                     </div>
                     <div class="contenido-35">
-                        <p><i class="fa-solid fa-location-dot" style="color: #34a853;"></i> Parc de la serp Num. 100 numero XX hola</p>
-                        <p><i class="fa-solid fa-location-dot" style="color: #34a853;"></i> Calle Leonardo Da Vinci numero XX hola que tal bien que si que estoy bien</p>
-                        <p><i class="fa-solid fa-location-dot" style="color: #34a853;"></i> Parc de la serp Num. 100 numero XX hola</p>
-                        <p><i class="fa-solid fa-location-dot" style="color: #34a853;"></i> Parc de la serp Num. 100</p>
+                    @foreach ($favoritos as $fav)
+                        <p><i class="fa-solid fa-location-dot" style="color: #34a853;"></i>{{$fav->nombre}} </p>
+                    @endforeach
                     </div>
+                    
                 </div>
                 <div class="c65">
                     <div class="container65">
                         <div class="flex">
                             <h1>Perfil</h1><br>
+                            <div class="flex">
+                                <button class="btn btn-light" onclick="changeStatusForm()"><i class="fa-solid fa-pen-to-square" style="color: #000000;"></i></button>
+                            </div>
                         </div>
+
                         <div class="contenido-65">
-                            <h2>Nombre Usuario: Yeray Llorca</h2><br>
-                            <p>Nombre: Yeray</p><br>
-                            <p>Apellidos: Llorca Carrera</p><br>
-                            <p>Correo: yeray@gmail.com</p>
+                        @foreach ($usuario as $usu)
+                            <h2>Nombre Usuario: <input id="usernameForm" type="text" value="{{$usu->username}}" disabled></h2><br>
+                            <p>Nombre: <input id="nameForm" type="text" value="{{$usu->nombre}}" disabled></p><br>
+                            <p>Apellidos: <input id="surnameForm" type="text" value="{{$usu->apellidos}}" disabled></p><br>
+                            <p>Correo: <input id="mailForm" type="mail" value="{{$usu->correo}}" disabled></p>
+                        @endforeach
+                            
                             <p></p>
                         </div>
                     </div>
@@ -75,5 +88,13 @@
                     </div>
                 </div>
     </div>
+
+    <script>
+
+        function cerrarSesion() {
+            location.href = "logout";
+        }
+
+    </script>
 </body>
 </html>
