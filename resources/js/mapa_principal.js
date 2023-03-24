@@ -132,30 +132,24 @@ function modal(id) {
             </div>
 
         `
-
-
         datos_modal.innerHTML = modal1;
-
-
         var modal = document.getElementById("ModalDetalles");
-
         var btn = document.getElementById("VerDetalles");
-
-        var span = document.getElementsByClassName("close")[0];
+        var span = document.getElementByClassName("close")[0];
         btn.onclick = function() {
             modal.style.display = "block";
 
-            var x = window.matchMedia("(max-width: 700px)")
-            myFunction(x) // Call listener function at run time
-            x.addListener(myFunction)
+            // var x = window.matchMedia("(max-width: 700px)")
+            // myFunction(x) // Call listener function at run time
+            // x.addListener(myFunction)
 
-            function myFunction(x) {
-                if (x.matches) { // If media query matches
-                    document.getElementById('ModalDetalles').style.width = '95%';
-                    document.getElementsByClassName('modal-content').style.width = '100%';
-                    document.getElementsByClassName('info').style.width = '100%';
-                }
-            }
+            // function myFunction(x) {
+            //     if (x.matches) { // If media query matches
+            //         document.getElementById('ModalDetalles').style.width = '95%';
+            //         document.getElementByClassName('modal-content').style.width = '100%';
+            //         document.getElementByClassName('info').style.width = '100%';
+            //     }
+            // }
         }
         btn.click();
         span.onclick = function() {
@@ -179,15 +173,6 @@ function getPosition(position) {
     lat = position.coords.latitude
     long = position.coords.longitude
     map.panTo([lat, long]);
-    // if (marker) {
-    //     map.removeLayer(marker)
-    // }
-
-    // marker = L.marker([lat, long])
-
-    // var featureGroup = L.featureGroup([marker]).addTo(map)
-
-    // map.fitBounds(featureGroup.getBounds())
 }
 
 function routae(id) {
@@ -205,9 +190,7 @@ function routae(id) {
             waypoints: [
                 L.latLng(lat, long),
                 L.latLng(data.latitud, data.longitud)
-            ],
-            profile: 'foot',
-
+            ]
         }).addTo(map);
 
         setInterval(() => {
