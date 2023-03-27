@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\etiqueta;
 use App\Models\favorito;
+use App\Models\grupo;
 use App\Models\prueba;
 use App\Models\punto;
 use App\Models\punto_etiqueta;
@@ -254,8 +255,9 @@ class UsuarioController extends Controller{
             ->join('favoritos','favoritos.punto','=','puntos.id')
             ->where('favoritos.usuario','=',$id)->get();
             $etiquetas = etiqueta::where('usuario','=',$id)->get();
+            $grupos = grupo::all();
 
-            return view("admin/perfil",compact('usuario','favoritos','etiquetas'));
+            return view("admin/perfil",compact('usuario','favoritos','etiquetas','grupos'));
         }
         else{
             return redirect("/");
@@ -272,7 +274,7 @@ class UsuarioController extends Controller{
                     return "REPEUSER";
                 if(usuario::where("correo", "=", $request["mail"])->where("id","!=",$id)->count() != 0)
                     return "REPEMAIL";
-                usuario::where('id','=',$id)->update(["username" => $request["username"], "nombre" => $request["name"], "apellidos" => $request["surname"], "correo" => $request["mail"]]);
+                usuario::where('id','=',$id)->update(["username" => $request["username"], "nombre" => $request["name"], "apellidos" => $request["surname"], "correo" => $request["mail"], "grupo" => $request["group"]]);
             }catch(Exception $e){
                 return $e->getMessage();
             }

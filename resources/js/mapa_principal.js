@@ -148,6 +148,7 @@ function modal(id) {
                     // console.log(document.getElementById('modalsi'));
 
                     document.getElementById('modal-content').style.width = '43vh';
+                    document.getElementById('modal-content').style.marginTop = '-90px';
                     document.getElementById('ModalDetalles').style.width = '95%';
                     document.getElementById('form').style.width = '100%';
                 }
