@@ -4,13 +4,9 @@
     box-sizing: border-box;
 }
 
-:root {
-    --main-bg-color: #161623;
-}
-
-.section {
+section {
     position: relative;
-    background: var(--main-bg-color);
+    background: #161623;
     min-height: 100vh;
     overflow: hidden;
     display: flex;
@@ -118,11 +114,15 @@ section::after {
     -o-transform: scale(1.15) translateX(30px) translateY(-15px);
 }
 
-.container .list .img {
+.container .list .container-icon {
     position: relative;
 
-    width: 60px;
-    height: 60px;
+    width: 100px;
+    height: 100px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     margin-right: 10px;
 
@@ -135,17 +135,12 @@ section::after {
 
 }
 
-.container .list .img img {
-    position: absolute;
-
-    top: 0;
-    left: 0;
-
+.container .list .container-icon .icon i{
+    font-size: 3rem; /* ajustar el tamaño del icono según sea necesario */
     height: 100%;
     width: 100%;
-
-    object-fit: cover;
 }
+
 
 .content {
     display: flex;
@@ -176,5 +171,31 @@ section::after {
 }
 
 .container .list:hover .content .rank {
-    
+    right: 20px;
+}
+
+.content h4 {
+    line-height: 1.4em;
+    font-weight: 600;
+
+    transition: 0.5s;
+    -webkit-transition: 0.5s;
+    -moz-transition: 0.5s;
+    -ms-transition: 0.5s;
+    -o-transition: 0.5s;
+}
+
+.content p {
+    font-size: 1em;
+
+    transition: 0.5s;
+    -webkit-transition: 0.5s;
+    -moz-transition: 0.5s;
+    -ms-transition: 0.5s;
+    -o-transition: 0.5s;
+}
+
+.container .list:hover .content h4,
+.container .list:hover .content p {
+    color: #333;
 }
