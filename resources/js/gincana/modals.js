@@ -4,8 +4,8 @@ var pruebaActual;
 var pruebasTotales;
 var csrf_token = token.content
 var marker;
-var lat = 41.391;
-var long = 2.183;
+var lat = 41.34677;
+var long = 2.10794;
 
 
 var modal = document.getElementById("myModal");
@@ -172,6 +172,7 @@ function verPista() {
 }
 
 function checkPosition(){
+<<<<<<< Updated upstream
     navigator.geolocation.getCurrentPosition(e => {
             //posicionActualX = e.coords.latitude;
             //posicionActualY = e.coords.longitude;
@@ -209,7 +210,42 @@ function checkPosition(){
             
 
     })           
+=======
+    puntoX = parseFloat(pruebaActual.latitud);
+    puntoY = parseFloat(pruebaActual.longitud);
+    console.log(calcularDistancia(lat,long,puntoX,puntoY))
+    console.log(30);
+    if(calcularDistancia(lat,long,puntoX,puntoY) <= 30)     {
+        document.getElementById('contenido-modal').innerHTML = 
+    
+        `<div class="titulo-modal">
+            <h4>${pruebaActual["texto_pregunta"]}</h4>
+            <input type="text" id="inputRespuesta">
+            <button onclick="checkRespuesta()" type="button" class="btn gim-btn" style="background-color: #B8E0C3;">Enviar</button>
+        </div>`
+    
+        modal.style.display = "block";
+    }else{
+        document.getElementById('contenido-modal').innerHTML = 
+    
+        `<div class="titulo-modal">
+            <h4>No estás dentro del rango</h4>
+        </div>`
+    
+        modal.style.display = "block";
+    }
+>>>>>>> Stashed changes
 }
+
+function calcularDistancia(latitud1, longitud1, latitud2, longitud2) {
+    const radioTierra = 6371000; // Radio de la tierra en metros
+    const dLatitud = (latitud2 - latitud1) * Math.PI / 180;
+    const dLongitud = (longitud2 - longitud1) * Math.PI / 180;
+    const a = Math.sin(dLatitud / 2) * Math.sin(dLatitud / 2) + Math.cos(latitud1 * Math.PI / 180) * Math.cos(latitud2 * Math.PI / 180) * Math.sin(dLongitud / 2) * Math.sin(dLongitud / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const distancia = radioTierra * c;
+    return distancia;
+  }
 
 function checkRespuesta(){
     respuesta = document.getElementById("inputRespuesta").value 
@@ -279,15 +315,17 @@ window.onclick = function(event) {
 
 function getPosition() {
     navigator.geolocation.getCurrentPosition(e => {
+        lat = e.coords.latitude
+        long = e.coords.longitude
         map.removeLayer(marker);
         marker = L.marker([e.coords.latitude, e.coords.longitude]).addTo(map);
     })
-
-
 }
 
 function getFirstPosition() {
     navigator.geolocation.getCurrentPosition(e => {
+        lat = e.coords.latitude
+        long = e.coords.longitude
         marker = L.marker([e.coords.latitude,e.coords.longitude]).addTo(map);
     })
 }
@@ -301,6 +339,6 @@ window.onload = function() {
     })
     getStatusGincanaStart();
     getFirstPosition();
-    setInterval(getPosition,2000);
+    setInterval(getPosition,1000);
 }
 

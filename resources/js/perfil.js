@@ -31,6 +31,7 @@ function editUser(){
     form.append("mail", email)
     ajax.onload = function(){
         if(ajax.responseText == "OK"){
+            document.getElementById("usernameInFoto").innerHTML = username;
             Swal.fire({
                 position: 'center',
                 icon: 'success',

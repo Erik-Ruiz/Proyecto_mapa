@@ -36,7 +36,7 @@
                     </div>
                     <div class="lugares flex">
                         @foreach ($usuario as $usu)
-                            <h2>{{$usu->username}}<h2>
+                            <h2 id="usernameInFoto">{{$usu->username}}<h2>
                         @endforeach
                     </div>
                     <div class="container35">
@@ -82,15 +82,6 @@
                             <p>{{$eti->nombre}}</p><br>
                         @endforeach
                         
-                        </div>
-                    </div>
-                    <div class="container65">
-                        <div class="flex">
-                            <h1>Histórico pruebas</h1><br>
-                        </div>
-                        <div class="contenido-65">
-                            <p>Prueba:</p><br>
-                            <p>Tiempo:</p><br>
                         </div>
                     </div>
                 </div>
