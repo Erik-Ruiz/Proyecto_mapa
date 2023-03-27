@@ -13,6 +13,8 @@ function changeStatusForm(){
     document.getElementById("nameForm").disabled = statusForm
     document.getElementById("surnameForm").disabled = statusForm
     document.getElementById("mailForm").disabled = statusForm
+    document.getElementById("gruposForm").disabled = statusForm
+
 }
 
 function editUser(){
@@ -20,6 +22,8 @@ function editUser(){
     nombre = document.getElementById("nameForm").value
     surname = document.getElementById("surnameForm").value
     email = document.getElementById("mailForm").value
+    grupo = document.getElementById("gruposForm").value
+
     var ajax = new XMLHttpRequest();
     ajax.open('POST', "../editUser");
     var form = new FormData();
@@ -29,6 +33,8 @@ function editUser(){
     form.append("surname", surname)
     form.append("username", username)
     form.append("mail", email)
+    form.append("group", grupo)
+
     ajax.onload = function(){
         if(ajax.responseText == "OK"){
             Swal.fire({
@@ -73,6 +79,8 @@ function editUser(){
         document.getElementById("nameForm").disabled = statusForm
         document.getElementById("surnameForm").disabled = statusForm
         document.getElementById("mailForm").disabled = statusForm
+        document.getElementById("gruposForm").disabled = statusForm
+
     }
     ajax.send(form)
 }
@@ -82,6 +90,8 @@ function checkStatusdata(){
     nombre = document.getElementById("nameForm").value
     surname = document.getElementById("surnameForm").value
     email = document.getElementById("mailForm").value
+    grupo = document.getElementById("gruposForm").value
+
     if((username == null || username.length == 0 || /^\s+$/.test(username)) || (nombre == null || nombre.length == 0 || /^\s+$/.test(nombre)) || (surname == null || surname.length == 0 || /^\s+$/.test(surname)) || (email == null || email.length == 0 || /^\s+$/.test(email))){
         Swal.fire({
             position: 'center',
