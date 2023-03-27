@@ -172,45 +172,6 @@ function verPista() {
 }
 
 function checkPosition(){
-<<<<<<< Updated upstream
-    navigator.geolocation.getCurrentPosition(e => {
-            //posicionActualX = e.coords.latitude;
-            //posicionActualY = e.coords.longitude;
-            posicionActualX = 41.34884;
-            posicionActualY = 2.10777;
-            // posicionActualX = 41.3887;
-            // posicionActualY = 2.183;
-			puntoX = parseFloat(pruebaActual.latitud);
-			puntoY = parseFloat(pruebaActual.longitud);
-            rango = 0.00085;
-            minLat =  puntoY - rango;
-            minLong = puntoX - rango;
-            maxLat = puntoY + rango;
-            maxLong = puntoX + rango;
-            console.log(minLat < posicionActualY && maxLat > posicionActualY)
-            if( (minLat < posicionActualY && maxLat > posicionActualY) && (minLong < posicionActualX && maxLong > posicionActualX) )     {
-                document.getElementById('contenido-modal').innerHTML = 
-            
-                `<div class="titulo-modal">
-                    <h4>${pruebaActual["texto_pregunta"]}</h4>
-                    <input type="text" id="inputRespuesta">
-                    <button onclick="checkRespuesta()" type="button" class="btn gim-btn" style="background-color: #B8E0C3;">Enviar</button>
-                </div>`
-            
-                modal.style.display = "block";
-            }else{
-                document.getElementById('contenido-modal').innerHTML = 
-            
-                `<div class="titulo-modal">
-                    <h4>No estás dentro del rango</h4>
-                </div>`
-            
-                modal.style.display = "block";
-            }
-            
-
-    })           
-=======
     puntoX = parseFloat(pruebaActual.latitud);
     puntoY = parseFloat(pruebaActual.longitud);
     console.log(calcularDistancia(lat,long,puntoX,puntoY))
@@ -234,7 +195,6 @@ function checkPosition(){
     
         modal.style.display = "block";
     }
->>>>>>> Stashed changes
 }
 
 function calcularDistancia(latitud1, longitud1, latitud2, longitud2) {
