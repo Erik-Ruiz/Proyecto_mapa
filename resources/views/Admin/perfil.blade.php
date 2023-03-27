@@ -84,15 +84,6 @@
                         
                         </div>
                     </div>
-                    <div class="container65">
-                        <div class="flex">
-                            <h1>Histórico pruebas</h1><br>
-                        </div>
-                        <div class="contenido-65">
-                            <p>Prueba:</p><br>
-                            <p>Tiempo:</p><br>
-                        </div>
-                    </div>
                 </div>
     </div>
 
