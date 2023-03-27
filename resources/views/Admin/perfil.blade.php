@@ -19,7 +19,7 @@
             <div class="container-fluid">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <img width="50px" height="50px" src="../../resources/img/logo.jpg" alt="">
+                        <a href="{{'../mapa_principal'}}"><img width="50px" height="50px" src="../../resources/img/logo.jpg" alt=""></a>
                     </li>
                 </ul>
                 <button class="btn btn-light" type="button" onclick="cerrarSesion()" ><i class="fa-solid fa-right-from-bracket"></i></button>
