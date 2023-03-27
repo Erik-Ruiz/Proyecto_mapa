@@ -96,9 +96,14 @@
 }
 
 .contenido-65 {
-    padding-left: 3vw;
+    padding-left: 7vw;
+    padding-right: 7vw;
     padding-bottom: 2vw;
     font-size: 1vw;
+}
+
+.contenido-65 input{
+    width: 100%;
 }
 
 @media screen and (max-width: 1400px) {
@@ -145,12 +150,6 @@
     .cont-35 img{
         margin-top: 3vw;
         width: 40vw;
-    }
-
-    .contenido-65 {
-        padding-left: 7vw;
-        padding-bottom: 2vw;
-        font-size: 1vw;
     }
 
     .lugares h1{

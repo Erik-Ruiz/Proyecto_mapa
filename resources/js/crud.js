@@ -68,9 +68,9 @@ function getData(){
             if(crudData == 1){
                 tableContent += `<tr><th>${element.username}</th><th>${element.nombre} ${element.apellidos}</th><th>${element.correo}</th><th>${element.grupo}</th><th><button class="btn btn-danger" onclick=eliminar(1,${element.id})>Eliminar</button></th></th></tr>`
             }else if(crudData == 2){
-                tableContent += `<tr><th><img class='img_table' src='../storage/img/${element.id}.jpg'></th><th>${element.nombre}</th><th>${element.descripcion} </th><th>${((Math.round(element.latitud * 1000)) / 1000)},${((Math.round(element.longitud * 1000)) / 1000)}</th><th>${element.username}</th><th><button onclick=modificar(2,${element.id})>Modificar</button><button onclick=eliminar(2,${element.id})>Eliminar</button></th></th></tr>`
+                tableContent += `<tr><th><img class='img_table' src='../storage/img/${element.id}.jpg'></th><th>${element.nombre}</th><th>${element.descripcion} </th><th>${((Math.round(element.latitud * 1000)) / 1000)},${((Math.round(element.longitud * 1000)) / 1000)}</th><th>${element.username}</th><th><button class="btn btn-warning" onclick=modificar(2,${element.id})>Modificar</button><button class="btn btn-danger" onclick=eliminar(2,${element.id})>Eliminar</button></th></th></tr>`
             }else if(crudData == 3){
-                tableContent += `<tr><th>${element.nombre}</th><th>${element.texto_pregunta}</th><th>${element.texto_pista}</th><th>${element.respuesta}</th><th>${((Math.round(element.latitud * 1000)) / 1000)},${((Math.round(element.longitud * 1000)) / 1000)}</th><th><button onclick=modificar(3,${element.id})>Modificar</button><button onclick=eliminar(3,${element.id})>Eliminar</button></th></tr>`
+                tableContent += `<tr><th>${element.nombre}</th><th>${element.texto_pregunta}</th><th>${element.texto_pista}</th><th>${element.respuesta}</th><th>${((Math.round(element.latitud * 1000)) / 1000)},${((Math.round(element.longitud * 1000)) / 1000)}</th><th><button class="btn btn-warning" onclick=modificar(3,${element.id})>Modificar</button><button class="btn btn-danger" onclick=eliminar(3,${element.id})>Eliminar</button></th></tr>`
             }
         });
         document.getElementById("tableData").innerHTML = tableContent;

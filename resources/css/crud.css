@@ -16,8 +16,6 @@ html, body {
 
 .centradoboton{
     display: flex;
-    justify-content: center;
-    align-items: center;
     margin-top: 2vw;
 }
 
@@ -28,14 +26,33 @@ html, body {
     margin-bottom: 1vw;
 }
 
-.frame{
-  margin-left: 15vw;
+.btn-container {
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-container {
+
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin-top: 5%;
+}
+
+.search-container input {
+  margin-right: 6%;
 }
 
 /* BOTONES */
 
 .custom-btn {
-    width: 130px;
+    width: 33%;
     height: 40px;
     color: black;
     border-radius: 5px;
@@ -131,12 +148,26 @@ html, body {
     .frame{
       margin-top: 5vw;
     }
-    .inpbuscar{
+    /* .inpbuscar{
       margin-top: 10vw;
-    }
+    } */
     .tablacrud{
       overflow-x: scroll;
       margin-top: 10vw;
       margin-bottom: 5vw;
     }
+ }
+
+ @media screen and (max-width: 320px) {
+  .centradoboton {
+    flex-wrap: wrap;  
+  }
+
+  .media-btn-interes {
+    width: 50%;
+  }
+
+  .media-btn-gimcana {
+    flex-basis: 100%;
+  }
  }
