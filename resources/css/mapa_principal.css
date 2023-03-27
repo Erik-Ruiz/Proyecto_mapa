@@ -1,107 +1,106 @@
 body {
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
 .form-control {
-  width: auto !important;
+    width: auto !important;
 }
 
 #map {
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  width: 100%;
-  height: 90.9vh;
-  position: relative;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    width: 100%;
+    height: 90.9vh;
+    position: relative;
 }
 
 .navs {
-  display: flex;
-  width: 100%;
-  height: 10%;
+    display: flex;
+    width: 100%;
+    height: 10%;
 }
 
 .navbar {
-  width: 100% !important;
+    width: 100% !important;
 }
 
 .filtros {
-  position: relative !important;
-  display: flex;
-  flex-direction: row;
-  margin: 10px;
-  justify-content: flex-end;
-  z-index: 1000;
-  align-items: center;
-  width: 50%;
+    position: relative !important;
+    display: flex;
+    flex-direction: row;
+    margin: 10px;
+    justify-content: flex-end;
+    z-index: 1000;
+    align-items: center;
+    width: 50%;
 }
 
 .filtros1 {
-  position: relative !important;
-  display: flex;
-  flex-direction: row;
-  margin: 10px;
-  z-index: 1000;
-  justify-content: flex-start;
-  width: 50%;
+    position: relative !important;
+    display: flex;
+    flex-direction: row;
+    margin: 10px;
+    z-index: 1000;
+    justify-content: flex-start;
+    width: 50%;
 }
 
 .buscador {
-  position: relative !important;
-  display: flex;
-  margin-right: 10%;
-  width: 100%;
-  z-index: 1000;
+    position: relative !important;
+    display: flex;
+    margin-right: 10%;
+    width: 100%;
+    z-index: 1000;
 }
+
 
 /*BARRA DE NAVEGACIÓN PARA MÓVIL*/
 
-
-    
 .navigation {
-  display: none;
-  z-index: 1000;
-  width: 350px;   
-  bottom: 2rem;
-  position: absolute;
-  left: 50%;
-  margin: 0 auto;
-  border-radius: 1.5rem;
-  transform: translate(-50%, 0);
-  background-color: #34A853;
+    display: none;
+    z-index: 1000;
+    width: 350px;
+    bottom: 2rem;
+    position: absolute;
+    left: 50%;
+    margin: 0 auto;
+    border-radius: 1.5rem;
+    transform: translate(-50%, 0);
+    background-color: #34A853;
 }
 
 .navigation ul {
-  list-style: none;
-  display: flex;
-  justify-content: space-around;
-  padding: 0;
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+    padding: 0;
 }
 
 .navigation ul li {
-  margin-top: 20px;
-  height: 50px;
-  width: 100px; 
-  color: white;
-  /* padding: 0 1rem; */
-  cursor: pointer;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s linear;
+    margin-top: 20px;
+    height: 50px;
+    width: 100px;
+    color: white;
+    /* padding: 0 1rem; */
+    cursor: pointer;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s linear;
 }
 
 .navigation ul li:hover {
-  color: #34A853;
-  transform: scale(1.0);
-  background-color: #fff;
+    color: #34A853;
+    transform: scale(1.0);
+    background-color: #fff;
 }
 
 .navigation ul li:hover i {
-  border-radius: 50%;
+    border-radius: 50%;
 }
 
 .select_etiquetas {
@@ -109,156 +108,169 @@ body {
     border-radius: 5px;
     margin-right: 2%;
     z-index: 1000;
+}
 
-  }
+.filtro_nombre {
+    border: none;
+    outline: none;
+    border-radius: 15px;
+    padding: 1em;
+    background-color: #ccc;
+    box-shadow: inset 2px 5px 10px rgba(0, 0, 0, 0.3);
+    transition: 300ms ease-in-out;
+    width: 60%;
+}
 
-  
-  .filtro_nombre {
-  border: none;
-  outline: none;
-  border-radius: 15px;
-  padding: 1em;
-  background-color: #ccc;
-  box-shadow: inset 2px 5px 10px rgba(0,0,0,0.3);
-  transition: 300ms ease-in-out;
-  width: 60%;
-  }
-
-  .filtro_nombre:focus {
+.filtro_nombre:focus {
     background-color: white;
     transform: scale(1.05);
-    box-shadow: 13px 13px 100px #969696,
-              -13px -13px 100px #ffffff;
-  }
+    box-shadow: 13px 13px 100px #969696, -13px -13px 100px #ffffff;
+}
 
-select { 
-  padding: 0 5px 0 5px;
-
-  border: 1px solid #e0e0e0;
-  border-radius: 3px;
-  box-shadow: inset 1px 1px 1px 0px rgba(0, 0, 0, 0.2);
-  background: #fff;
-
-  max-width: 100px;
-  margin: 0 5px 5px 0;
+select {
+    padding: 0 5px 0 5px;
+    border: 1px solid #e0e0e0;
+    border-radius: 3px;
+    box-shadow: inset 1px 1px 1px 0px rgba(0, 0, 0, 0.2);
+    background: #fff;
+    max-width: 100px;
+    margin: 0 5px 5px 0;
 }
 
 #likes {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 #likes.activo {
-  background-color: red;
+    background-color: red;
 }
 
 #likes.desactivo {
-  background-color: green;
+    background-color: green;
 }
 
 
+/* The Modal (background) */
 
-  /* The Modal (background) */
 .modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  padding-top: 100px; /* Location of the box */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  }
-  
-  /* Modal Content */
-  .modal-content {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
+    padding-top: 100px;
+    /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+}
+
+
+/* Modal Content */
+
+.modal-content {
     position: relative;
     background-color: #fefefe;
     margin: auto;
     padding: 0;
     border: 1px solid #888;
     width: 100%;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     -webkit-animation-name: animatetop;
     -webkit-animation-duration: 0.4s;
     animation-name: animatetop;
     animation-duration: 0.4s
-  }
+}
 
-    /* Add Animation */
-    @-webkit-keyframes animatetop {
-        from {top:-300px; opacity:0} 
-        to {top:0; opacity:1}
-    }
-    
-    @keyframes animatetop {
-        from {top:-300px; opacity:0}
-        to {top:0; opacity:1}
-    }
-    
-    /* The Close Button */
-    .close {
-        color: white;
-        float: right;
-        font-size: 28px;
-        font-weight: bold;
-    }
-    
-    .close:hover,
-    .close:focus {
-        color: #ff0000;
-        text-decoration: none;
-        cursor: pointer;
-    }
-    
-    .modal-header {
-      width: 100%;
-        padding: 2px 16px;
-        background-color: #5cb85c;
-        color: white;
-    }
-    
-    .modal-body {
-      width: 100%;
-      padding: 2px 16px;
-    }
-    
 
-    @media screen and (max-width: 500px) {
+/* Add Animation */
 
-      .navigation{
+@-webkit-keyframes animatetop {
+    from {
+        top: -300px;
+        opacity: 0
+    }
+    to {
+        top: 0;
+        opacity: 1
+    }
+}
+
+@keyframes animatetop {
+    from {
+        top: -300px;
+        opacity: 0
+    }
+    to {
+        top: 0;
+        opacity: 1
+    }
+}
+
+
+/* The Close Button */
+
+.close {
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #ff0000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-header {
+    width: 100%;
+    padding: 2px 16px;
+    background-color: #5cb85c;
+    color: white;
+}
+
+.modal-body {
+    width: 100%;
+    padding: 2px 16px;
+}
+
+@media screen and (max-width: 500px) {
+    .navigation {
         display: block;
-    
-      }
-      .buscador{
+    }
+    .buscador {
         display: flex;
         flex-wrap: wrap;
-    
-      }
-      .filtros {
+    }
+    .filtros {
         justify-content: center;
         width: 100%;
-      }
-      .filtros1 {
-          justify-content: center;
-          width: 100%;
-      }
-    
-      .navs{
-        display: none;
-      }
-    
-      #map {
-        height: 100vh;
-      } 
-    
-      #ModalDetalles{
-        width: 95%;
-      }
-      .modal-content{
-        width: 100%;
-      }
-      .info{
-        width: 100%;
-      }
     }
+    .filtros1 {
+        justify-content: center;
+        width: 100%;
+    }
+    .navs {
+        display: none;
+    }
+    #map {
+        height: 100vh;
+    }
+    #ModalDetalles {
+        width: 95%;
+    }
+    .modal-content {
+        width: 100%;
+    }
+    .info {
+        width: 100%;
+    }
+}

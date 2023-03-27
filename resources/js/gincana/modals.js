@@ -3,22 +3,26 @@ var gimcanaPrueba;
 var pruebaActual;
 var pruebasTotales;
 var csrf_token = token.content
+var marker;
+var lat = 41.391;
+var long = 2.183;
+
 
 var modal = document.getElementById("myModal");
 var span = document.getElementsByClassName("close")[0];
 
-const map = L.map('map').setView([41.38710079433486, 2.183035577913213], 15);
+//const map = L.map('map').setView([41.38710079433486, 2.183035577913213], 15);
+const map = L.map("map").setView([lat, long], 15);
 var layerGroup = L.layerGroup().addTo(map);
 const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
 
-var circle = L.circle([41.38710079433486, 2.183035577913213], {
-    color: 'red',
-    fillColor: '#f03',
-    fillOpacity: 0.5,
-    radius: 500
-}).addTo(map);
+
+
+
+
+
 
 function getStatusGincanaStart () {
     
@@ -39,8 +43,8 @@ function getStatusGincanaStart () {
         } else {
             document.getElementById('btn-gimcana').innerHTML = "Ver pista";
             document.getElementById('btn-gimcana').onclick = verPista;
-            document.getElementById("btn-localizacion").disabled = false;
-            document.getElementById("btn-localizacion").onclick = checkPosition;
+            //document.getElementById("btn-localizacion").disabled = false;
+            //document.getElementById("btn-localizacion").onclick = checkPosition;
             
             document.getElementById('contenido-modal').innerHTML = 
             `<div class="titulo-modal">
@@ -73,8 +77,8 @@ function getStatusGincana () {
         } else {
             document.getElementById('btn-gimcana').innerHTML = "Ver pista";
             document.getElementById('btn-gimcana').onclick = verPista;
-            document.getElementById("btn-localizacion").disabled = false;
-            document.getElementById("btn-localizacion").onclick = checkPosition;
+            //document.getElementById("btn-localizacion").disabled = false;
+            //document.getElementById("btn-localizacion").onclick = checkPosition;
         }
     }
     ajax.send();
@@ -139,6 +143,8 @@ function verPista() {
     ajax.onload = function(){
         console.log(ajax.responseText)
         if(ajax.responseText){
+            document.getElementById("btn-localizacion").disabled = false;
+            document.getElementById("btn-localizacion").onclick = checkPosition;
             document.getElementById('contenido-modal').innerHTML = 
             
             `<div class="titulo-modal">
@@ -167,17 +173,20 @@ function verPista() {
 
 function checkPosition(){
     navigator.geolocation.getCurrentPosition(e => {
-            //posicionActualX = e.coords.longitude;
-            //posicionActualY = e.coords.latitude;
-            posicionActualX = 41.391;
-            posicionActualY = 2.179;
+            posicionActualX = e.coords.latitude;
+            posicionActualY = e.coords.longitude;
+            //posicionActualX = 41.391;
+            //posicionActualY = 2.179;
+            // posicionActualX = 41.3887;
+            // posicionActualY = 2.183;
 			puntoX = parseFloat(pruebaActual.latitud);
 			puntoY = parseFloat(pruebaActual.longitud);
-            rango = 0.00200;
+            rango = 0.00700;
             minLat =  puntoY - rango;
             minLong = puntoX - rango;
             maxLat = puntoY + rango;
             maxLong = puntoX + rango;
+            console.log(minLat < posicionActualY && maxLat > posicionActualY)
             if( (minLat < posicionActualY && maxLat > posicionActualY) && (minLong < posicionActualX && maxLong > posicionActualX) )     {
                 document.getElementById('contenido-modal').innerHTML = 
             
@@ -204,6 +213,7 @@ function checkPosition(){
 
 function checkRespuesta(){
     respuesta = document.getElementById("inputRespuesta").value 
+    respuesta = respuesta.toUpperCase();
     var ajax = new XMLHttpRequest();
     if(pruebasTotales == pruebaActual.id){
         ajax.open('POST', "insertarRegistroFinal");
@@ -215,12 +225,20 @@ function checkRespuesta(){
     form.append("respuesta", respuesta)
     form.append("prueba", pruebaActual.id)
     ajax.onload = function(){
+        modal.style.display = "none";
         if(ajax.responseText == "OK"){
+            document.getElementById("btn-localizacion").disabled = true;
+            document.getElementById("btn-localizacion").onclick = null;
+            if(pruebasTotales == pruebaActual.id){
+                textModal = "Felicidades, has completado la gimcana"
+            }else{
+                textModal = 'Respuesta correcta';
+            }
             getStatusGincana();
             Swal.fire({
                 position: 'center',
                 icon: 'success',
-                title: 'Respuesta correcta',
+                title: textModal,
                 showConfirmButton: false,
                 timer: 1500
             })
@@ -258,9 +276,31 @@ window.onclick = function(event) {
         modal.style.display = "none";
     }
 }
+
+function getPosition() {
+    navigator.geolocation.getCurrentPosition(e => {
+        map.removeLayer(marker);
+        marker = L.marker([e.coords.latitude, e.coords.longitude]).addTo(map);
+    })
+
+
+}
+
+function getFirstPosition() {
+    navigator.geolocation.getCurrentPosition(e => {
+        marker = L.marker([e.coords.latitude,e.coords.longitude]).addTo(map);
+    })
+}
 //endregion
 
 window.onload = function() {
+    navigator.geolocation.getCurrentPosition( e => {
+        lat = e.coords.latitude
+        long = e.coords.longitude
+        map.setView([lat,long],17);
+    })
     getStatusGincanaStart();
+    getFirstPosition();
+    setInterval(getPosition,2000);
 }
 

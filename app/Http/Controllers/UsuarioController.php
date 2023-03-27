@@ -8,6 +8,7 @@ use App\Models\punto;
 use App\Models\punto_etiqueta;
 use App\Models\registro;
 use App\Models\usuario;
+use App\Models\lugare;
 use App\Models\usuario_prueba;
 use Exception;
 use Illuminate\Http\Request;
@@ -82,23 +83,28 @@ class UsuarioController extends Controller{
         //Saber si tiene favorito
         $punto = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud', 'favoritos.punto')
                     ->join('favoritos','puntos.id','=','favoritos.punto')
-                    ->where('favoritos.punto','=', $request->get('id'))->count();
-        
+                    ->where('favoritos.punto','=', $request->get('id'))
+                    ->where('favoritos.usuario','=', $request->session()->get('id'))->count();
         //Saber si tiene una etiqueta personalizada
-        // $opinado = punto_etiqueta::select('punto_etiquetas.etiqueta')
-        // ->where("usuario", "=", $request->session()->get('id'))->where("punto","=",$request->get("id"))->where("personal","=",1)->get();
-        // dd($opinado[0]['etiqueta']);
+        $opinado = punto_etiqueta::select('punto_etiquetas.etiqueta')
+        ->where("usuario", "=", $request->session()->get('id'))
+        ->where("punto","=",$request->get("id"))->get();
 
-        if($punto==1){
+        if($punto==1 && count($opinado)==0){
             $datos = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud', 'favoritos.punto')
             ->join('favoritos','puntos.id','=','favoritos.punto')
+            ->where('favoritos.punto','=', $request->get('id'))
             ->where('favoritos.usuario','=', $request->session()->get('id'))->get();
             return json_encode($datos[0]);
 
-        // }else if(count($opinado) != 0){
-        
-        //     $datos = etiqueta::select('nombre')->where('id','=',$opinado[0]['etiqueta'])->get();
-        //     dd($datos[0]['nombre']);
+        }else if(count($opinado) !== 0){
+            $datos = punto::select("puntos.id","puntos.nombre","puntos.descripcion","etiquetas.nombre as etiquetas")->join('punto_etiquetas','punto_etiquetas.punto','=','puntos.id')
+            ->join('etiquetas','punto_etiquetas.etiqueta','=','etiquetas.id')
+            ->where('puntos.id', $request->get("id"))
+            ->where('etiquetas.id','=',$opinado[0]['etiqueta'])->get();
+            // $datos = etiqueta::select('nombre')->where('id','=',$opinado[0]['etiqueta'])->get();
+
+            return json_encode($datos[0]);
 
         
         }else{
@@ -148,19 +154,17 @@ class UsuarioController extends Controller{
     public function darOpinion(Request $req){
 
         $id_user = $req->session()->get('id');
-        $id_punto=$req["id_punt"];
+        $id_punto=$req->get('id_punt');
         $opinion = $req->get('opinion');
-
         // return response()->json(['ID del punto' => $id_punto, 'ID del user' => $id_user, 'Opinion' => $opinion]);
         
         if($req->session()->has('id')){
 
                 // $opinado = punto_etiqueta::where("usuario", "=", $id_user)->where("punto","=",$id_punto)->where("personal","=",1)->count();
-                $opinado = punto_etiqueta::select('punto_etiquetas.etiqueta')
-                ->where("usuario", "=", $id_user)->where("punto","=",$id_punto)->where("personal","=",1)->get();
-                
-                if (count($opinado) != 0){
-
+                $opinado = punto_etiqueta::select('etiqueta')
+                ->where("usuario", "=", $id_user)
+                ->where("punto","=",$id_punto)->get();
+                if (count($opinado) !== 0){
     
                     etiqueta::where("id", "=", $opinado[0]['etiqueta'])->update(["nombre" => $opinion]);
 
@@ -174,7 +178,7 @@ class UsuarioController extends Controller{
 
                         $etiqueta = new etiqueta();
                         $etiqueta->nombre = $opinion;
-                        $etiqueta->color = 'Orange';
+                        $etiqueta->color = 'orange';
                         $etiqueta->personal = 1;
                         $etiqueta->usuario = $id_user;
                         $etiqueta->save();
@@ -195,16 +199,7 @@ class UsuarioController extends Controller{
                         DB::rollBack();
                         return $e->getMessage();
                     }
-
-
-
-
-                    
-                    return "saved";
-
                 }
-
-
 
         }else{
             return route('login');
@@ -254,14 +249,32 @@ class UsuarioController extends Controller{
         //Comprobamos si existe la sesion para redirigirlo a la página
         if($request->session()->has("id")){
             $id = session()->get("id");
-            //$usuario = usuarios::where($id);
-            //return view("admin/perfil"compact($id)); //hay que seguir
+            $usuario = usuario::where('id','=',$id)->get();
+
+            /* $favoritos = punto::select('puntos.nombre')
+            ->join('favoritos','favoritos.punto','=','puntos.id')
+            ->where('favoritos.usuario','=',$id); */
+
+            $favoritos = punto::select('puntos.nombre')
+            ->join('favoritos','favoritos.punto','=','puntos.id')
+            ->where('favoritos.usuario','=',$id)->get();
+
+            /* return json_encode($favoritos);*/
+            return view("admin/perfil",compact('usuario','favoritos'));
         }
         else{
             return redirect("/");
-        }
-
+        }   
     }
+
+    // $query = punto::select('puntos.id','puntos.nombre','puntos.descripcion','puntos.latitud','puntos.longitud')
+    // ->join('punto_etiquetas','punto_etiquetas.punto','=','puntos.id')
+    // ->where('puntos.nombre','LIKE','%'.$request->get('filtro_nombre').'%')
+    // ->where('punto_etiquetas.etiqueta','=',$request->get('filtro_etiqueta'))->get();
+    // return json_encode($query);
+
+
+
     /*------------*/
     /* Registrar */
     /*-----------*/
@@ -630,7 +643,7 @@ class UsuarioController extends Controller{
     public function pasoDePrueba(Request $request) {
         if($request->session()->has("id")) {
             try{
-                if($this -> checkRespuesta($request))
+                if(!$this -> checkRespuesta($request))
                     return "FALLO";
                 $id = session()->get('id');
                 $registro = new usuario_prueba;
@@ -649,12 +662,12 @@ class UsuarioController extends Controller{
     public function insertarRegistroFinal(Request $request) {
         if($request->session()->has("id")) {
             try{
+                if(!$this -> checkRespuesta($request))
+                    return "FALLO";
                 DB::beginTransaction();
                 $id = session()->get('id');
-                $registro = new usuario_prueba;
-                $registro -> usuario = $id;
-                $registro -> prueba = 1;
-                $registro->save();
+                usuario::where("id","=",$id)->update(["grupo" => null]);
+                usuario_prueba::where("usuario","=",$id)->delete();
                 registro::where("usuario","=",$id)->whereNull("fecha_fin")->update(["fecha_fin" => date('Y-m-d H:i')]);
                 DB::commit();
                 return "OK";
@@ -670,7 +683,7 @@ class UsuarioController extends Controller{
     public function checkRespuesta(Request $request){
         if($request->session()->has("id")) {
             try{
-                $pruebas = prueba::where("prueba","=",$request["prueba"])->where("respuesta","=",$request["respuesta"])->count();
+                $pruebas = prueba::where("id","=",$request["prueba"])->where("respuesta","=",$request["respuesta"])->count();
                 if($pruebas == 0){
                     return false;
                 }else{
