@@ -208,7 +208,9 @@ class UsuarioController extends Controller{
     }
     //Función para devolver la vista del login
     public function index(){
-        return view("index");
+        $grupos = grupo::all();
+
+        return view("index",compact('grupos'));
     }
     public function index2(){
         return view("/register");
@@ -238,7 +240,6 @@ class UsuarioController extends Controller{
             }
         }
     }
-
 
 
 
@@ -305,6 +306,7 @@ class UsuarioController extends Controller{
             $request['username'] = str_replace(' ', '', $request['username']);
             $request['nombre'] = str_replace(' ', '', $request['username']);
             $request['password'] = str_replace(' ', '', $request['password']);
+            $request['grupo'] = str_replace(' ', '', $request['grupo']);
             $request['passwordrepetida'] = str_replace(' ', '', $request['passwordrepetida']);
             //Filtro para que no envie nada vacio                
             if (!empty(trim($request['username'])) && !empty(trim($request['nombre'])) && !empty(trim($request['correo'])) && !empty(trim($request['password'])) && !empty(trim($request['passwordrepetida']))) {
