@@ -182,6 +182,19 @@
 	 width: 100%;
 	 font-size: 12px;
 }
+
+#grupo{
+	border: 0;
+	outline: none;
+	box-shadow: none;
+	display: block;
+	height: 30px;
+	line-height: 30px;
+	padding: 8px 15px;
+	border-bottom: 1px solid #eee;
+	width: 100%;
+	font-size: 12px;
+}
  .form-structor .login .center .form-holder .input:last-child {
 	 border-bottom: 0;
 }
