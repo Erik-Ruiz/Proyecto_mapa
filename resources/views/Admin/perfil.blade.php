@@ -67,17 +67,13 @@
                             <p>Nombre: <br><input id="nameForm" type="text" value="{{$usu->nombre}}" disabled></p><br>
                             <p>Apellidos: <br><input id="surnameForm" type="text" value="{{$usu->apellidos}}" disabled></p><br>
                             <p>Correo: <br><input id="mailForm" type="mail" value="{{$usu->correo}}" disabled></p>
-                            <p>Grupo:                                 <select class="select_etiquetas" id="gruposForm" disabled>
-                                <option value="NO" content="NO"></option>
+                            <p>Elige grupo:                                 <select class="select_etiquetas" id="gruposForm" disabled>
                                 @foreach ($grupos as $grupo)
                                     <option value="{{ $grupo->id }}">{{ $grupo->nombre }}</option>
                                 @endforeach
                             </select> 
-                            <br><input type="text" value="{{$usu->grupo}}" disabled></p>
+                            <br>Grupo:<input type="text" value="{{$usu->grupo}}" disabled></p>
 
-                            <p>
-
-                            </p>
                         @endforeach
        
 

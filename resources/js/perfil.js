@@ -44,7 +44,9 @@ function editUser(){
                 title: 'Usuario modificado correctamente',
                 showConfirmButton: false,
                 timer: 1500
-            })
+            }).then((value) => {
+                window.location.reload();
+            });
         }else if(ajax.responseText == "ERROR"){
             Swal.fire({
                 position: 'center',
