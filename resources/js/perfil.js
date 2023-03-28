@@ -74,7 +74,7 @@ function editUser(){
             Swal.fire({
                 position: 'center',
                 icon: 'error',
-                title: 'Estas en medio de unaa gincana',
+                title: 'Estas en medio de una gincana',
                 showConfirmButton: true,
             })
         }
