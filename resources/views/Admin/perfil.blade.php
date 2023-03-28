@@ -86,7 +86,7 @@
                         <div class="contenido-65">
                             <p>Tus etiquetas:</p><br>
                         @foreach ($etiquetas as $eti)
-                            <p>{{$eti->nombre}}</p><br>
+                            <p><i class="fa-solid fa-location-dot" style="color: #34a853; margin-right:10px;"></i>{{$eti->nombre}}</p><br>
                         @endforeach
                         
                         </div>
