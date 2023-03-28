@@ -271,6 +271,8 @@ class UsuarioController extends Controller{
             try{
                 if(empty($request["name"]) || empty($request["surname"]) || empty($request["username"]) || empty($request["mail"]))
                     return "ERROR";
+                if(usuario_prueba::where("usuario","=",$id)->count() != 0)
+                    return "ERRORGINCANA";
                 if(usuario::where("username", "=", $request["username"])->where("id","!=",$id)->count() != 0)
                     return "REPEUSER";
                 if(usuario::where("correo", "=", $request["mail"])->where("id","!=",$id)->count() != 0)

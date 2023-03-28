@@ -70,6 +70,14 @@ function editUser(){
                 showConfirmButton: true,
             })
         }
+        else if(ajax.responseText == "ERRORGINCANA"){
+            Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: 'Estas en medio de unaa gincana',
+                showConfirmButton: true,
+            })
+        }
         else{
             Swal.fire({
                 position: 'center',
@@ -80,7 +88,7 @@ function editUser(){
         }
         document.getElementById("usernameForm").disabled = statusForm
         document.getElementById("nameForm").disabled = statusForm
-        document.getElementById("surnameForm").disabled = statusForm
+        document.getElementById("surnameForm").disabled = statusForm 
         document.getElementById("mailForm").disabled = statusForm
         document.getElementById("gruposForm").disabled = statusForm
 
